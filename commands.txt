@@ -1,0 +1,3 @@
+tj <MojaResitev.java> <testi> <rezultatiTestiranja>
+tj abc.java ..\testi\02_metode\02_mnozenjeSSestevanjem ..\testi\02_metode\02_mnozenjeSSestevanjem
+..\testi\03_tabele\0 ..\testi\03_tabele\0 -threads 10 -times -t 300ms

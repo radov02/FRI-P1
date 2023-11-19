@@ -1,0 +1,16 @@
+public static void main(String[] args){
+    System.out.println();
+}
+
+
+import java.util.Scanner;
+
+public class NajblizjiVeckratnik {
+    public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+
+
+        sc.close();
+    }
+}
