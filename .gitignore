@@ -3,3 +3,5 @@ knjiga/
 *.class
 *.in
 *.out
+*.res
+*.exe
