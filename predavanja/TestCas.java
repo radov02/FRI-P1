@@ -40,18 +40,24 @@ public class TestCas {
         int ku = sc.nextInt();
         int km = sc.nextInt();
         int fr = sc.nextInt();
-        avtobus(new Cas(zu, zm), fr, new Cas(ku, km));
+        //avtobus(new Cas(zu, zm), fr, new Cas(ku, km));
         sc.close();
     }
 
-    public static avtobus(Cas zacetek, int frekvencaVMin, Cas konec){
-        // ...
-    }
+    // public static avtobus(Cas zacetek, int frekvencaVMin, Cas konec){
+    //     // ...
+    // }
 }
 
 class Cas {
     private int ura;
     private int min;
+
+    private static boolean zapis12 = false; // ni atribut objektov posebej
+
+    public static void nastaviZapis12(boolean da){
+        zapis12 = da;
+    }
 
     // konstruktor ima isto ime kot razred, nima tipa za vračanje
     // samo za inicializacijo atributov, ne ustvarjanju objekta (za to je operator
@@ -106,6 +112,12 @@ class Cas {
 
     public String toString() {
         // return (this.ura + ":" + this.min);
+        if(zapis12){
+            String pripona = (this.ura < 12) ? "AM":"PM";
+            int h = (this.ura + 11) % 12 + 1;
+            return String.format("%d:%02d %s", h, this.min, pripona);
+        }
+
         return String.format("%d:%02d", this.ura, this.min);
     }
 
