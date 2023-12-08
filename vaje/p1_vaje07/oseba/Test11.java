@@ -31,9 +31,9 @@ public class Test11 {
         Oseba mare = new Oseba("Marko",  "Jug", 'M', 1980, os23, os24);
 
         System.out.println(os11.jePrednikOd(os41));
-        System.out.println(os23.jePrednikOd(os42)); // ne dela
+        System.out.println(os23.jePrednikOd(os42));
         System.out.println(os13.jePrednikOd(os45));
-        System.out.println(os14.jePrednikOd(os45)); // ne dela
+        System.out.println(os14.jePrednikOd(os45));
         System.out.println(os15.jePrednikOd(os14));
         System.out.println(os15.jePrednikOd(os15));
         

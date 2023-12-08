@@ -112,7 +112,7 @@
                 <tr>
                 <td class="hoverMissing"><a href="#testcase11">11</a></td>
                 <td class="hoverMissing"><a href="#testcase12">12</a></td>
-                <td class="hoverMissing"><a href="#testcase13">13</a></td>
+                <td class="hoverCompile"><a href="#testcase13">13</a></td>
                 </tr>
                 <tr></tr>
             </tbody>
@@ -783,71 +783,22 @@
 <a href="#summary">Povzetek</a> | 
 <a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
         <a name="testcase13"></a>
-        <div style="border: 1px solid #ABABAB">
-            <table class="tableMissing tableCommon" style="width: 100%; border: 3px solid #F0F0F0;">
+        <div style="border: 1px solid #710B0B">
+            <table class="tableCompiler tableCommon" style="width: 100%; border: 3px solid #C00000;">
                 <tbody>
                     <tr>
-                        <td colspan="2" style="background-color: #F0F0F0; color: black;">Testni primer 13</td>
+                        <td colspan="2" style="background-color: #C00000; color: white;">Testni primer 13</td>
                     </tr>
                     <tr>
                         <td style="width: 200px;">Vhod</td>
                         <td class="texttt">
-                            <span class="rwordb">import</span> java.util.*;<br/>
-<br/>
-<span class="rwordv">public</span> <span class="rwordv">class</span> Test13 {<br/>
-<br/>
-<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
-<tab><tab>Oseba os11 = <span class="rwordb">new</span> Oseba(<span class="niz">"Jozhef"</span>,  <span class="niz">"Pogachnik"</span>, <span class="niz">'M'</span>, <span class="stevilo">1921</span>, null, null);<br/>
-<tab><tab>Oseba os12 = <span class="rwordb">new</span> Oseba(<span class="niz">"Marija"</span>,  <span class="niz">"Pogachnik"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1928</span>, null, null);<br/>
-<tab><tab>Oseba os13 = <span class="rwordb">new</span> Oseba(<span class="niz">"France"</span>,  <span class="niz">"Kotnik"</span>,    <span class="niz">'M'</span>, <span class="stevilo">1932</span>, null, null);<br/>
-<tab><tab>Oseba os14 = <span class="rwordb">new</span> Oseba(<span class="niz">"Ivana"</span>,   <span class="niz">"Kotnik"</span>,    <span class="niz">'Z'</span>, <span class="stevilo">1931</span>, null, null);<br/>
-<tab><tab>Oseba os15 = <span class="rwordb">new</span> Oseba(<span class="niz">"Anton"</span>,   <span class="niz">"Zajc"</span>,      <span class="niz">'M'</span>, <span class="stevilo">1922</span>, null, null);<br/>
-<tab><tab>Oseba os21 = <span class="rwordb">new</span> Oseba(<span class="niz">"Marjan"</span>,  <span class="niz">"Pogachnik"</span>, <span class="niz">'M'</span>, <span class="stevilo">1946</span>, os11, os12);<br/>
-<tab><tab>Oseba os22 = <span class="rwordb">new</span> Oseba(<span class="niz">"Dana"</span>,    <span class="niz">"Pogachnik"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1950</span>, null, null);<br/>
-<tab><tab>Oseba os23 = <span class="rwordb">new</span> Oseba(<span class="niz">"Milan"</span>,   <span class="niz">"Smole"</span>,     <span class="niz">'M'</span>, <span class="stevilo">1953</span>, null, null);<br/>
-<tab><tab>Oseba os24 = <span class="rwordb">new</span> Oseba(<span class="niz">"Metka"</span>,   <span class="niz">"Smole"</span>,     <span class="niz">'Z'</span>, <span class="stevilo">1953</span>, null, null);<br/>
-<tab><tab>Oseba os25 = <span class="rwordb">new</span> Oseba(<span class="niz">"Zvone"</span>,   <span class="niz">"Kotnik"</span>,    <span class="niz">'M'</span>, <span class="stevilo">1956</span>, os13, os14);<br/>
-<tab><tab>Oseba os26 = <span class="rwordb">new</span> Oseba(<span class="niz">"Tanja"</span>,   <span class="niz">"Kotnik"</span>,    <span class="niz">'Z'</span>, <span class="stevilo">1954</span>, null, null);<br/>
-<tab><tab>Oseba os27 = <span class="rwordb">new</span> Oseba(<span class="niz">"Branka"</span>,  <span class="niz">"Zajc"</span>,      <span class="niz">'Z'</span>, <span class="stevilo">1952</span>, os15, os14);<br/>
-<tab><tab>Oseba os31 = <span class="rwordb">new</span> Oseba(<span class="niz">"Dejan"</span>,   <span class="niz">"Pogachnik"</span>, <span class="niz">'M'</span>, <span class="stevilo">1973</span>, os21, os22);<br/>
-<tab><tab>Oseba os32 = <span class="rwordb">new</span> Oseba(<span class="niz">"Mojca"</span>,   <span class="niz">"Pogachnik"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1977</span>, os23, os24);<br/>
-<tab><tab>Oseba os33 = <span class="rwordb">new</span> Oseba(<span class="niz">"Miha"</span>,    <span class="niz">"Smole"</span>,     <span class="niz">'M'</span>, <span class="stevilo">1978</span>, os23, os24);<br/>
-<tab><tab>Oseba os34 = <span class="rwordb">new</span> Oseba(<span class="niz">"Nezha"</span>,   <span class="niz">"Smole"</span>,     <span class="niz">'Z'</span>, <span class="stevilo">1980</span>, os25, os26);<br/>
-<tab><tab>Oseba os35 = <span class="rwordb">new</span> Oseba(<span class="niz">"Alesh"</span>,   <span class="niz">"Kotnik"</span>,    <span class="niz">'M'</span>, <span class="stevilo">1982</span>, os25, os26);<br/>
-<tab><tab>Oseba os36 = <span class="rwordb">new</span> Oseba(<span class="niz">"Jana"</span>,    <span class="niz">"Kotnik"</span>,    <span class="niz">'Z'</span>, <span class="stevilo">1981</span>, null, null);<br/>
-<tab><tab>Oseba os41 = <span class="rwordb">new</span> Oseba(<span class="niz">"Rok"</span>,     <span class="niz">"Pogachnik"</span>, <span class="niz">'M'</span>, <span class="stevilo">2003</span>, os31, os32);<br/>
-<tab><tab>Oseba os42 = <span class="rwordb">new</span> Oseba(<span class="niz">"Eva"</span>,     <span class="niz">"Pogachnik"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2006</span>, os31, os32);<br/>
-<tab><tab>Oseba os43 = <span class="rwordb">new</span> Oseba(<span class="niz">"Gal"</span>,     <span class="niz">"Smole"</span>,     <span class="niz">'M'</span>, <span class="stevilo">2009</span>, os33, os34);<br/>
-<tab><tab>Oseba os44 = <span class="rwordb">new</span> Oseba(<span class="niz">"Maj"</span>,     <span class="niz">"Kotnik"</span>,    <span class="niz">'M'</span>, <span class="stevilo">2010</span>, os35, os36);<br/>
-<tab><tab>Oseba os45 = <span class="rwordb">new</span> Oseba(<span class="niz">"Nika"</span>,    <span class="niz">"Kotnik"</span>,    <span class="niz">'Z'</span>, <span class="stevilo">2012</span>, os35, os36);<br/>
-<br/>
-<tab><tab>Oseba lukec = <span class="rwordb">new</span> Oseba(<span class="niz">""</span>,  <span class="niz">"Fuerst"</span>, <span class="niz">'M'</span>, <span class="stevilo">1980</span>, os11, os12);<br/>
-<tab><tab>Oseba mare = <span class="rwordb">new</span> Oseba(<span class="niz">"Marko"</span>,  <span class="niz">"Jug"</span>, <span class="niz">'M'</span>, <span class="stevilo">1980</span>, os23, os24);<br/>
-<br/>
-<br/>
-<tab><tab>String[] os43Names = os43.druzinskaImena().split(<span class="niz">"\\s+"</span>);<br/>
-<tab><tab>Arrays.sort(os43Names);<br/>
-<tab><tab>System.out.println(Arrays.toString(os43Names));<br/>
-<tab><tab><br/>
-<tab><tab>String[] os15Names = os15.druzinskaImena().split(<span class="niz">"\\s+"</span>);<br/>
-<tab><tab>Arrays.sort(os15Names);<br/>
-<tab><tab>System.out.println(Arrays.toString(os15Names));<br/>
-<tab><tab><br/>
-<tab><tab>String[] lukecNames = lukec.druzinskaImena().split(<span class="niz">"\\s+"</span>);<br/>
-<tab><tab>Arrays.sort(lukecNames);<br/>
-<tab><tab>System.out.println(Arrays.toString(lukecNames));        <br/>
-<br/>
-<tab>}<br/>
-}<br/>
-
-
-<br/>
+                            <br/>
                         </td>
                     </tr>
                     <tr>
-                        <td>Izhod programa</td>
+                        <td>Izhod prevajalnika</td>
                         <td class="texttt">
-                            Referenčna&nbsp;datoteka&nbsp;<oseba\izhod13.txt>&nbsp;ne&nbsp;obstaja!<br/>
+                            Test13.java:34:&nbsp;error:&nbsp;cannot&nbsp;find&nbsp;symbol<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;os43Names&nbsp;=&nbsp;os43.druzinskaImena().split("\\s+");<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^<br/>&nbsp;&nbsp;symbol:&nbsp;&nbsp;&nbsp;method&nbsp;druzinskaImena()<br/>&nbsp;&nbsp;location:&nbsp;variable&nbsp;os43&nbsp;of&nbsp;type&nbsp;Oseba<br/>Test13.java:38:&nbsp;error:&nbsp;cannot&nbsp;find&nbsp;symbol<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;os15Names&nbsp;=&nbsp;os15.druzinskaImena().split("\\s+");<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^<br/>&nbsp;&nbsp;symbol:&nbsp;&nbsp;&nbsp;method&nbsp;druzinskaImena()<br/>&nbsp;&nbsp;location:&nbsp;variable&nbsp;os15&nbsp;of&nbsp;type&nbsp;Oseba<br/>Test13.java:42:&nbsp;error:&nbsp;cannot&nbsp;find&nbsp;symbol<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;lukecNames&nbsp;=&nbsp;lukec.druzinskaImena().split("\\s+");<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^<br/>&nbsp;&nbsp;symbol:&nbsp;&nbsp;&nbsp;method&nbsp;druzinskaImena()<br/>&nbsp;&nbsp;location:&nbsp;variable&nbsp;lukec&nbsp;of&nbsp;type&nbsp;Oseba<br/>3&nbsp;errors<br/><br/>
                         </td>
                     </tr>
                 </tbody>
@@ -918,6 +869,6 @@
         </div>
     </body>
     <!-- java class tester version "1.5.12" -->
-    <!-- 1.12.2023 14:3.48 -->
+    <!-- 8.12.2023 13:13.22 -->
     <!-- ASUS_E2, fe80::8e9b:7a1:38b:722e%7 -->
 </html>

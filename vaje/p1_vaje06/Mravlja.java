@@ -7,7 +7,7 @@ public class Mravlja {
      * steno s podano visino in sirino.
      */
 
-    private static long stPoti(int visina, int sirina) {    
+    private static long stPoti(int visina, int sirina) {
 
         for(int v = 1; v <= visina; v++){
             for(int s = 1; s <= sirina; s++){
