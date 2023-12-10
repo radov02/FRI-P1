@@ -1,18 +1,18 @@
-public class Oseba {
+public class Oseba1 {
     private String ime;
     private String priimek;
     private char spol;
     private int letoRojstva;
-    private Oseba oce;
-    private Oseba mati;
+    private Oseba1 oce;
+    private Oseba1 mati;
 
-    public Oseba(String ime, String priimek, char spol, int letoRojstva,
-        Oseba oce, Oseba mati){
+    public Oseba1(String ime, String priimek, char spol, int letoRojstva,
+        Oseba1 oce, Oseba1 mati){
             this(ime, priimek, spol, letoRojstva);
             this.oce = oce;
             this.mati = mati;
     }
-    public Oseba(String ime, String priimek, char spol, int lr) {
+    public Oseba1(String ime, String priimek, char spol, int lr) {
         this.ime = ime;
         this.priimek = priimek;
         this.spol = spol;
@@ -34,11 +34,11 @@ public class Oseba {
     public int starost(int leto){
         return (leto - this.letoRojstva);
     }
-    public boolean jeStarejsaOd(Oseba os){
+    public boolean jeStarejsaOd(Oseba1 os){
         // LAHKO DOSTOPAMO DO PRIVATNIH ATRIBUTOV ČE JE ISTI RAZRED
         return (this.letoRojstva < os.letoRojstva);
     }
-    public static Oseba starejsa(Oseba a, Oseba b){
+    public static Oseba1 starejsa(Oseba1 a, Oseba1 b){
         if(b.jeStarejsaOd(a)){
             return b;
         }
@@ -53,17 +53,17 @@ public class Oseba {
         }
         return this.oce.ime;
     }
-    public boolean jeBratAliSestraOd(Oseba os){
+    public boolean jeBratAliSestraOd(Oseba1 os){
         return (this.oce == os.oce && this.mati == os.mati && this != os && this.oce != null && this.mati != null);
     }
-    public boolean jeSestraOd(Oseba os){
+    public boolean jeSestraOd(Oseba1 os){
         return (this.jeBratAliSestraOd(os) && this.spol == 'Z');
     }
-    public boolean jeTetaOd(Oseba os){
+    public boolean jeTetaOd(Oseba1 os){
         return (this.jeSestraOd(os.oce) && os.oce != null || this.jeSestraOd(os.mati) && os.mati != null);
     }
-    public boolean jeOcetovskiPrednikOd(Oseba os){
-        Oseba o = os.oce;
+    public boolean jeOcetovskiPrednikOd(Oseba1 os){
+        Oseba1 o = os.oce;
 
         while(o != this && o != null){
             o = o.oce;
@@ -71,7 +71,9 @@ public class Oseba {
 
         return o == this;
     }
-    public boolean jePrednikOd(Oseba os) {
+    
+    // rekurzija:
+    public boolean jePrednikOd(Oseba1 os) {
         
         if(os == null) return false;
         if(os == this) return true;
@@ -79,14 +81,14 @@ public class Oseba {
         return this.jePrednikOd(os.oce) || this.jePrednikOd(os.mati);
     }
 
-    public Oseba oce(){
+    public Oseba1 oce(){
         return this.oce;
     }
-    public Oseba mati(){
+    public Oseba1 mati(){
         return this.mati;
     }
 
-    public boolean staVSorodu(Oseba os) {
+    public boolean staVSorodu(Oseba1 os) {
         
         // if(this.oce().jePrednikOd(os)) return true;
         // if(this.mati().jePrednikOd(os)) return true;
