@@ -109,11 +109,6 @@ public class Stanovanje {
         }
         return false;
     }
-    public Stanovanje[] getSosednjaStanovanja(){
-        return this.sosednjaStanovanja;
-    }
-
-
 
     public int oddaljenostOdStanovanjaVsmeri(int smer){
         if(this.sosednjaStanovanja[smer] == null){
@@ -141,7 +136,7 @@ public class Stanovanje {
         return nacrtBloka;
     }
 
-    /*
+
     public int[] najdiVisinoInSirinoBloka(Stanovanje prejsnje, int x, int y, int maxX, int maxY, Stanovanje[] zePreverjena, int indexZePreverjena){
         // neke vrste search algoritem
         if(prejsnje == null){
@@ -214,5 +209,4 @@ public class Stanovanje {
         }
         return false;
     }
-     */
 }
