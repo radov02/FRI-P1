@@ -19,9 +19,9 @@ public class Test01 {
         Oseba i3 = new Oseba("Iztok Ilovar", 'M', 21);
         Oseba j1 = new Oseba("Jasna Jarc", 'Z', 45);
 
-        //preveri("Oseba/toString", primerjajNiza(a2.toString(), "Ana Antlej, Z, 58"));
+        preveri("Oseba/toString", primerjajNiza(a2.toString(), "Ana Antlej, Z, 58"));
 
-        //preveri("Oseba/jeStarejsaOd", !a2.jeStarejsaOd(a1));
+        preveri("Oseba/jeStarejsaOd", !a2.jeStarejsaOd(a1));
 
         Stanovanje sA = new Stanovanje(new Oseba[]{a1, a2}, 'a');
         Stanovanje sB = new Stanovanje(new Oseba[0], 'b');
@@ -34,13 +34,13 @@ public class Test01 {
         Stanovanje sI = new Stanovanje(new Oseba[]{i1, i2, i3}, 'i');
         Stanovanje sJ = new Stanovanje(new Oseba[]{j1}, 'j');
 
-        //preveri("Stanovanje/steviloStanovalcev", sA.steviloStanovalcev() == 2);
+        preveri("Stanovanje/steviloStanovalcev", sA.steviloStanovalcev() == 2);
 
-        //preveri("Stanovanje/steviloStarejsihOd", sA.steviloStarejsihOd(a2) == 1);
+        preveri("Stanovanje/steviloStarejsihOd", sA.steviloStarejsihOd(a2) == 1);
 
-        //preveri("Stanovanje/mz", Arrays.equals(sI.mz(), new int[]{2, 1}));
+        preveri("Stanovanje/mz", Arrays.equals(sI.mz(), new int[]{2, 1}));
 
-        //preveri("Stanovanje/starosta", sA.starosta() == a1);
+        preveri("Stanovanje/starosta", sA.starosta() == a1);
 
         sA.nastaviSosede(null, null, null, sD);
         sB.nastaviSosede(null, null, sC, null);
@@ -53,16 +53,15 @@ public class Test01 {
         sI.nastaviSosede(sH, null, sJ, null);
         sJ.nastaviSosede(sI, null, null, null);
 
-        //preveri("Stanovanje/starostaSosescine", sJ.starostaSosescine() == i1);
+        preveri("Stanovanje/starostaSosescine", sJ.starostaSosescine() == i1);
 
-        //preveri("Stanovanje/sosedjeSosedov", 
-        //        primerjajTabeliOseb(sG.sosedjeSosedov(), new Oseba[]{a1, a2, e1, i1, i2, i3}));
+        preveri("Stanovanje/sosedjeSosedov", 
+               primerjajTabeliOseb(sG.sosedjeSosedov(), new Oseba[]{a1, a2, e1, i1, i2, i3}));
 
         Blok blok = new Blok(sD);
-        blok.izpisiRazporeditev();
+        // blok.izpisiRazporeditev();
 
         preveri("Blok/starosta", blok.starosta() == g2);
-        System.out.println(blok.starosta() + ";;; " + g2);
 
         preveri("Blok/razporeditev",
                 Arrays.deepEquals(
@@ -74,7 +73,7 @@ public class Test01 {
                         {-1, -1, 0,  3,  1},
                     }));
 
-        blok.izpisiRazporeditev();
+        // blok.izpisiRazporeditev();
     }
 
     private static void preveri(String besedilo, boolean pogoj) {

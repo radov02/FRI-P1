@@ -73,10 +73,10 @@
                 background: linear-gradient(to right, #E0E0E0 , white);
             }
             #grad2 {
-                background: -webkit-linear-gradient(left, #FFBF00 , white);
-                background: -o-linear-gradient(right, #FFBF00, white);
-                background: -moz-linear-gradient(right, #FFBF00, white);
-                background: linear-gradient(to right, #FFBF00 , white);
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
             }
             .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
             .dborder { padding: 0px; border: 1px solid #CACACA; }
@@ -86,14 +86,14 @@
     <body>
         <div class="container">
         <a name="top"></a>
-        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (0/1)</h1>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (1/1)</h1>
         <div style="height: 20px"></div>
         <a name="summary"></a>
         <h2>Povzetek rezultatov</h2>
         <table id="nasredini" class="tableBase tableResults">
             <tbody>
                 <tr>
-                <td class="hoverErr"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
                 </tr>
                 <tr></tr>
             </tbody>
@@ -101,11 +101,11 @@
         <div style="height: 20px"></div>
         <h2>Rezultati</h2>
         <a name="testcase1"></a>
-        <div style="border: 1px solid #CB9800">
-            <table class="tableError tableCommon" style="width: 100%; border: 3px solid #FFBF00;">
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
                 <tbody>
                     <tr>
-                        <td colspan="2" style="background-color: #FFBF00; color: black;">Testni primer 1</td>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
                     </tr>
                     <tr>
                         <td style="width: 200px;">Vhod</td>
@@ -131,9 +131,9 @@
 <tab><tab>Oseba i3 = <span class="rwordb">new</span> Oseba(<span class="niz">"Iztok Ilovar"</span>, <span class="niz">'M'</span>, <span class="stevilo">21</span>);<br/>
 <tab><tab>Oseba j1 = <span class="rwordb">new</span> Oseba(<span class="niz">"Jasna Jarc"</span>, <span class="niz">'Z'</span>, <span class="stevilo">45</span>);<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Oseba/toString", primerjajNiza(a2.toString(), "Ana Antlej, Z, 58"));<br/></span>
+<tab><tab>preveri(<span class="niz">"Oseba/toString"</span>, primerjajNiza(a2.toString(), <span class="niz">"Ana Antlej, Z, <span class="stevilo">58</span>"</span>));<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Oseba/jeStarejsaOd", !a2.jeStarejsaOd(a1));<br/></span>
+<tab><tab>preveri(<span class="niz">"Oseba/jeStarejsaOd"</span>, !a2.jeStarejsaOd(a1));<br/>
 <br/>
 <tab><tab>Stanovanje sA = <span class="rwordb">new</span> Stanovanje(<span class="rwordb">new</span> Oseba[]{a1, a2}, <span class="niz">'a'</span>);<br/>
 <tab><tab>Stanovanje sB = <span class="rwordb">new</span> Stanovanje(<span class="rwordb">new</span> Oseba[<span class="stevilo">0</span>], <span class="niz">'b'</span>);<br/>
@@ -146,13 +146,13 @@
 <tab><tab>Stanovanje sI = <span class="rwordb">new</span> Stanovanje(<span class="rwordb">new</span> Oseba[]{i1, i2, i3}, <span class="niz">'i'</span>);<br/>
 <tab><tab>Stanovanje sJ = <span class="rwordb">new</span> Stanovanje(<span class="rwordb">new</span> Oseba[]{j1}, <span class="niz">'j'</span>);<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Stanovanje/steviloStanovalcev", sA.steviloStanovalcev() == 2);<br/></span>
+<tab><tab>preveri(<span class="niz">"Stanovanje/steviloStanovalcev"</span>, sA.steviloStanovalcev() == <span class="stevilo">2</span>);<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Stanovanje/steviloStarejsihOd", sA.steviloStarejsihOd(a2) == 1);<br/></span>
+<tab><tab>preveri(<span class="niz">"Stanovanje/steviloStarejsihOd"</span>, sA.steviloStarejsihOd(a2) == <span class="stevilo">1</span>);<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Stanovanje/mz", Arrays.equals(sI.mz(), new int[]{2, 1}));<br/></span>
+<tab><tab>preveri(<span class="niz">"Stanovanje/mz"</span>, Arrays.equals(sI.mz(), <span class="rwordb">new</span> <span class="rwordv">int</span>[]{<span class="stevilo">2</span>, <span class="stevilo">1</span>}));<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Stanovanje/starosta", sA.starosta() == a1);<br/></span>
+<tab><tab>preveri(<span class="niz">"Stanovanje/starosta"</span>, sA.starosta() == a1);<br/>
 <br/>
 <tab><tab>sA.nastaviSosede(null, null, null, sD);<br/>
 <tab><tab>sB.nastaviSosede(null, null, sC, null);<br/>
@@ -165,16 +165,15 @@
 <tab><tab>sI.nastaviSosede(sH, null, sJ, null);<br/>
 <tab><tab>sJ.nastaviSosede(sI, null, null, null);<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Stanovanje/starostaSosescine", sJ.starostaSosescine() == i1);<br/></span>
+<tab><tab>preveri(<span class="niz">"Stanovanje/starostaSosescine"</span>, sJ.starostaSosescine() == i1);<br/>
 <br/>
-<tab><tab><span class="vcomment">//preveri("Stanovanje/sosedjeSosedov", <br/></span>
-<tab><tab><span class="vcomment">//        primerjajTabeliOseb(sG.sosedjeSosedov(), new Oseba[]{a1, a2, e1, i1, i2, i3}));<br/></span>
+<tab><tab>preveri(<span class="niz">"Stanovanje/sosedjeSosedov"</span>, <br/>
+<tab><tab><tab>&nbsp;&nbsp;&nbsp;primerjajTabeliOseb(sG.sosedjeSosedov(), <span class="rwordb">new</span> Oseba[]{a1, a2, e1, i1, i2, i3}));<br/>
 <br/>
 <tab><tab>Blok blok = <span class="rwordb">new</span> Blok(sD);<br/>
-<tab><tab>blok.izpisiRazporeditev();<br/>
+<tab><tab><span class="vcomment">// blok.izpisiRazporeditev();<br/></span>
 <br/>
 <tab><tab>preveri(<span class="niz">"Blok/starosta"</span>, blok.starosta() == g2);<br/>
-<tab><tab>System.out.println(blok.starosta() + <span class="niz">";;; "</span> + g2);<br/>
 <br/>
 <tab><tab>preveri(<span class="niz">"Blok/razporeditev"</span>,<br/>
 <tab><tab><tab><tab>Arrays.deepEquals(<br/>
@@ -186,7 +185,7 @@
 <tab><tab><tab><tab><tab><tab>{-<span class="stevilo">1</span>, -<span class="stevilo">1</span>, <span class="stevilo">0</span>,  <span class="stevilo">3</span>,  <span class="stevilo">1</span>},<br/>
 <tab><tab><tab><tab><tab>}));<br/>
 <br/>
-<tab><tab>blok.izpisiRazporeditev();<br/>
+<tab><tab><span class="vcomment">// blok.izpisiRazporeditev();<br/></span>
 <tab>}<br/>
 <br/>
 <tab><span class="rwordv">private</span> <span class="rwordv">static</span> <span class="rwordv">void</span> preveri(String besedilo, <span class="rwordb">boolean</span> pogoj) {<br/>
@@ -226,11 +225,6 @@
                     </tr>
                     <tr>
                         <td>Izhod programa</td>
-                        <td class="texttt">
-                            <br/>[4,&nbsp;3]<br/><br/>Izpis:&nbsp;<br/>_&nbsp;_&nbsp;a&nbsp;_&nbsp;_&nbsp;<br/>b&nbsp;c&nbsp;d&nbsp;e&nbsp;_&nbsp;<br/>_&nbsp;f&nbsp;g&nbsp;_&nbsp;_&nbsp;<br/>_&nbsp;_&nbsp;h&nbsp;i&nbsp;j&nbsp;<br/><br/>-1&nbsp;-1&nbsp;0&nbsp;3&nbsp;1&nbsp;<br/>-1&nbsp;0&nbsp;2&nbsp;-1&nbsp;-1&nbsp;<br/>0&nbsp;0&nbsp;4&nbsp;1&nbsp;-1&nbsp;<br/>-1&nbsp;-1&nbsp;2&nbsp;-1&nbsp;-1&nbsp;<br/><br/>Blok/starosta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Genovefa&nbsp;Golob,&nbsp;Z,&nbsp;74;;;&nbsp;Genovefa&nbsp;Golob,&nbsp;Z,&nbsp;74<br/>Blok/razporeditev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;napaka<br/>-1&nbsp;-1&nbsp;0&nbsp;3&nbsp;1&nbsp;<br/>-1&nbsp;0&nbsp;2&nbsp;-1&nbsp;-1&nbsp;<br/>0&nbsp;0&nbsp;4&nbsp;1&nbsp;-1&nbsp;<br/>-1&nbsp;-1&nbsp;2&nbsp;-1&nbsp;-1&nbsp;<br/><br/><br/>
-                        </td>
-                    </tr>
-                    <td>Referenčni izhod</td>
                         <td class="texttt">
                             Oseba/toString&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Oseba/jeStarejsaOd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Stanovanje/steviloStanovalcev&nbsp;-->&nbsp;OK<br/>Stanovanje/steviloStarejsihOd&nbsp;-->&nbsp;OK<br/>Stanovanje/mz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Stanovanje/starosta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Stanovanje/starostaSosescine&nbsp;&nbsp;-->&nbsp;OK<br/>Stanovanje/sosedjeSosedov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Blok/starosta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/>Blok/razporeditev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->&nbsp;OK<br/><br/>
                         </td>
@@ -303,6 +297,6 @@
         </div>
     </body>
     <!-- java class tester version "1.5.12" -->
-    <!-- 11.12.2023 22:15.8 -->
+    <!-- 11.12.2023 22:25.7 -->
     <!-- ASUS_E2, fe80::394f:811b:9a75:b34e%7 -->
 </html>

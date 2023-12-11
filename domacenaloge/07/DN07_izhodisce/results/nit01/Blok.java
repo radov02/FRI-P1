@@ -10,26 +10,26 @@ public class Blok {
         
         //System.out.println("\n" + Arrays.toString(this.najdiSirinoInVisinoBloka(stanovanje, null, x, y, x, y, new Stanovanje[1000], 0)) + "\n");   // najvecje stevilo stanovanj je 1000
         int[] sirinaVisina = this.najdiSirinoInVisinoBloka(stanovanje, stanovanje, x, y, x, y, new Stanovanje[1000], 0);
-        System.out.println("\n" + Arrays.toString(sirinaVisina) + "\n");   // najvecje stevilo stanovanj je 1000
+        //System.out.println("\n" + Arrays.toString(sirinaVisina) + "\n");   // najvecje stevilo stanovanj je 1000
 
 
         //nacrtBloka = new Stanovanje[stanovanje.najdiSirinoInVisinoBloka(null, x, y, x, y)[0]][stanovanje.najdiSirinoInVisinoBloka(null, x, y, x, y)[1]];
-        nacrtBloka = new Stanovanje[sirinaVisina[1] + 1][sirinaVisina[0] + 1];
+        this.nacrtBloka = new Stanovanje[sirinaVisina[1] + 1][sirinaVisina[0] + 1];
         nb = new char[sirinaVisina[1] + 1][sirinaVisina[0] + 1];
         for(int i = 0; i < nb.length; i++){
             Arrays.fill(nb[i], '_');
         }
-        nacrtBloka[y][x] = stanovanje;
+        this.nacrtBloka[this.nacrtBloka.length - 1 - y][x] = stanovanje;
 
         this.najdiNacrtBloka(stanovanje, stanovanje, x, y, new Stanovanje[1000], 0);
-        System.out.println("Izpis: ");
-        for(int i = 0; i < nb.length; i++){
-            for(int j = 0; j < nb[i].length; j++){
-                System.out.print(nb[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+        // System.out.println("Izpis: ");
+        // for(int i = 0; i < nb.length; i++){
+        //     for(int j = 0; j < nb[i].length; j++){
+        //         System.out.print(nb[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println();
     }
 
     public Oseba starosta() {
@@ -58,7 +58,7 @@ public class Blok {
             }
         }
         return stOsebVStanovanjih;
-    }
+    }   
 
     public void izpisiRazporeditev(){
         int[][] raz = razporeditev();
@@ -143,8 +143,8 @@ public class Blok {
                     case 3: novaX = x-1; break;
                 }
 
-                this.nacrtBloka[novaY][novaX] = najdiNacrtBloka(trenutno.getSosednjaStanovanja()[i], null, novaX, novaY, zePreverjena, indexZePreverjena);
-                this.nb[this.nb.length - novaY - 1][novaX] = this.nacrtBloka[novaY][novaX].crka;
+                this.nacrtBloka[this.nacrtBloka.length - 1 - novaY][novaX] = najdiNacrtBloka(trenutno.getSosednjaStanovanja()[i], null, novaX, novaY, zePreverjena, indexZePreverjena);
+                this.nb[novaY][novaX] = this.nacrtBloka[this.nacrtBloka.length - 1 - novaY][novaX].crka;
                 //System.out.println("tukj: " + novaX + ", " + novaY + "; " + this.nacrtBloka[novaY][novaX].crka);
             }
         }
