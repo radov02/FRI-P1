@@ -116,10 +116,8 @@ public class Blok {
             if(noveKoord[1] > maxY) maxY = noveKoord[1];
         }
 
-        if(trenutno != null){
-            if(x > maxX) maxX = x;
-            if(y > maxY) maxY = y;
-        }
+        // if(x > maxX) maxX = x;
+        // if(y > maxY) maxY = y;
 
         System.out.println("-----------return array----------------");
         return new int[] {maxX, maxY};

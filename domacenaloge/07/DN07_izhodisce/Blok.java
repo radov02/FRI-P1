@@ -73,13 +73,14 @@ public class Blok {
             zePreverjena[indexZePreverjena++] = trenutno;
         }
 
-                                                                            System.out.println("Trenutno na " + trenutno.crka);
-                                                                            System.out.print("\n[");
-                                                                            for(int i = 0; i < indexZePreverjena; i++){
-                                                                                System.out.print(zePreverjena[i].crka + " ");
-                                                                            }
-                                                                            System.out.println("]");
-
+        // IZPIS
+        System.out.println("Trenutno na " + trenutno.crka);
+        System.out.print("\n[");
+        for(int i = 0; i < indexZePreverjena; i++){
+            System.out.print(zePreverjena[i].crka + " ");
+        }
+        System.out.println("]");
+        // IZPIS
         
 
         //        if(trenutno.getSosednjaStanovanja()[0] != null && (prejsnje == null || !this.jeZeBiloPreverjeno(trenutno.getSosednjaStanovanja()[0], zePreverjena))){
@@ -116,10 +117,8 @@ public class Blok {
             if(noveKoord[1] > maxY) maxY = noveKoord[1];
         }
 
-        if(trenutno != null){
-            if(x > maxX) maxX = x;
-            if(y > maxY) maxY = y;
-        }
+        if(x > maxX) maxX = x;
+        if(y > maxY) maxY = y;
 
         System.out.println("-----------return array----------------");
         return new int[] {maxX, maxY};
