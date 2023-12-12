@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Stanovanje {
     public char crka;
     private Stanovanje[] sosednjaStanovanja;    // 0 spodnji, 1 desni, 2 zgornji, 3 levi
@@ -74,12 +72,9 @@ public class Stanovanje {
         Oseba[] sosedjeSosedov = new Oseba[10000];
         Stanovanje[] zePreverjena = new Stanovanje[8];
         int i = 0, j = 0;
-        //System.out.println(sosednjaStanovanja.length);
         
         for(Stanovanje sosednjeStanovanje : sosednjaStanovanja){
-            //System.out.println(sosednjeStanovanje.sosednjaStanovanja.length);
             if(sosednjeStanovanje != null){
-                int a = 0;
                 for(Stanovanje sosdenjeStanovanjesosednjegaStanovanja : sosednjeStanovanje.sosednjaStanovanja){
                     if(sosdenjeStanovanjesosednjegaStanovanja != null && sosdenjeStanovanjesosednjegaStanovanja != this && !this.zePreverjenoStanovanje(zePreverjena, sosdenjeStanovanjesosednjegaStanovanja)){
                         for(Oseba stanovalec : sosdenjeStanovanjesosednjegaStanovanja.stanovalci){
@@ -88,10 +83,8 @@ public class Stanovanje {
                             }
                         }
                         zePreverjena[i++] = sosdenjeStanovanjesosednjegaStanovanja;
-                        a++;
                     }
                 }
-                //System.out.println("vendar samo: " + a);
             }
         }
         
@@ -134,22 +127,4 @@ public class Stanovanje {
         }
         return 1 + this.sosednjaStanovanja[smer].oddaljenostOdStanovanjaVsmeri(smer);
     }
-
-    // public Stanovanje[][] sosednja(Stanovanje prejsnje, int x, int y, Stanovanje[][] nacrtBloka){
-    //     // for(int i = 0; i < 4; i++){
-    //     //     if(prejsnje == null || this.sosednjaStanovanja[i] != prejsnje){
-    //     //         if(this.sosednjaStanovanja[i] != null){
-    //     //             switch(i){
-    //     //                 case 0: return this.sosednjaStanovanja[i].sosednja(this, x, y-1, nacrtBloka);
-    //     //                 case 1: return this.sosednjaStanovanja[i].sosednja(this, x+1, y, nacrtBloka);
-    //     //                 case 2: return this.sosednjaStanovanja[i].sosednja(this, x, y+1, nacrtBloka);
-    //     //                 case 3: return this.sosednjaStanovanja[i].sosednja(this, x-1, y, nacrtBloka);
-    //     //             }
-    //     //         }
-    //     //     }
-    //     // }
-    //     // if(y < nacrtBloka.length && x < nacrtBloka[y].length && nacrtBloka[y][x] == null)
-    //     //     nacrtBloka[y][x] = this;
-    //     return nacrtBloka;
-    // }
 }

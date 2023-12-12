@@ -36,13 +36,13 @@ public class Test46 {
         os[6][0] = new Oseba("a b", 'Z', 3313);
         
         Stanovanje[] st = new Stanovanje[7];
-        st[0] = new Stanovanje(os[0]);
-        st[1] = new Stanovanje(os[1]);
-        st[2] = new Stanovanje(os[2]);
-        st[3] = new Stanovanje(os[3]);
-        st[4] = new Stanovanje(os[4]);
-        st[5] = new Stanovanje(os[5]);
-        st[6] = new Stanovanje(os[6]);
+        st[0] = new Stanovanje(os[0], 'a');
+        st[1] = new Stanovanje(os[1], 'b');
+        st[2] = new Stanovanje(os[2], 'c');
+        st[3] = new Stanovanje(os[3], 'd');
+        st[4] = new Stanovanje(os[4], 'e');
+        st[5] = new Stanovanje(os[5], 'f');
+        st[6] = new Stanovanje(os[6], 'g');
         st[0].nastaviSosede(st[6], st[4], st[1], null);
         st[1].nastaviSosede(st[0], st[3], null, null);
         st[2].nastaviSosede(null, null, st[4], st[6]);
@@ -62,6 +62,8 @@ public class Test46 {
         razpored[1][2] = 5;
         razpored[1][3] = -1;
         int[][] rezultat = blok.razporeditev();
+        // blok.izpisiRazporeditev();
+        // blok.izpisiCrkeStanovanj();
         TestSkupno.preveri(Arrays.deepEquals(razpored, rezultat));
     }
 }

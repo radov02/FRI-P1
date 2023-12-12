@@ -131,28 +131,28 @@ public class Test43 {
         os[21][9] = new Oseba("a b", 'M', 1305);
         
         Stanovanje[] st = new Stanovanje[22];
-        st[0] = new Stanovanje(os[0]);
-        st[1] = new Stanovanje(os[1]);
-        st[2] = new Stanovanje(os[2]);
-        st[3] = new Stanovanje(os[3]);
-        st[4] = new Stanovanje(os[4]);
-        st[5] = new Stanovanje(os[5]);
-        st[6] = new Stanovanje(os[6]);
-        st[7] = new Stanovanje(os[7]);
-        st[8] = new Stanovanje(os[8]);
-        st[9] = new Stanovanje(os[9]);
-        st[10] = new Stanovanje(os[10]);
-        st[11] = new Stanovanje(os[11]);
-        st[12] = new Stanovanje(os[12]);
-        st[13] = new Stanovanje(os[13]);
-        st[14] = new Stanovanje(os[14]);
-        st[15] = new Stanovanje(os[15]);
-        st[16] = new Stanovanje(os[16]);
-        st[17] = new Stanovanje(os[17]);
-        st[18] = new Stanovanje(os[18]);
-        st[19] = new Stanovanje(os[19]);
-        st[20] = new Stanovanje(os[20]);
-        st[21] = new Stanovanje(os[21]);
+        st[0] = new Stanovanje(os[0], 'a');
+        st[1] = new Stanovanje(os[1], 'b');
+        st[2] = new Stanovanje(os[2], 'c');
+        st[3] = new Stanovanje(os[3], 'd');
+        st[4] = new Stanovanje(os[4], 'e');
+        st[5] = new Stanovanje(os[5], 'f');
+        st[6] = new Stanovanje(os[6], 'g');
+        st[7] = new Stanovanje(os[7], 'h');
+        st[8] = new Stanovanje(os[8], 'i');
+        st[9] = new Stanovanje(os[9], 'j');
+        st[10] = new Stanovanje(os[10], 'k');
+        st[11] = new Stanovanje(os[11], 'l');
+        st[12] = new Stanovanje(os[12], 'm');
+        st[13] = new Stanovanje(os[13], 'n');
+        st[14] = new Stanovanje(os[14], 'o');
+        st[15] = new Stanovanje(os[15], 'p');
+        st[16] = new Stanovanje(os[16], 'r');
+        st[17] = new Stanovanje(os[17], 's');
+        st[18] = new Stanovanje(os[18], 't');
+        st[19] = new Stanovanje(os[19], 'u');
+        st[20] = new Stanovanje(os[20], 'v');
+        st[21] = new Stanovanje(os[21], 'z');
         st[0].nastaviSosede(st[16], null, null, st[21]);
         st[1].nastaviSosede(st[9], st[3], st[15], st[11]);
         st[2].nastaviSosede(null, st[19], null, null);
@@ -177,6 +177,9 @@ public class Test43 {
         st[21].nastaviSosede(st[5], st[0], st[3], st[9]);
         
         Blok blok = new Blok(st[16]);
+        //blok.izpisiRazporeditev();
+        //blok.izpisiCrkeStanovanj();
+        //System.out.println(os[18][0].getStarost());
         TestSkupno.preveri(blok.starosta() == os[18][0]);
     }
 }
