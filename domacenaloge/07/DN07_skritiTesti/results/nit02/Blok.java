@@ -143,9 +143,11 @@ public class Blok {
                     case 3: novaX = x-1; break;
                 }
 
-                this.nacrtBloka[this.nacrtBloka.length - 1 - novaY][novaX] = najdiNacrtBloka(trenutno.getSosednjaStanovanja()[i], null, novaX, novaY, zePreverjena, indexZePreverjena);
-                this.nb[novaY][novaX] = this.nacrtBloka[this.nacrtBloka.length - 1 - novaY][novaX].crka;
-                //System.out.println("tukj: " + novaX + ", " + novaY + "; " + this.nacrtBloka[novaY][novaX].crka);
+                if(this.nacrtBloka.length - 1 - novaY >= 0 && novaX >= 0){
+                    this.nacrtBloka[this.nacrtBloka.length - 1 - novaY][novaX] = najdiNacrtBloka(trenutno.getSosednjaStanovanja()[i], null, novaX, novaY, zePreverjena, indexZePreverjena);
+                    this.nb[novaY][novaX] = this.nacrtBloka[this.nacrtBloka.length - 1 - novaY][novaX].crka;
+                    //System.out.println("tukj: " + novaX + ", " + novaY + "; " + this.nacrtBloka[novaY][novaX].crka);
+                }
             }
         }
         return trenutno;

@@ -61,54 +61,60 @@ public class Stanovanje {
     public Oseba starostaSosescine() {
         Oseba najstarejsa = new Oseba(-1);
         for(Stanovanje stanovanje : this.sosednjaStanovanja){
-            if(stanovanje != null && stanovanje.steviloStanovalcev() > 0 && (najstarejsa == null || stanovanje.starosta().getStarost() > najstarejsa.getStarost())){
+            if(stanovanje != null && stanovanje.steviloStanovalcev() > 0 && stanovanje.starosta().getStarost() > najstarejsa.getStarost()){
                 najstarejsa = stanovanje.starosta();
             }
         }
-        if(this.steviloStanovalcev() > 0 && (najstarejsa == null || this.starosta().getStarost() > najstarejsa.getStarost())){
+        if(this.steviloStanovalcev() > 0 && this.starosta().getStarost() > najstarejsa.getStarost()){
             najstarejsa = this.starosta();
         }
-        return najstarejsa;
+        return (najstarejsa.getStarost() == -1 ? null:najstarejsa);
     }
     public Oseba[] sosedjeSosedov() {
-        int stSosedovSosedov = steviloSosedovSosedov();
-        Oseba[] sosedjeSosedov = new Oseba[stSosedovSosedov];
+        Oseba[] sosedjeSosedov = new Oseba[10000];
         Stanovanje[] zePreverjena = new Stanovanje[8];
         int i = 0, j = 0;
         
         for(Stanovanje sosednjeStanovanje : sosednjaStanovanja){
             if(sosednjeStanovanje != null){
                 for(Stanovanje sosdenjeStanovanjesosednjegaStanovanja : sosednjeStanovanje.sosednjaStanovanja){
-                    if(sosdenjeStanovanjesosednjegaStanovanja != null && sosdenjeStanovanjesosednjegaStanovanja != this && !sosdenjeStanovanjesosednjegaStanovanja.zePreverjenoStanovanje(zePreverjena, sosednjeStanovanje)){
+                    if(sosdenjeStanovanjesosednjegaStanovanja != null && sosdenjeStanovanjesosednjegaStanovanja != this && !this.zePreverjenoStanovanje(zePreverjena, sosdenjeStanovanjesosednjegaStanovanja)){
                         for(Oseba stanovalec : sosdenjeStanovanjesosednjegaStanovanja.stanovalci){
-                            sosedjeSosedov[j++] = stanovalec;
+                            if(!this.zePreverjenaOseba(sosedjeSosedov, stanovalec)){
+                                sosedjeSosedov[j++] = stanovalec;
+                            }
                         }
                         zePreverjena[i++] = sosdenjeStanovanjesosednjegaStanovanja;
                     }
                 }
             }
         }
-        return sosedjeSosedov;
-    }
-    private int steviloSosedovSosedov(){
-        int stevilo = 0;
-        Stanovanje[] zePreverjena = new Stanovanje[9];
-        int i = 0;
-        for(Stanovanje sosednjeStanovanje : sosednjaStanovanja){
-            if(sosednjeStanovanje != null){
-                for(Stanovanje sosdenjeStanovanjesosednjegaStanovanja : sosednjeStanovanje.sosednjaStanovanja){
-                    if(sosdenjeStanovanjesosednjegaStanovanja != null && sosdenjeStanovanjesosednjegaStanovanja != this && !sosdenjeStanovanjesosednjegaStanovanja.zePreverjenoStanovanje(zePreverjena, sosednjeStanovanje)){
-                        stevilo += sosdenjeStanovanjesosednjegaStanovanja.steviloStanovalcev();
-                        zePreverjena[i++] = sosdenjeStanovanjesosednjegaStanovanja;
-                    }
-                }
-            }
+        
+        Oseba[] samoSosedjeSosedov = new Oseba[this.steviloSosedovSosedov(sosedjeSosedov)];   // brez vrednosti null
+        for(int k = 0; k < samoSosedjeSosedov.length; k++){
+            samoSosedjeSosedov[k] = sosedjeSosedov[k];
         }
-        return stevilo;
+        return samoSosedjeSosedov;
+    }
+    private int steviloSosedovSosedov(Oseba[] sosedjeSosedov){
+        int stevec = 0;
+        for(int i = 0; i < sosedjeSosedov.length; i++){
+            if(sosedjeSosedov[i] != null)
+                stevec++;
+        }
+        return stevec;
     }
     private boolean zePreverjenoStanovanje(Stanovanje[] zePreverjena, Stanovanje stanovanje){
         for(Stanovanje zePreverjeno : zePreverjena){
             if(stanovanje == zePreverjeno){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean zePreverjenaOseba(Oseba[] zePreverjene, Oseba oseba){
+        for(Oseba zePreverjena : zePreverjene){
+            if(oseba == zePreverjena){
                 return true;
             }
         }
@@ -123,22 +129,4 @@ public class Stanovanje {
         }
         return 1 + this.sosednjaStanovanja[smer].oddaljenostOdStanovanjaVsmeri(smer);
     }
-
-    // public Stanovanje[][] sosednja(Stanovanje prejsnje, int x, int y, Stanovanje[][] nacrtBloka){
-    //     // for(int i = 0; i < 4; i++){
-    //     //     if(prejsnje == null || this.sosednjaStanovanja[i] != prejsnje){
-    //     //         if(this.sosednjaStanovanja[i] != null){
-    //     //             switch(i){
-    //     //                 case 0: return this.sosednjaStanovanja[i].sosednja(this, x, y-1, nacrtBloka);
-    //     //                 case 1: return this.sosednjaStanovanja[i].sosednja(this, x+1, y, nacrtBloka);
-    //     //                 case 2: return this.sosednjaStanovanja[i].sosednja(this, x, y+1, nacrtBloka);
-    //     //                 case 3: return this.sosednjaStanovanja[i].sosednja(this, x-1, y, nacrtBloka);
-    //     //             }
-    //     //         }
-    //     //     }
-    //     // }
-    //     // if(y < nacrtBloka.length && x < nacrtBloka[y].length && nacrtBloka[y][x] == null)
-    //     //     nacrtBloka[y][x] = this;
-    //     return nacrtBloka;
-    // }
 }
