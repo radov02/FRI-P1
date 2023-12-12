@@ -1,12 +1,12 @@
 public class Stanovanje {
-    public char crka;
+    public char crka;   // debug
     private Stanovanje[] sosednjaStanovanja;    // 0 spodnji, 1 desni, 2 zgornji, 3 levi
     private Oseba[] stanovalci;
 
     public Stanovanje(Oseba[] stanovalci) {
         this.stanovalci = stanovalci;
         this.sosednjaStanovanja = new Stanovanje[4];
-        this.crka = '*';
+        this.crka = '?';
     }
     public Stanovanje(Oseba[] stanovalci, char crka) {
         this.stanovalci = stanovalci;
@@ -49,8 +49,7 @@ public class Stanovanje {
         }
         return najstarejsa;
     }
-    public void nastaviSosede(Stanovanje levi, Stanovanje zgornji,
-            Stanovanje desni, Stanovanje spodnji) {
+    public void nastaviSosede(Stanovanje levi, Stanovanje zgornji, Stanovanje desni, Stanovanje spodnji) {
         this.sosednjaStanovanja[3] = levi;
         this.sosednjaStanovanja[2] = zgornji;
         this.sosednjaStanovanja[1] = desni;
@@ -63,6 +62,7 @@ public class Stanovanje {
                 najstarejsa = stanovanje.starosta();
             }
         }
+        // štejemo tudi stanovanje this:
         if(this.steviloStanovalcev() > 0 && this.starosta().getStarost() > najstarejsa.getStarost()){
             najstarejsa = this.starosta();
         }
@@ -70,13 +70,13 @@ public class Stanovanje {
     }
     public Oseba[] sosedjeSosedov() {
         Oseba[] sosedjeSosedov = new Oseba[10000];
-        Stanovanje[] zePreverjena = new Stanovanje[8];
+        Stanovanje[] zePreverjena = new Stanovanje[8];  // najvec sosedov sosedov je 8
         int i = 0, j = 0;
         
         for(Stanovanje sosednjeStanovanje : sosednjaStanovanja){
             if(sosednjeStanovanje != null){
                 for(Stanovanje sosdenjeStanovanjesosednjegaStanovanja : sosednjeStanovanje.sosednjaStanovanja){
-                    if(sosdenjeStanovanjesosednjegaStanovanja != null && sosdenjeStanovanjesosednjegaStanovanja != this && !this.zePreverjenoStanovanje(zePreverjena, sosdenjeStanovanjesosednjegaStanovanja)){
+                    if(sosdenjeStanovanjesosednjegaStanovanja != null && sosdenjeStanovanjesosednjegaStanovanja != this && !sosdenjeStanovanjesosednjegaStanovanja.jeZeBiloPreverjeno(zePreverjena)){
                         for(Oseba stanovalec : sosdenjeStanovanjesosednjegaStanovanja.stanovalci){
                             if(!this.zePreverjenaOseba(sosedjeSosedov, stanovalec)){
                                 sosedjeSosedov[j++] = stanovalec;
@@ -94,6 +94,22 @@ public class Stanovanje {
         }
         return samoSosedjeSosedov;
     }
+    public Stanovanje[] getSosednjaStanovanja(){
+        return this.sosednjaStanovanja;
+    }
+    public int oddaljenostOdStanovanjaVsmeri(int smer){
+        // za pridobitev zacetnega koordinatnega sistema
+        if(this.sosednjaStanovanja[smer] == null){
+            return 0;
+        }
+        return 1 + this.sosednjaStanovanja[smer].oddaljenostOdStanovanjaVsmeri(smer);
+    }
+    public boolean jeZeBiloPreverjeno(Stanovanje[] zePreverjena){
+        for(Stanovanje stanovanje : zePreverjena){
+            if(this == stanovanje) return true;
+        }
+        return false;
+    }
     private int steviloSosedovSosedov(Oseba[] sosedjeSosedov){
         int stevec = 0;
         for(int i = 0; i < sosedjeSosedov.length; i++){
@@ -102,14 +118,6 @@ public class Stanovanje {
         }
         return stevec;
     }
-    private boolean zePreverjenoStanovanje(Stanovanje[] zePreverjena, Stanovanje stanovanje){
-        for(Stanovanje zePreverjeno : zePreverjena){
-            if(stanovanje == zePreverjeno){
-                return true;
-            }
-        }
-        return false;
-    }
     private boolean zePreverjenaOseba(Oseba[] zePreverjene, Oseba oseba){
         for(Oseba zePreverjena : zePreverjene){
             if(oseba == zePreverjena){
@@ -117,14 +125,5 @@ public class Stanovanje {
             }
         }
         return false;
-    }
-    public Stanovanje[] getSosednjaStanovanja(){
-        return this.sosednjaStanovanja;
-    }
-    public int oddaljenostOdStanovanjaVsmeri(int smer){
-        if(this.sosednjaStanovanja[smer] == null){
-            return 0;
-        }
-        return 1 + this.sosednjaStanovanja[smer].oddaljenostOdStanovanjaVsmeri(smer);
     }
 }
