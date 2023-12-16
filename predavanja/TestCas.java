@@ -41,6 +41,16 @@ public class TestCas {
         int km = sc.nextInt();
         int fr = sc.nextInt();
         //avtobus(new Cas(zu, zm), fr, new Cas(ku, km));
+
+
+        Cas obed = kosilo;
+        System.out.println(kosilo.equals(obed));
+        System.out.println(kosilo.equals(sestanek));
+
+        System.out.println(kosilo.hashCode());
+        System.out.println(obed.hashCode());
+        System.out.println(sestanek.hashCode());
+
         sc.close();
     }
 
@@ -110,6 +120,7 @@ class Cas {
         return this.min;
     }
 
+    @Override
     public String toString() {
         // return (this.ura + ":" + this.min);
         if(zapis12){
@@ -135,6 +146,21 @@ class Cas {
 
     public boolean jeEnakKot(Cas drugi){
         return (this.ura == drugi.ura && this.min == drugi.min);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(!(obj instanceof Cas)){
+            return false;
+        }
+        Cas objCas = (Cas)obj;  // potrebno castanje (Object lahko castamo v karkoli - po prevajalniku, izvajalnik pa lahko sproži izjemo)
+        return (this.ura == objCas.ura && this.min == objCas.min);
+    }
+
+    @Override
+    public int hashCode(){
+        return 17 * Integer.hashCode(this.ura) + 31 * Integer.hashCode(this.min);
     }
 
     public int razlikaVMin(Cas drugi){
