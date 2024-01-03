@@ -83,7 +83,7 @@ public abstract class Lik {
         // }
 
         Pravokotnik p = new Pravokotnik(1.0, 2.0);
-        Kvadrat kv = new Kvadrat(3.0);
+        Kvadrat1 kv = new Kvadrat1(3.0);
         Krog kr = new Krog(4.0);
 
         Lik li = p;
@@ -92,7 +92,7 @@ public abstract class Lik {
         Krog kr2 = (Krog) li;   // prevajalnik prevede (podtip = nadtip)
         // vendar izvajalnik sproži izjemo (ve kam kažejo kazalci), kazalec tipa Krog ne more kazati na Pravokotnik
         // enako za:
-        Kvadrat kv2 = (Kvadrat) l;
+        Kvadrat1 kv2 = (Kvadrat1) l;
 
         // type casting (pretvorba tipa) - ustvari nov kazalec na isti objekt
         // pretvarjamo lahko v podtip ali nadtip kar se tiče prevajalnika, izvajalnik pa lahko sproži izjemo (ClassCastException)
@@ -135,10 +135,10 @@ class Pravokotnik extends Lik {
     }
 }
 
-class Kvadrat extends Pravokotnik {
+class Kvadrat1 extends Pravokotnik {
     // ne potrebujemo nobenih dodatnih atributov (se podedujeta)
 
-    public Kvadrat(double stranica){
+    public Kvadrat1(double stranica){
         super(stranica, stranica);
     }
 

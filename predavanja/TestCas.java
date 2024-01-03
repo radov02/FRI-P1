@@ -59,7 +59,7 @@ public class TestCas {
     // }
 }
 
-class Cas {
+class Cas implements Comparable<Cas>{
     private int ura;
     private int min;
 
@@ -173,5 +173,12 @@ class Cas {
 
     public boolean jeManjsiAliEnakOd(Cas drugi){
         return (this.jeManjsiAliEnakOd(drugi) || this.jeEnakKot(drugi));
+    }
+
+    @Override   // Cas implements Comparable<Cas>{
+    public int compareTo(Cas drugi){    // za naravno urejenost objektov tipa Cas
+        int thisMinute = 60 * this.ura + this.min;
+        int drugiMinute = 60 * drugi.ura + drugi.min;
+        return thisMinute - drugiMinute;    // običajno odštevamo da vrnemo int
     }
 }
