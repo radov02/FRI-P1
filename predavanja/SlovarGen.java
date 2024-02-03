@@ -70,47 +70,54 @@ public class SlovarGen<K, V> implements Iterable<K> {
         }
     }
 
-    private static class IteratorCezSlovar<Kl, Vr> implements Iterator<K>{
-        private SlovarGen<Kl, Vr> slovar;
-        private int indeks; // indeks trenutne celice tabele (verige)
-        private Vozlisce<Kr, Vr> vozlisce;  // kazalec na treutno vozlisce znotraj trenutne verige
-        private int stevec; // indeks trenutnega kljuca (para) v celotnem slovarju
+    // Implementacija metode iterator v vmesniku Iterable.
+    @Override
+    public Iterator<K> iterator() {
+        return new IteratorPoKljucih<K, V>(this);  
+        // this je tipa Slovar<K, V>, zato je tudi razred IteratorPoKljucih
+        // odvisen od obeh parametričnih tipov (K in V)
+    }
 
-        public IteratorCezSlovar(Slovar<K, V> slovar){
+    // Iterator, ki ga vrne metoda iterator, je objekt tega razreda.
+
+    private static class IteratorPoKljucih<Kl, Vr> implements Iterator<Kl> {
+
+        private Slovar<Kl, Vr> slovar;  // zaradi tega potrebujem Kl in Vr že v glavi razreda
+        private int indeks; // indeks trenutne celice tabele (verige)
+        private Vozlisce<Kl, Vr> vozlisce;  // kazalec na treutno vozlisce znotraj trenutne verige
+        private int stevec;    // globalni indeks trenutnega kljuca (para) v celotnem slovarju
+
+        public IteratorPoKljucih(Slovar<Kl, Vr> slovar) {
             this.slovar = slovar;
             this.indeks = -1;
-            this.vozlisce = null;
             this.stevec = 0;
+            this.vozlisce = null;
         }
 
-        public boolean hasNext(){
+        @Override
+        public boolean hasNext() {
             return this.stevec < this.slovar.stParov;
         }
 
-        public K next(){
-            if(!this.hasNext()){
-                throw NoSuchElementException();
+        @Override
+        public Kl next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException();
             }
-            if(this.indeks < 0 || this.vozlisce.naslednje == null){ // smo cisto na zacetku ali pa smo ravnokar prispeli na konec verige
+            if (this.indeks < 0 || this.vozlisce.naslednje == null) {   // smo cisto na zacetku ali pa smo ravnokar prispeli na konec verige
                 // poiscemo naslednjo verigo (celico ki ni null)
-                do{
+                do {
                     this.indeks++;
-                } while(this.indeks < this.slovar.tabela.length && this.slovar.tabela[this.indeks] == null);
-
-                this.vozlisce = this.slovar.tabela[this.indeks];   // prvo vozlisce v verigi na indeksu this.indeks
-            }
-            else{
-                // ce se nismo na koncu verige se premaknemo na naslednje vozlisce
+                } while (this.indeks < this.slovar.podatki.length &&
+                         this.slovar.podatki[this.indeks] == null);
+                this.vozlisce = this.slovar.podatki[this.indeks];
+            } else {
+                // premaknemo se na naslednje vozlišče v trenutnem povezanem seznamu
                 this.vozlisce = this.vozlisce.naslednje;
             }
             this.stevec++;
             return this.vozlisce.kljuc;
         }
-    }
-
-    @Override
-    public Iterator<K> iterator(){
-        return new IteratorCezSlovar<K, V>(this);   // podamo mu tipa SlovarjaGen - K in V ter sam SlovarGen
     }
 
     public static void main(String[] args){

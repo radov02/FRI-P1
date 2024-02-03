@@ -1,0 +1,1255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (10/10)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase2">2</a></td>
+                <td class="hoverOk"><a href="#testcase3">3</a></td>
+                <td class="hoverOk"><a href="#testcase4">4</a></td>
+                <td class="hoverOk"><a href="#testcase5">5</a></td>
+                <td class="hoverOk"><a href="#testcase6">6</a></td>
+                <td class="hoverOk"><a href="#testcase7">7</a></td>
+                <td class="hoverOk"><a href="#testcase8">8</a></td>
+                <td class="hoverOk"><a href="#testcase9">9</a></td>
+                <td class="hoverOk"><a href="#testcase10">10</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test01 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Map<Integer, Integer> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovar.put(<span class="stevilo">10</span>, <span class="stevilo">5</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">20</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">30</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">40</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">50</span>, <span class="stevilo">15</span>);<br/>
+<br/>
+<tab><tab>Set<Integer> mnozica = Cetrta.vecji(slovar);<br/>
+<br/>
+<tab><tab>List<Integer> seznam = <span class="rwordb">new</span> ArrayList<>(mnozica);<br/>
+<tab><tab>seznam.sort(null);<br/>
+<tab><tab>System.out.println(seznam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [10,&nbsp;40,&nbsp;50]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test02 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Map<Integer, Integer> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovar.put(<span class="stevilo">87</span>, <span class="stevilo">2</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">89</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">55</span>, <span class="stevilo">99</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">61</span>, <span class="stevilo">4</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">11</span>, <span class="stevilo">32</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">7</span>, <span class="stevilo">46</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">31</span>, <span class="stevilo">7</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">15</span>, <span class="stevilo">81</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">72</span>, <span class="stevilo">28</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">12</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">95</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">2</span>, <span class="stevilo">90</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">10</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">4</span>, <span class="stevilo">57</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">1</span>, <span class="stevilo">91</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">60</span>, <span class="stevilo">53</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">6</span>, <span class="stevilo">21</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">68</span>, <span class="stevilo">22</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">39</span>, <span class="stevilo">48</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">25</span>, <span class="stevilo">9</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">78</span>, <span class="stevilo">89</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">85</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">35</span>, <span class="stevilo">61</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">9</span>, <span class="stevilo">40</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">5</span>, <span class="stevilo">41</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">50</span>, <span class="stevilo">49</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">66</span>, <span class="stevilo">100</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">8</span>, <span class="stevilo">55</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">92</span>, <span class="stevilo">19</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">70</span>, <span class="stevilo">64</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">83</span>, <span class="stevilo">70</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">44</span>, <span class="stevilo">58</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">23</span>, <span class="stevilo">29</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">100</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">80</span>, <span class="stevilo">47</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">62</span>, <span class="stevilo">65</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">52</span>, <span class="stevilo">6</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">54</span>, <span class="stevilo">25</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">75</span>, <span class="stevilo">86</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">81</span>, <span class="stevilo">56</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">47</span>, <span class="stevilo">67</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">90</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">27</span>, <span class="stevilo">76</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">64</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">49</span>, <span class="stevilo">13</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">22</span>, <span class="stevilo">93</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">88</span>, <span class="stevilo">95</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">45</span>, <span class="stevilo">88</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">48</span>, <span class="stevilo">68</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">82</span>, <span class="stevilo">54</span>);<br/>
+<br/>
+<tab><tab>Set<Integer> mnozica = Cetrta.vecji(slovar);<br/>
+<br/>
+<tab><tab>List<Integer> seznam = <span class="rwordb">new</span> ArrayList<>(mnozica);<br/>
+<tab><tab>seznam.sort(null);<br/>
+<tab><tab>System.out.println(seznam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [10,&nbsp;25,&nbsp;31,&nbsp;49,&nbsp;50,&nbsp;52,&nbsp;54,&nbsp;60,&nbsp;61,&nbsp;64,&nbsp;68,&nbsp;70,&nbsp;72,&nbsp;80,&nbsp;81,&nbsp;82,&nbsp;83,&nbsp;85,&nbsp;87,&nbsp;89,&nbsp;90,&nbsp;92,&nbsp;95,&nbsp;100]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase3"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 3</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test03 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Map<Integer, Integer> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovar.put(<span class="stevilo">75</span>, <span class="stevilo">41</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">18</span>, <span class="stevilo">82</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">46</span>, <span class="stevilo">40</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">78</span>, <span class="stevilo">50</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">38</span>, <span class="stevilo">84</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">32</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">17</span>, <span class="stevilo">66</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">90</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">57</span>, <span class="stevilo">54</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">98</span>, <span class="stevilo">92</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">10</span>, <span class="stevilo">45</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">12</span>, <span class="stevilo">2</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">79</span>, <span class="stevilo">68</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">61</span>, <span class="stevilo">63</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">96</span>, <span class="stevilo">100</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">91</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">89</span>, <span class="stevilo">6</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">35</span>, <span class="stevilo">99</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">36</span>, <span class="stevilo">60</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">42</span>, <span class="stevilo">58</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">24</span>, <span class="stevilo">94</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">11</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">64</span>, <span class="stevilo">77</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">66</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">34</span>, <span class="stevilo">47</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">70</span>, <span class="stevilo">49</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">25</span>, <span class="stevilo">90</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">4</span>, <span class="stevilo">37</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">95</span>, <span class="stevilo">62</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">26</span>, <span class="stevilo">56</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">47</span>, <span class="stevilo">23</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">22</span>, <span class="stevilo">83</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">49</span>, <span class="stevilo">65</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">55</span>, <span class="stevilo">15</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">88</span>, <span class="stevilo">89</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">68</span>, <span class="stevilo">61</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">100</span>, <span class="stevilo">21</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">80</span>, <span class="stevilo">91</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">29</span>, <span class="stevilo">46</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">67</span>, <span class="stevilo">53</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">51</span>, <span class="stevilo">34</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">43</span>, <span class="stevilo">7</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">92</span>, <span class="stevilo">38</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">37</span>, <span class="stevilo">13</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">33</span>, <span class="stevilo">97</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">62</span>, <span class="stevilo">52</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">50</span>, <span class="stevilo">93</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">81</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">52</span>, <span class="stevilo">11</span>);<br/>
+<tab><tab>slovar.put(<span class="stevilo">31</span>, <span class="stevilo">70</span>);<br/>
+<br/>
+<tab><tab>Set<Integer> mnozica = Cetrta.vecji(slovar);<br/>
+<br/>
+<tab><tab>List<Integer> seznam = <span class="rwordb">new</span> ArrayList<>(mnozica);<br/>
+<tab><tab>seznam.sort(null);<br/>
+<tab><tab>System.out.println(seznam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [11,&nbsp;12,&nbsp;32,&nbsp;37,&nbsp;43,&nbsp;46,&nbsp;47,&nbsp;51,&nbsp;52,&nbsp;55,&nbsp;57,&nbsp;62,&nbsp;66,&nbsp;67,&nbsp;68,&nbsp;70,&nbsp;75,&nbsp;78,&nbsp;79,&nbsp;81,&nbsp;89,&nbsp;90,&nbsp;91,&nbsp;92,&nbsp;95,&nbsp;98,&nbsp;100]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase4"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 4</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test04 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Map<Character, Character> slovarChar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovarChar.put(<span class="niz">'a', 'z'</span>);<br/>
+<tab><tab>slovarChar.put(<span class="niz">'r', 'r'</span>);<br/>
+<tab><tab>slovarChar.put(<span class="niz">'p', 'c'</span>);<br/>
+<tab><tab>slovarChar.put(<span class="niz">'b', 'e'</span>);<br/>
+<tab><tab>slovarChar.put(<span class="niz">'u', 'w'</span>);<br/>
+<tab><tab>slovarChar.put(<span class="niz">'s', 'k'</span>);<br/>
+<tab><tab>izvedi(slovarChar, (a, b) -> a - b);<br/>
+<tab><tab>izvedi(slovarChar, (a, b) -> b - a);<br/>
+<tab><tab>System.out.println(<span class="niz">"---"</span>);<br/>
+<br/>
+<tab><tab>Map<String, String> slovarStr = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Janez"</span>, <span class="niz">"Marjan"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Miha"</span>, <span class="niz">"Ana"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Mojca"</span>, <span class="niz">"Stanislava"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Jernej"</span>, <span class="niz">"Darja"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Barbara"</span>, <span class="niz">"Tone"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Maksimilijan"</span>, <span class="niz">"Lea"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Peter"</span>, <span class="niz">"Petra"</span>);<br/>
+<tab><tab>slovarStr.put(<span class="niz">"Jana"</span>, <span class="niz">"Jana"</span>);<br/>
+<tab><tab>izvedi(slovarStr, (a, b) -> a.compareTo(b));<br/>
+<tab><tab>izvedi(slovarStr, (a, b) -> b.compareTo(a));<br/>
+<tab><tab>izvedi(slovarStr, (a, b) -> a.length() - b.length());<br/>
+<tab><tab>izvedi(slovarStr, (a, b) -> b.length() - a.length());<br/>
+<tab><tab>System.out.println(<span class="niz">"---"</span>);<br/>
+<br/>
+<tab><tab>Map<Cas, Cas> slovarCas = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovarCas.put(<span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">35</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">35</span>));<br/>
+<tab><tab>slovarCas.put(<span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">40</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">50</span>));<br/>
+<tab><tab>slovarCas.put(<span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">20</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">0</span>, <span class="stevilo">30</span>));<br/>
+<tab><tab>slovarCas.put(<span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">5</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">17</span>, <span class="stevilo">0</span>));<br/>
+<tab><tab>slovarCas.put(<span class="rwordb">new</span> Cas(<span class="stevilo">12</span>, <span class="stevilo">40</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">12</span>, <span class="stevilo">30</span>));<br/>
+<tab><tab>slovarCas.put(<span class="rwordb">new</span> Cas(<span class="stevilo">18</span>, <span class="stevilo">10</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">21</span>, <span class="stevilo">25</span>));<br/>
+<tab><tab>izvedi(slovarCas, (a, b) -> a.compareTo(b));<br/>
+<tab><tab>izvedi(slovarCas, (a, b) -> b.compareTo(a));<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> <span class="rwordv">void</span> izvedi(Map<T, T> slovar, Comparator<T> primerjalnik) {<br/>
+<tab><tab>Set<T> mnozica = Cetrta.vecjiPrim(slovar, primerjalnik);<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>(mnozica);<br/>
+<tab><tab>seznam.sort(null);<br/>
+<tab><tab>System.out.println(seznam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [p,&nbsp;s]<br/>[a,&nbsp;b,&nbsp;u]<br/>---<br/>[Jernej,&nbsp;Maksimilijan,&nbsp;Miha]<br/>[Barbara,&nbsp;Janez,&nbsp;Mojca,&nbsp;Peter]<br/>[Barbara,&nbsp;Jernej,&nbsp;Maksimilijan,&nbsp;Miha]<br/>[Janez,&nbsp;Mojca]<br/>---<br/>[11:40,&nbsp;12:40,&nbsp;23:20]<br/>[15:05,&nbsp;18:10]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase5"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 5</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test05 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Comparator<String> primerjalnik = (a, b) -> b.length() - a.length();<br/>
+<br/>
+<tab><tab>Map<String, String> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovar.put(<span class="niz">"pRuqdGK"</span>, <span class="niz">"ZG7xN"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"OWdaGZDjwqutXJ"</span>, <span class="niz">"tA7DOz6fYZY1xBlZgP2S"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"q9K"</span>, <span class="niz">"10M"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"KY"</span>, <span class="niz">"dpn6sAFSFKwY0"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"WzBydBeY6an8oX"</span>, <span class="niz">"XF"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"esWCPRr7sk"</span>, <span class="niz">"7EpmnOG503u"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"aYTO8"</span>, <span class="niz">"Y"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"T0ys"</span>, <span class="niz">"u8"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"ULIDXMFuDvpiRIKisI"</span>, <span class="niz">"7OXQWKEq91H5lZIzY8fd"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"AFIvztgrOiHAEYy"</span>, <span class="niz">"IV8terdOj"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"dg"</span>, <span class="niz">"B"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"QsF9PVFR7SM"</span>, <span class="niz">"7ZQcm0SM"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"jK0"</span>, <span class="niz">"RmFXeGVdcyv"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"5Qez5"</span>, <span class="niz">"gkoJWlvPaJNpL"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"C3"</span>, <span class="niz">"PkxycrhxnCbnEwqz0u"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"xID1VC2VubT"</span>, <span class="niz">"F4T17x1BSCq4"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"v6DdEBTjo730pXiYD299"</span>, <span class="niz">"uDOGhVV"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"ROGdH"</span>, <span class="niz">"NCl9MdMY7OpSPXnIjE5Z"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"KHaL4FVTRMSQEQdivGsV"</span>, <span class="niz">"b1U2miiYAO4yAj2p"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"9z30Eye0P7W5yOd"</span>, <span class="niz">"3Ke"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"0SPemdraZ"</span>, <span class="niz">"4zQv3UCwm24ervDpt6"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"H53"</span>, <span class="niz">"DN7"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"PnTHeHhGs0csmazYN"</span>, <span class="niz">"NG8GLT"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"CF1zcXxCbDzbY"</span>, <span class="niz">"j"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"thgZ4uRgc"</span>, <span class="niz">"zpHeQvbW9ZvEXGwD2E"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"CZZwFE"</span>, <span class="niz">"v8m"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"67Fp"</span>, <span class="niz">"g2yb1n"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"fb6EOn1QdtQG"</span>, <span class="niz">"zyQ"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"pwoK"</span>, <span class="niz">"OZw2q69"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"efbX0ko1S1iKZ6pi6Gl"</span>, <span class="niz">"VjMJn"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"yxMGojvTmoGeZ3pqTtY"</span>, <span class="niz">"XpBnd07PfEyqY"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"pv1bugFB0mFKSqMEX"</span>, <span class="niz">"3t"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"npyt8dsbpuC"</span>, <span class="niz">"6NRPIHIvvAW"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"jnlrZI8ZTSuyx"</span>, <span class="niz">"oGuo27QQDRYj"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"0MRUsFjs4bJ"</span>, <span class="niz">"A7rOkda7TZB1gw3gx"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"f2I5gkUTTdTf2DrV1P7"</span>, <span class="niz">"QSC0BW99cjJcafvTK"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"XwUaI6VGyT"</span>, <span class="niz">"ZtBfdezc9gOk"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"oOTIsF9PE2DimB"</span>, <span class="niz">"W9BRfCCUJ6vYJili"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"yKDksXa74nrjoKbNvQL5"</span>, <span class="niz">"oV0zflr5gC2UWwUe3bl5"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"6cboMd34EgIECnDOr"</span>, <span class="niz">"QDc2kn"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"8WKGJtSU9gN9T2g"</span>, <span class="niz">"B5PAP4ZMQt"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"0HYbK74X"</span>, <span class="niz">"m13Q"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"xSmqeclKoLY"</span>, <span class="niz">"DF7V"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"4j6eSmz2zixoffXglv"</span>, <span class="niz">"N01erpz4KLiaDe"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"b44rs9M4WUQMuI"</span>, <span class="niz">"Xnt2s4eewcx"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"1MUmbJ"</span>, <span class="niz">"xgiRXWp"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"Yt"</span>, <span class="niz">"6w8HJHOc"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"g"</span>, <span class="niz">"<span class="stevilo">2</span>"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"nXhmvFYkygF"</span>, <span class="niz">"2TpTb9zcMA9HcqY"</span>);<br/>
+<tab><tab>slovar.put(<span class="niz">"PuwY"</span>, <span class="niz">"Mw"</span>);<br/>
+<br/>
+<tab><tab>Set<String> mnozica = Cetrta.vecjiPrim(slovar, primerjalnik);<br/>
+<br/>
+<tab><tab>List<String> seznam = <span class="rwordb">new</span> ArrayList<>(mnozica);<br/>
+<tab><tab>seznam.sort(null);<br/>
+<tab><tab>System.out.println(seznam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [0MRUsFjs4bJ,&nbsp;0SPemdraZ,&nbsp;1MUmbJ,&nbsp;5Qez5,&nbsp;67Fp,&nbsp;C3,&nbsp;KY,&nbsp;OWdaGZDjwqutXJ,&nbsp;ROGdH,&nbsp;ULIDXMFuDvpiRIKisI,&nbsp;XwUaI6VGyT,&nbsp;Yt,&nbsp;esWCPRr7sk,&nbsp;jK0,&nbsp;nXhmvFYkygF,&nbsp;oOTIsF9PE2DimB,&nbsp;pwoK,&nbsp;thgZ4uRgc,&nbsp;xID1VC2VubT]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase6"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 6</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test06 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Comparator<Cas> primerjalnik = (a, b) -> a.compareTo(b);<br/>
+<br/>
+<tab><tab>Map<Cas, Cas> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">21</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">0</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">23</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">21</span>, <span class="stevilo">33</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">18</span>, <span class="stevilo">21</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">57</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">0</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">59</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">6</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">11</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">19</span>, <span class="stevilo">25</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">22</span>, <span class="stevilo">49</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">23</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">17</span>, <span class="stevilo">3</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">6</span>, <span class="stevilo">28</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">17</span>, <span class="stevilo">41</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">59</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">19</span>, <span class="stevilo">57</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">0</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">24</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">17</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">21</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">42</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">12</span>, <span class="stevilo">54</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">6</span>, <span class="stevilo">23</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">9</span>, <span class="stevilo">48</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">12</span>, <span class="stevilo">46</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">8</span>, <span class="stevilo">16</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">55</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">35</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">8</span>, <span class="stevilo">30</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">15</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">22</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">13</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">33</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">44</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">30</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">5</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">17</span>, <span class="stevilo">59</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">40</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">26</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">24</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">1</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">0</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">21</span>, <span class="stevilo">21</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">0</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">8</span>, <span class="stevilo">24</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">38</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">56</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">17</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">54</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">6</span>, <span class="stevilo">29</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">14</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">16</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">6</span>, <span class="stevilo">34</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">21</span>, <span class="stevilo">38</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">48</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">42</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">31</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">9</span>, <span class="stevilo">15</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">13</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">57</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">49</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">26</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">19</span>, <span class="stevilo">43</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">11</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">0</span>, <span class="stevilo">48</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">23</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">19</span>, <span class="stevilo">40</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">8</span>, <span class="stevilo">49</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">7</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">59</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">48</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">8</span>, <span class="stevilo">29</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">57</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">6</span>, <span class="stevilo">59</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">44</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">11</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">2</span>, <span class="stevilo">6</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">29</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">17</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">52</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">34</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">40</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">47</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">6</span>, <span class="stevilo">10</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">45</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">18</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">16</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">14</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">35</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">25</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">31</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">16</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">16</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">1</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">9</span>, <span class="stevilo">13</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">19</span>, <span class="stevilo">59</span>));<br/>
+<tab><tab>slovar.put(<span class="rwordb">new</span> Cas(<span class="stevilo">17</span>, <span class="stevilo">39</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">38</span>));<br/>
+<br/>
+<tab><tab>Set<Cas> mnozica = Cetrta.vecjiPrim(slovar, primerjalnik);<br/>
+<br/>
+<tab><tab>List<Cas> seznam = <span class="rwordb">new</span> ArrayList<>(mnozica);<br/>
+<tab><tab>seznam.sort(null);<br/>
+<tab><tab>System.out.println(seznam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [1:01,&nbsp;4:00,&nbsp;5:35,&nbsp;7:30,&nbsp;10:49,&nbsp;10:54,&nbsp;11:34,&nbsp;12:46,&nbsp;13:31,&nbsp;14:17,&nbsp;14:48,&nbsp;14:57,&nbsp;15:16,&nbsp;16:21,&nbsp;16:42,&nbsp;17:59,&nbsp;19:40,&nbsp;19:43,&nbsp;20:17,&nbsp;20:26,&nbsp;20:44,&nbsp;20:55,&nbsp;21:21,&nbsp;23:14,&nbsp;23:22]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase7"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 7</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test07 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Integer obj5 = <span class="stevilo">5</span>;<br/>
+<tab><tab>Integer obj10 = <span class="stevilo">10</span>;<br/>
+<tab><tab>Integer obj15 = <span class="stevilo">15</span>;<br/>
+<tab><tab>Integer obj20 = <span class="stevilo">20</span>;<br/>
+<tab><tab>Integer obj30 = <span class="stevilo">30</span>;<br/>
+<tab><tab>Integer obj39 = <span class="stevilo">39</span>;<br/>
+<tab><tab>Integer obj40 = <span class="stevilo">40</span>;<br/>
+<tab><tab>Integer obj50 = <span class="stevilo">50</span>;<br/>
+<br/>
+<tab><tab>Map<Integer, Integer> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>slovar.put(obj10, obj5);<br/>
+<tab><tab>slovar.put(obj20, obj30);<br/>
+<tab><tab>slovar.put(obj30, obj30);<br/>
+<tab><tab>slovar.put(obj40, obj39);<br/>
+<tab><tab>slovar.put(obj50, obj15);<br/>
+<br/>
+<tab><tab>Set<Integer> mnozica = Set.of(obj10, obj40);<br/>
+<br/>
+<tab><tab>Comparator<Integer> prim = Cetrta.primerjalnik(slovar, mnozica);<br/>
+<tab><tab>System.out.println(prim.compare(obj10, obj5) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj20, obj30) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj30, obj30) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj40, obj39) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj50, obj15) > <span class="stevilo">0</span>);<br/>
+<br/>
+<tab><tab>System.out.println(prim.compare(obj10, obj30) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj40, obj30) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj10, obj40) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj5, obj10) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(obj39, obj40) > <span class="stevilo">0</span>);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            true<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase8"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 8</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test08 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Character[] objekti = {<br/>
+<tab><tab><tab><span class="niz">'b', 'r'</span>,<br/>
+<tab><tab><tab><span class="niz">'d', '<span class="stevilo">6</span>'</span>,<br/>
+<tab><tab><tab><span class="niz">'l', 'C'</span>,<br/>
+<tab><tab><tab><span class="niz">'<span class="stevilo">9</span>', 'N'</span>,<br/>
+<tab><tab><tab><span class="niz">'J', 'T'</span>,<br/>
+<tab><tab><tab><span class="niz">'g', 'm'</span>,<br/>
+<tab><tab><tab><span class="niz">'n', 'u'</span>,<br/>
+<tab><tab><tab><span class="niz">'X', 'D'</span>,<br/>
+<tab><tab><tab><span class="niz">'c', '<span class="stevilo">5</span>'</span>,<br/>
+<tab><tab><tab><span class="niz">'j', 'A'</span>,<br/>
+<tab><tab><tab><span class="niz">'<span class="stevilo">0</span>', 'P'</span>,<br/>
+<tab><tab><tab><span class="niz">'G', 'Y'</span>,<br/>
+<tab><tab><tab><span class="niz">'q', 'w'</span>,<br/>
+<tab><tab><tab><span class="niz">'S', 'W'</span>,<br/>
+<tab><tab><tab><span class="niz">'Q', '<span class="stevilo">1</span>'</span>,<br/>
+<tab><tab><tab><span class="niz">'s', '<span class="stevilo">8</span>'</span>,<br/>
+<tab><tab><tab><span class="niz">'I', 'z'</span>,<br/>
+<tab><tab><tab><span class="niz">'v', 'K'</span>,<br/>
+<tab><tab><tab><span class="niz">'t', 'R'</span>,<br/>
+<tab><tab><tab><span class="niz">'F', 'Z'</span>,<br/>
+<tab><tab><tab><span class="niz">'p', 'f'</span>,<br/>
+<tab><tab><tab><span class="niz">'M', 'y'</span>,<br/>
+<tab><tab><tab><span class="niz">'B', 'O'</span>,<br/>
+<tab><tab><tab><span class="niz">'h', '<span class="stevilo">7</span>'</span>,<br/>
+<tab><tab><tab><span class="niz">'o', 'a'</span>,<br/>
+<tab><tab><tab><span class="niz">'<span class="stevilo">4</span>', '<span class="stevilo">3</span>'</span>,<br/>
+<tab><tab><tab><span class="niz">'<span class="stevilo">2</span>', 'x'</span>,<br/>
+<tab><tab><tab><span class="niz">'L', 'E'</span>,<br/>
+<tab><tab><tab><span class="niz">'H', 'e'</span>,<br/>
+<tab><tab><tab><span class="niz">'i', 'V'</span>,<br/>
+<tab><tab>};<br/>
+<br/>
+<tab><tab>Map<Character, Character> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>Set<Character> mnozica = <span class="rwordb">new</span> HashSet<>();<br/>
+<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">0</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">3</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">2</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">5</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">6</span>], objekti[<span class="stevilo">7</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">6</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">8</span>], objekti[<span class="stevilo">9</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">13</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">15</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">17</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">19</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">18</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">21</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">20</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">23</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">27</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">28</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">30</span>], objekti[<span class="stevilo">31</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">33</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">32</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">34</span>], objekti[<span class="stevilo">35</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">34</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">37</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">36</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">38</span>], objekti[<span class="stevilo">39</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">38</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">40</span>], objekti[<span class="stevilo">41</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">42</span>], objekti[<span class="stevilo">43</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">45</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">46</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">48</span>], objekti[<span class="stevilo">49</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">50</span>], objekti[<span class="stevilo">51</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">52</span>], objekti[<span class="stevilo">53</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">52</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">55</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">56</span>], objekti[<span class="stevilo">57</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]);<br/>
+<br/>
+<tab><tab>Comparator<Character> prim = Cetrta.primerjalnik(slovar, mnozica);<br/>
+<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">20</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">13</span>], objekti[<span class="stevilo">12</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">46</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">55</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">5</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">13</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">5</span>], objekti[<span class="stevilo">24</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">5</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">45</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">52</span>], objekti[<span class="stevilo">53</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">21</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">33</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">15</span>], objekti[<span class="stevilo">25</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">7</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">56</span>], objekti[<span class="stevilo">57</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">50</span>], objekti[<span class="stevilo">51</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">42</span>], objekti[<span class="stevilo">27</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">8</span>], objekti[<span class="stevilo">13</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">17</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">3</span>], objekti[<span class="stevilo">14</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">23</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">25</span>], objekti[<span class="stevilo">9</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">27</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">55</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">15</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">50</span>], objekti[<span class="stevilo">51</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">23</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">41</span>], objekti[<span class="stevilo">23</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">38</span>], objekti[<span class="stevilo">39</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">53</span>], objekti[<span class="stevilo">6</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">15</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">40</span>], objekti[<span class="stevilo">57</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">45</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">52</span>], objekti[<span class="stevilo">53</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">48</span>], objekti[<span class="stevilo">49</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">3</span>], objekti[<span class="stevilo">50</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">55</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">48</span>], objekti[<span class="stevilo">49</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">23</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>true<br/>true<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase9"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 9</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test09 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>String[] objekti = {<br/>
+<tab><tab><tab><span class="niz">"GCbmuek"</span>, <span class="niz">"bwMM73s"</span>,<br/>
+<tab><tab><tab><span class="niz">"ibjlAQGyptEmYzKKz"</span>, <span class="niz">"eDoizmPfd1UF5I"</span>,<br/>
+<tab><tab><tab><span class="niz">"bSf3XVtCdCfIrvHbk6o"</span>, <span class="niz">"W88AvwBAfIOF3WsZ3E"</span>,<br/>
+<tab><tab><tab><span class="niz">"3r"</span>, <span class="niz">"vb5tWVC2fUVZlk"</span>,<br/>
+<tab><tab><tab><span class="niz">"py2qUKS"</span>, <span class="niz">"Q4oK7z2UHDtMdaB"</span>,<br/>
+<tab><tab><tab><span class="niz">"2OmRVuEk5T"</span>, <span class="niz">"1xrj5V"</span>,<br/>
+<tab><tab><tab><span class="niz">"UR"</span>, <span class="niz">"0FphWu"</span>,<br/>
+<tab><tab><tab><span class="niz">"IDaI4F9Y"</span>, <span class="niz">"9UTDTejtioEhr38"</span>,<br/>
+<tab><tab><tab><span class="niz">"pnnz5Kl9V9Jxo"</span>, <span class="niz">"9RakM3OqN2wzH0RJfLWn"</span>,<br/>
+<tab><tab><tab><span class="niz">"yVjWRY3rzC"</span>, <span class="niz">"x1vxFeF9Gtdx"</span>,<br/>
+<tab><tab><tab><span class="niz">"5vJKJO0V"</span>, <span class="niz">"N4BBaGAAE"</span>,<br/>
+<tab><tab><tab><span class="niz">"jliQN5ZaSQ9x"</span>, <span class="niz">"sUnwnOlj2Lfu4kTeS4E"</span>,<br/>
+<tab><tab><tab><span class="niz">"JwVokxmryAoZZ"</span>, <span class="niz">"Iuqw53SFw2"</span>,<br/>
+<tab><tab><tab><span class="niz">"QOVagdEv9CKhd1fgBzOt"</span>, <span class="niz">"NASKd97pjcbFR4q10w0"</span>,<br/>
+<tab><tab><tab><span class="niz">"OZCAWV"</span>, <span class="niz">"S4HyHLVwQLl"</span>,<br/>
+<tab><tab><tab><span class="niz">"SrpXJtb2"</span>, <span class="niz">"e"</span>,<br/>
+<tab><tab><tab><span class="niz">"bEFHoJ9uEu5tXP"</span>, <span class="niz">"MHpBU"</span>,<br/>
+<tab><tab><tab><span class="niz">"ebz"</span>, <span class="niz">"KNuDJXrSjhWeL"</span>,<br/>
+<tab><tab><tab><span class="niz">"NPf3FmiwChT"</span>, <span class="niz">"Gsxv"</span>,<br/>
+<tab><tab><tab><span class="niz">"ZgliRZ2YYY9mMrjOwWQo"</span>, <span class="niz">"dhXSt31"</span>,<br/>
+<tab><tab><tab><span class="niz">"xt8OJi5D97Gi0mORz2"</span>, <span class="niz">"lvscqlBr"</span>,<br/>
+<tab><tab><tab><span class="niz">"j9ZE7zDH4T17M"</span>, <span class="niz">"eksq61vR"</span>,<br/>
+<tab><tab><tab><span class="niz">"qkHBOjKb6Ok"</span>, <span class="niz">"GFf3246HXvVI"</span>,<br/>
+<tab><tab><tab><span class="niz">"0CxNJEu1FVufS"</span>, <span class="niz">"hPWYanBkUO64uJUo8"</span>,<br/>
+<tab><tab><tab><span class="niz">"aOjzTgT"</span>, <span class="niz">"R7EpbFKHOhw"</span>,<br/>
+<tab><tab><tab><span class="niz">"Zjria1HAtQdKv0M4Vc0"</span>, <span class="niz">"aDKmhFZi7794tl05yEsZ"</span>,<br/>
+<tab><tab><tab><span class="niz">"Cm"</span>, <span class="niz">"UVFC8z39XIWgv"</span>,<br/>
+<tab><tab><tab><span class="niz">"yp8wSF"</span>, <span class="niz">"G"</span>,<br/>
+<tab><tab><tab><span class="niz">"L"</span>, <span class="niz">"lclImOMTHNqORD2dQ8D"</span>,<br/>
+<tab><tab><tab><span class="niz">"dNDOnqkN8z"</span>, <span class="niz">"uybuNe"</span>,<br/>
+<tab><tab>};<br/>
+<br/>
+<tab><tab>Map<String, String> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>Set<String> mnozica = <span class="rwordb">new</span> HashSet<>();<br/>
+<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">3</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">5</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">4</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">6</span>], objekti[<span class="stevilo">7</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">6</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">8</span>], objekti[<span class="stevilo">9</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">8</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">10</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">13</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">12</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">15</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">14</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">17</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">19</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">21</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">20</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">23</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">22</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">27</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">26</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">28</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">30</span>], objekti[<span class="stevilo">31</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">30</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">33</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">32</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">34</span>], objekti[<span class="stevilo">35</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">37</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">38</span>], objekti[<span class="stevilo">39</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">38</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">40</span>], objekti[<span class="stevilo">41</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">42</span>], objekti[<span class="stevilo">43</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">45</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">46</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">48</span>], objekti[<span class="stevilo">49</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">48</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">50</span>], objekti[<span class="stevilo">51</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">50</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">52</span>], objekti[<span class="stevilo">53</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">52</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">55</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">56</span>], objekti[<span class="stevilo">57</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">56</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">58</span>]);<br/>
+<br/>
+<tab><tab>Comparator<String> prim = Cetrta.primerjalnik(slovar, mnozica);<br/>
+<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">15</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">8</span>], objekti[<span class="stevilo">40</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">57</span>], objekti[<span class="stevilo">41</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">42</span>], objekti[<span class="stevilo">47</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">53</span>], objekti[<span class="stevilo">31</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">33</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">27</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">9</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">3</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">20</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">34</span>], objekti[<span class="stevilo">35</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">53</span>], objekti[<span class="stevilo">57</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">33</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">35</span>], objekti[<span class="stevilo">39</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">3</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">1</span>], objekti[<span class="stevilo">27</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">13</span>], objekti[<span class="stevilo">10</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">27</span>], objekti[<span class="stevilo">18</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">21</span>], objekti[<span class="stevilo">3</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">46</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">49</span>], objekti[<span class="stevilo">34</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">23</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">57</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">1</span>], objekti[<span class="stevilo">46</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">17</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">8</span>], objekti[<span class="stevilo">31</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">52</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">33</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">17</span>], objekti[<span class="stevilo">2</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">12</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">33</span>], objekti[<span class="stevilo">48</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">51</span>], objekti[<span class="stevilo">19</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">48</span>], objekti[<span class="stevilo">16</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">23</span>], objekti[<span class="stevilo">7</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">38</span>], objekti[<span class="stevilo">39</span>]) > <span class="stevilo">0</span>);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>true<br/>true<br/>false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>true<br/>false<br/>false<br/>false<br/>true<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>false<br/>true<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase10"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 10</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test10 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Cas[] objekti = {<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">25</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">58</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">12</span>, <span class="stevilo">47</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">35</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">35</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">55</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">4</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">13</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">9</span>, <span class="stevilo">28</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">27</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">9</span>, <span class="stevilo">18</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">21</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">17</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">33</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">13</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">39</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">22</span>, <span class="stevilo">47</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">9</span>, <span class="stevilo">11</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">40</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">11</span>, <span class="stevilo">29</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">9</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">20</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">10</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">50</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">10</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">15</span>, <span class="stevilo">59</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">8</span>, <span class="stevilo">29</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">2</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">0</span>, <span class="stevilo">30</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">53</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">18</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">3</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">50</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">1</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">18</span>, <span class="stevilo">34</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">20</span>, <span class="stevilo">3</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">43</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">12</span>, <span class="stevilo">28</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">29</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">13</span>, <span class="stevilo">9</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">21</span>, <span class="stevilo">50</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">38</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">2</span>, <span class="stevilo">26</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">20</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">4</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">23</span>, <span class="stevilo">55</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">40</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">34</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">1</span>, <span class="stevilo">1</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">25</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">16</span>, <span class="stevilo">57</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">18</span>, <span class="stevilo">26</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">4</span>, <span class="stevilo">52</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">26</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">14</span>, <span class="stevilo">55</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">7</span>, <span class="stevilo">20</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Cas(<span class="stevilo">10</span>, <span class="stevilo">49</span>), <span class="rwordb">new</span> Cas(<span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>};<br/>
+<br/>
+<tab><tab>Map<Cas, Cas> slovar = <span class="rwordb">new</span> HashMap<>();<br/>
+<tab><tab>Set<Cas> mnozica = <span class="rwordb">new</span> HashSet<>();<br/>
+<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">0</span>], objekti[<span class="stevilo">1</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">3</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">5</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">4</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">6</span>], objekti[<span class="stevilo">7</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">8</span>], objekti[<span class="stevilo">9</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">8</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">13</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">12</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">14</span>], objekti[<span class="stevilo">15</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">14</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">17</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">16</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">19</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">18</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">21</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">20</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">23</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">24</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">27</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">26</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">28</span>], objekti[<span class="stevilo">29</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">28</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">30</span>], objekti[<span class="stevilo">31</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">30</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">33</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">32</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">34</span>], objekti[<span class="stevilo">35</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">37</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">38</span>], objekti[<span class="stevilo">39</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">40</span>], objekti[<span class="stevilo">41</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">40</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">42</span>], objekti[<span class="stevilo">43</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">45</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">46</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">48</span>], objekti[<span class="stevilo">49</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">50</span>], objekti[<span class="stevilo">51</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">52</span>], objekti[<span class="stevilo">53</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">55</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">54</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">56</span>], objekti[<span class="stevilo">57</span>]);<br/>
+<tab><tab>slovar.put(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]);<br/>
+<tab><tab>mnozica.add(objekti[<span class="stevilo">58</span>]);<br/>
+<br/>
+<tab><tab>Comparator<Cas> prim = Cetrta.primerjalnik(slovar, mnozica);<br/>
+<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">23</span>], objekti[<span class="stevilo">2</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">5</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">39</span>], objekti[<span class="stevilo">11</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">27</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">43</span>], objekti[<span class="stevilo">15</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">27</span>], objekti[<span class="stevilo">17</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">39</span>], objekti[<span class="stevilo">15</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">12</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">17</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">27</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">40</span>], objekti[<span class="stevilo">41</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">45</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">1</span>], objekti[<span class="stevilo">34</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">53</span>], objekti[<span class="stevilo">30</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">19</span>], objekti[<span class="stevilo">5</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">31</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">56</span>], objekti[<span class="stevilo">30</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">12</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">22</span>], objekti[<span class="stevilo">18</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">1</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">26</span>], objekti[<span class="stevilo">10</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">42</span>], objekti[<span class="stevilo">43</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">10</span>], objekti[<span class="stevilo">11</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">33</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">14</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">38</span>], objekti[<span class="stevilo">39</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">12</span>], objekti[<span class="stevilo">18</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">40</span>], objekti[<span class="stevilo">41</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">4</span>], objekti[<span class="stevilo">30</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">58</span>], objekti[<span class="stevilo">59</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">32</span>], objekti[<span class="stevilo">38</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">20</span>], objekti[<span class="stevilo">21</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">31</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">36</span>], objekti[<span class="stevilo">29</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">54</span>], objekti[<span class="stevilo">48</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">24</span>], objekti[<span class="stevilo">25</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">18</span>], objekti[<span class="stevilo">42</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">2</span>], objekti[<span class="stevilo">3</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">44</span>], objekti[<span class="stevilo">53</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">46</span>], objekti[<span class="stevilo">47</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">34</span>], objekti[<span class="stevilo">35</span>]) > <span class="stevilo">0</span>);<br/>
+<tab><tab>System.out.println(prim.compare(objekti[<span class="stevilo">16</span>], objekti[<span class="stevilo">34</span>]) > <span class="stevilo">0</span>);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>true<br/>true<br/>true<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>true<br/>true<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>true<br/>true<br/>false<br/>true<br/>true<br/>false<br/>true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>true<br/>false<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.12" -->
+    <!-- 30.1.2024 16:10.24 -->
+    <!-- ASUS_E2, fe80::394f:811b:9a75:b34e%8 -->
+</html>

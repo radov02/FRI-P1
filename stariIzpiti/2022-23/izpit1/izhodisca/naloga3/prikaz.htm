@@ -1,0 +1,977 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (10/10)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase2">2</a></td>
+                <td class="hoverOk"><a href="#testcase3">3</a></td>
+                <td class="hoverOk"><a href="#testcase4">4</a></td>
+                <td class="hoverOk"><a href="#testcase5">5</a></td>
+                <td class="hoverOk"><a href="#testcase6">6</a></td>
+                <td class="hoverOk"><a href="#testcase7">7</a></td>
+                <td class="hoverOk"><a href="#testcase8">8</a></td>
+                <td class="hoverOk"><a href="#testcase9">9</a></td>
+                <td class="hoverOk"><a href="#testcase10">10</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test01 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = {<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, true),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'B'</span>}, <span class="stevilo">1234</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'S'</span>}, <span class="stevilo">1234</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">6745</span>, false),<br/>
+<tab><tab>};<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica tablica: tablice) {<br/>
+<tab><tab><tab>System.out.println(tablica.toString());<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            LJ&nbsp;76-54<br/>LJ&nbsp;76-54<br/>MB&nbsp;12-34<br/>LJ&nbsp;76-54<br/>MS&nbsp;12-34<br/>LJ&nbsp;67-45<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test02 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8738</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">5491</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = tablice[<span class="stevilo">3</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">5954</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">5385</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'V'</span>}, <span class="stevilo">1572</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'P'</span>}, <span class="stevilo">6687</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">9387</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">5491</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'A'</span>}, <span class="stevilo">5491</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Y', 'M'</span>}, <span class="stevilo">8221</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">3648</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">9355</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = tablice[<span class="stevilo">9</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = tablice[<span class="stevilo">11</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = tablice[<span class="stevilo">12</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">3648</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'E'</span>}, <span class="stevilo">9291</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">7118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = tablice[<span class="stevilo">12</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">5491</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">2955</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'V'</span>}, <span class="stevilo">1572</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'H', 'L'</span>}, <span class="stevilo">2569</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">9387</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'P'</span>}, <span class="stevilo">5954</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'P'</span>}, <span class="stevilo">5221</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'K', 'E'</span>}, <span class="stevilo">2347</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">2955</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'A'</span>}, <span class="stevilo">3425</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'N', 'D'</span>}, <span class="stevilo">5921</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = tablice[<span class="stevilo">27</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = tablice[<span class="stevilo">21</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'P', 'M'</span>}, <span class="stevilo">4944</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'A'</span>}, <span class="stevilo">3425</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'M'</span>}, <span class="stevilo">4579</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'L'</span>}, <span class="stevilo">9387</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = tablice[<span class="stevilo">34</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = tablice[<span class="stevilo">35</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">5954</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'O'</span>}, <span class="stevilo">8849</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'K'</span>}, <span class="stevilo">8221</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'P'</span>}, <span class="stevilo">6144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'V'</span>}, <span class="stevilo">2781</span>, true);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica tablica: tablice) {<br/>
+<tab><tab><tab>System.out.println(tablica.toString());<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            DK&nbsp;82-21<br/>DK&nbsp;82-21<br/>DK&nbsp;87-38<br/>VL&nbsp;54-91<br/>VL&nbsp;54-91<br/>DK&nbsp;82-21<br/>DK&nbsp;59-54<br/>VL&nbsp;53-85<br/>BV&nbsp;15-72<br/>RP&nbsp;66-87<br/>VL&nbsp;93-87<br/>VL&nbsp;54-91<br/>CA&nbsp;54-91<br/>YM&nbsp;82-21<br/>DK&nbsp;36-48<br/>VL&nbsp;93-55<br/>RP&nbsp;66-87<br/>VL&nbsp;54-91<br/>CA&nbsp;54-91<br/>DK&nbsp;36-48<br/>GE&nbsp;92-91<br/>DK&nbsp;71-18<br/>CA&nbsp;54-91<br/>VL&nbsp;54-91<br/>DK&nbsp;29-55<br/>BV&nbsp;15-72<br/>HL&nbsp;25-69<br/>VL&nbsp;93-87<br/>DK&nbsp;82-21<br/>MP&nbsp;59-54<br/>RP&nbsp;52-21<br/>KE&nbsp;23-47<br/>DK&nbsp;82-21<br/>DK&nbsp;29-55<br/>CA&nbsp;34-25<br/>ND&nbsp;59-21<br/>VL&nbsp;93-87<br/>DK&nbsp;71-18<br/>PM&nbsp;49-44<br/>CA&nbsp;34-25<br/>DK&nbsp;82-21<br/>WM&nbsp;45-79<br/>VL&nbsp;93-87<br/>CA&nbsp;34-25<br/>ND&nbsp;59-21<br/>DK&nbsp;59-54<br/>ZO&nbsp;88-49<br/>DK&nbsp;82-21<br/>RP&nbsp;61-44<br/>BV&nbsp;27-81<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase3"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 3</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test03 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'K'</span>}, <span class="stevilo">4748</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = tablice[<span class="stevilo">2</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">5499</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'K'</span>}, <span class="stevilo">4748</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'R'</span>}, <span class="stevilo">9647</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'K'</span>}, <span class="stevilo">7926</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'N', 'Q'</span>}, <span class="stevilo">6123</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'C'</span>}, <span class="stevilo">9944</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'E'</span>}, <span class="stevilo">7618</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'K'</span>}, <span class="stevilo">4748</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'S'</span>}, <span class="stevilo">9421</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = tablice[<span class="stevilo">2</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'Y'</span>}, <span class="stevilo">9451</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">4867</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'C'</span>}, <span class="stevilo">9944</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'C'</span>}, <span class="stevilo">9647</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'Y'</span>}, <span class="stevilo">9144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'A', 'M'</span>}, <span class="stevilo">9249</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'C'</span>}, <span class="stevilo">1847</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = tablice[<span class="stevilo">25</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'K'</span>}, <span class="stevilo">4748</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = tablice[<span class="stevilo">22</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'V'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'O', 'A'</span>}, <span class="stevilo">9144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'R'</span>}, <span class="stevilo">3532</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">9944</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'D'</span>}, <span class="stevilo">5186</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'Y'</span>}, <span class="stevilo">7671</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'D'</span>}, <span class="stevilo">3144</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'Z'</span>}, <span class="stevilo">9518</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'Z'</span>}, <span class="stevilo">7671</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'E'</span>}, <span class="stevilo">1393</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = tablice[<span class="stevilo">35</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'O'</span>}, <span class="stevilo">3144</span>, false);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica tablica: tablice) {<br/>
+<tab><tab><tab>System.out.println(tablica.toString());<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            GK&nbsp;47-48<br/>DO&nbsp;31-44<br/>DO&nbsp;31-44<br/>DO&nbsp;31-44<br/>DO&nbsp;31-44<br/>DO&nbsp;54-99<br/>DO&nbsp;31-44<br/>DO&nbsp;99-44<br/>GK&nbsp;47-48<br/>CR&nbsp;96-47<br/>GK&nbsp;79-26<br/>NQ&nbsp;61-23<br/>DO&nbsp;31-44<br/>DO&nbsp;99-44<br/>LC&nbsp;99-44<br/>DE&nbsp;76-18<br/>GK&nbsp;47-48<br/>DO&nbsp;31-44<br/>DS&nbsp;94-21<br/>DO&nbsp;31-44<br/>VY&nbsp;94-51<br/>DO&nbsp;48-67<br/>LC&nbsp;99-44<br/>DO&nbsp;99-44<br/>DO&nbsp;99-44<br/>DO&nbsp;31-44<br/>DO&nbsp;31-44<br/>DO&nbsp;99-44<br/>GC&nbsp;96-47<br/>DY&nbsp;91-44<br/>AM&nbsp;92-49<br/>LC&nbsp;18-47<br/>DO&nbsp;31-44<br/>DO&nbsp;99-44<br/>GK&nbsp;47-48<br/>DO&nbsp;31-44<br/>LC&nbsp;99-44<br/>TV&nbsp;31-44<br/>OA&nbsp;91-44<br/>TR&nbsp;35-32<br/>DO&nbsp;99-44<br/>ZD&nbsp;51-86<br/>VY&nbsp;76-71<br/>ZD&nbsp;31-44<br/>JZ&nbsp;95-18<br/>LZ&nbsp;76-71<br/>GE&nbsp;13-93<br/>DO&nbsp;31-44<br/>DO&nbsp;31-44<br/>DO&nbsp;31-44<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase4"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 4</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test04 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = {<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, true),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'B'</span>}, <span class="stevilo">1234</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'S'</span>}, <span class="stevilo">1234</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">6745</span>, false),<br/>
+<tab><tab>};<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica u: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t.equals(u) ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +--+--<br/>-+----<br/>--+---<br/>+--+--<br/>----+-<br/>-----+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase5"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 5</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test05 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">3825</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'Q'</span>}, <span class="stevilo">3825</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'O'</span>}, <span class="stevilo">3825</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">3825</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'F'</span>}, <span class="stevilo">3825</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = tablice[<span class="stevilo">5</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'O'</span>}, <span class="stevilo">6566</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'Z'</span>}, <span class="stevilo">7836</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = tablice[<span class="stevilo">2</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'O'</span>}, <span class="stevilo">3825</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'X'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'O', 'D'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'U'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'X'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'O'</span>}, <span class="stevilo">3825</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = tablice[<span class="stevilo">9</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'S'</span>}, <span class="stevilo">6566</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'H', 'U'</span>}, <span class="stevilo">3924</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'U'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'T'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">3825</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">9919</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'F'</span>}, <span class="stevilo">8131</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'Q'</span>}, <span class="stevilo">6431</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">3825</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'N', 'T'</span>}, <span class="stevilo">8871</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'S'</span>}, <span class="stevilo">6566</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = tablice[<span class="stevilo">27</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'U'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'Q'</span>}, <span class="stevilo">9235</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'S'</span>}, <span class="stevilo">6566</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = tablice[<span class="stevilo">4</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">9919</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'U'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'U'</span>}, <span class="stevilo">7282</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'O'</span>}, <span class="stevilo">3825</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'O'</span>}, <span class="stevilo">3825</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'A'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'U'</span>}, <span class="stevilo">4118</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'M'</span>}, <span class="stevilo">4795</span>, true);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t1: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica t2: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t1.equals(t2) ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +----------------------------+--------------------<br/>-+------------------------------------------------<br/>--+------+-+-------+--------+-----+---+-----------<br/>---+------+---------------------------------------<br/>----+-------------------+---------------+---------<br/>-----++-------------------------------------------<br/>-----++-------------------------------------------<br/>-------+------------------------------------------<br/>--------+-----------------------------------------<br/>--+------+-+-------+--------+-----+---+-----------<br/>---+------+---------------------------------------<br/>--+------+-+-------+--------+-----+---+-----------<br/>------------+-----+-----------+------+-------+-+--<br/>-------------+------------------------------------<br/>--------------+-----------------------------------<br/>---------------+------+---------------------------<br/>----------------+---------------------------------<br/>-----------------+--------------------------+-+---<br/>------------+-----+-----------+------+-------+-+--<br/>--+------+-+-------+--------+-----+---+-----------<br/>--------------------+-----------------------------<br/>---------------------+----------------------------<br/>---------------+------+---------------------------<br/>-----------------------+--------------------------<br/>----+-------------------+---------------+---------<br/>-------------------------+---------------+--------<br/>--------------------------+-----------------------<br/>---------------------------+-----+----------------<br/>--+------+-+-------+--------+-----+---+-----------<br/>+----------------------------+--------------------<br/>------------+-----+-----------+------+-------+-+--<br/>-------------------------------+------------------<br/>--------------------------------+------+----------<br/>---------------------------+-----+----------------<br/>--+------+-+-------+--------+-----+---+-----------<br/>-----------------------------------+------+-----+-<br/>------------------------------------+-------------<br/>------------+-----+-----------+------+-------+-+--<br/>--+------+-+-------+--------+-----+---+-----------<br/>--------------------------------+------+----------<br/>----+-------------------+---------------+---------<br/>-------------------------+---------------+--------<br/>-----------------------------------+------+-----+-<br/>-------------------------------------------+------<br/>-----------------+--------------------------+-+---<br/>------------+-----+-----------+------+-------+-+--<br/>-----------------+--------------------------+-+---<br/>------------+-----+-----------+------+-------+-+--<br/>-----------------------------------+------+-----+-<br/>-------------------------------------------------+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase6"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 6</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test06 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8761</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8761</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'J'</span>}, <span class="stevilo">7974</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'J'</span>}, <span class="stevilo">1452</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8761</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'O', 'F'</span>}, <span class="stevilo">2122</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'J'</span>}, <span class="stevilo">1452</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">2269</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = tablice[<span class="stevilo">7</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'J'</span>}, <span class="stevilo">2215</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'Q'</span>}, <span class="stevilo">8998</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'F'</span>}, <span class="stevilo">2122</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'O'</span>}, <span class="stevilo">2653</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">2269</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'T'</span>}, <span class="stevilo">1452</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'S'</span>}, <span class="stevilo">4239</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'S'</span>}, <span class="stevilo">3616</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">1884</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">4834</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8761</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'W'</span>}, <span class="stevilo">1884</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">3273</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = tablice[<span class="stevilo">19</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'H'</span>}, <span class="stevilo">3616</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8761</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">2269</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'Q'</span>}, <span class="stevilo">8998</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">7233</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">3761</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8761</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = tablice[<span class="stevilo">23</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">2269</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = tablice[<span class="stevilo">30</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'Q'</span>}, <span class="stevilo">8998</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">9873</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">9873</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">8679</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'H', 'I'</span>}, <span class="stevilo">8761</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = tablice[<span class="stevilo">19</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'Q'</span>}, <span class="stevilo">8998</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = tablice[<span class="stevilo">20</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'R'</span>}, <span class="stevilo">2269</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'T', 'X'</span>}, <span class="stevilo">8363</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'K'</span>}, <span class="stevilo">3822</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'E'</span>}, <span class="stevilo">2269</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'H'</span>}, <span class="stevilo">8124</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'D'</span>}, <span class="stevilo">4239</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'O'</span>}, <span class="stevilo">3228</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'J'</span>}, <span class="stevilo">7115</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'Q'</span>}, <span class="stevilo">8998</span>, true);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t1: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica t2: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t1.equals(t2) ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            ++--+------------------------+--------------------<br/>++--+------------------------+--------------------<br/>--+-----------------------------------------------<br/>---+--+-------------------------------------------<br/>++--+------------------------+--------------------<br/>-----+--------------------------------------------<br/>---+--+-------------------------------------------<br/>-------++----------------------+------------+-----<br/>-------++----------------------+------------+-----<br/>---------+----------------------------------------<br/>----------+----------------------+---------------+<br/>-----------+--------------------------------------<br/>------------+-------------------------------------<br/>-------------+-----------+------------------------<br/>--------------+-----------------------------------<br/>---------------+----------------------------------<br/>----------------+---------------------------------<br/>-----------------+--------------------------------<br/>------------------+-------------------------------<br/>-------------------+--+-+-------------+-----------<br/>--------------------+-------------------+---------<br/>---------------------+----------------------------<br/>-------------------+--+-+-------------+-----------<br/>-----------------------+------+-+-----------------<br/>-------------------+--+-+-------------+-----------<br/>-------------+-----------+------------------------<br/>--------------------------+------------+----------<br/>---------------------------+----------------------<br/>----------------------------+---------------------<br/>++--+------------------------+--------------------<br/>-----------------------+------+-+-----------------<br/>-------++----------------------+------------+-----<br/>-----------------------+------+-+-----------------<br/>----------+----------------------+---------------+<br/>----------------------------------+---------------<br/>-----------------------------------+--------------<br/>------------------------------------+-------------<br/>-------------------------------------+------------<br/>-------------------+--+-+-------------+-----------<br/>--------------------------+------------+----------<br/>--------------------+-------------------+---------<br/>-----------------------------------------+--------<br/>------------------------------------------+-------<br/>-------------------------------------------+------<br/>-------++----------------------+------------+-----<br/>---------------------------------------------+----<br/>----------------------------------------------+---<br/>-----------------------------------------------+--<br/>------------------------------------------------+-<br/>----------+----------------------+---------------+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase7"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 7</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test07 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = {<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, true),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'B'</span>}, <span class="stevilo">1234</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">7654</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'S'</span>}, <span class="stevilo">1234</span>, false),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'J'</span>}, <span class="stevilo">6745</span>, false),<br/>
+<tab><tab>};<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica u: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t.hashCode() == u.hashCode() ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +--+--<br/>-+----<br/>--+---<br/>+--+--<br/>----+-<br/>-----+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase8"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 8</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test08 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = tablice[<span class="stevilo">1</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = tablice[<span class="stevilo">2</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = tablice[<span class="stevilo">2</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'J'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">1591</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'H', 'D'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = tablice[<span class="stevilo">9</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2488</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2488</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'J'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">7881</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'A'</span>}, <span class="stevilo">5521</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">9931</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = tablice[<span class="stevilo">8</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = tablice[<span class="stevilo">17</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'S'</span>}, <span class="stevilo">2493</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = tablice[<span class="stevilo">18</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'A', 'J'</span>}, <span class="stevilo">2488</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'S'</span>}, <span class="stevilo">2493</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">5641</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = tablice[<span class="stevilo">26</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'F', 'T'</span>}, <span class="stevilo">2488</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = tablice[<span class="stevilo">8</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = tablice[<span class="stevilo">5</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'A', 'J'</span>}, <span class="stevilo">3738</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = tablice[<span class="stevilo">14</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'K', 'V'</span>}, <span class="stevilo">3558</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'J'</span>}, <span class="stevilo">8656</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'J'</span>}, <span class="stevilo">2367</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'M', 'S'</span>}, <span class="stevilo">4761</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">1454</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'L'</span>}, <span class="stevilo">5521</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = tablice[<span class="stevilo">42</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = tablice[<span class="stevilo">23</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'M'</span>}, <span class="stevilo">6765</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = tablice[<span class="stevilo">26</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'R'</span>}, <span class="stevilo">2488</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'L'</span>}, <span class="stevilo">5521</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'U'</span>}, <span class="stevilo">2367</span>, true);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t1: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica t2: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t1.hashCode() == t2.hashCode() ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +-+--++-+-----+-------+-------+--++-+------------+<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>---------+---+----+------+-------------+----------<br/>----------+---------------------------------------<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>------------+-------------------------------------<br/>---------+---+----+------+-------------+----------<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>---------------++---------------------------------<br/>---------------++---------------------------------<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>---------+---+----+------+-------------+----------<br/>-------------------+------------------------------<br/>--------------------+-----------------------------<br/>---------------------+----------------------------<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>------------------------+-------------------------<br/>---------+---+----+------+-------------+----------<br/>--------------------------+----+--------------+---<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>----------------------------+---------------------<br/>-----------------------------+--------------------<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>--------------------------+----+--------------+---<br/>--------------------------------+-----------------<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>-----------------------------------+--------------<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/>-------------------------------------+------------<br/>--------------------------------------+-----------<br/>---------+---+----+------+-------------+----------<br/>----------------------------------------+---------<br/>-----------------------------------------+--------<br/>------------------------------------------++------<br/>------------------------------------------++------<br/>-+-++--+---+-----+-----+---+----------------+-----<br/>---------------------------------------------+----<br/>--------------------------+----+--------------+---<br/>-----------------------------------------------+--<br/>------------------------------------------------+-<br/>+-+--++-+-----+-------+-------+--++-+------------+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase9"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 9</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test09 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">7473</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = tablice[<span class="stevilo">2</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">5137</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">7473</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">7473</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">5137</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">5137</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'N'</span>}, <span class="stevilo">7473</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">4649</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">5137</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">6644</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">6236</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = tablice[<span class="stevilo">6</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'X'</span>}, <span class="stevilo">8119</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">7473</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Y', 'E'</span>}, <span class="stevilo">8472</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'H', 'U'</span>}, <span class="stevilo">9636</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = tablice[<span class="stevilo">12</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">4649</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">1433</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">4649</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'H'</span>}, <span class="stevilo">2622</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">4649</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Q', 'N'</span>}, <span class="stevilo">7986</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">8724</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'A', 'S'</span>}, <span class="stevilo">6633</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'T'</span>}, <span class="stevilo">6682</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = tablice[<span class="stevilo">29</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'S'</span>}, <span class="stevilo">8724</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'H', 'U'</span>}, <span class="stevilo">9636</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'G', 'H'</span>}, <span class="stevilo">5221</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'A', 'S'</span>}, <span class="stevilo">6633</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">5137</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'X'</span>}, <span class="stevilo">8119</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'X'</span>}, <span class="stevilo">6768</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'T'</span>}, <span class="stevilo">6682</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'B', 'C'</span>}, <span class="stevilo">9853</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'J', 'H'</span>}, <span class="stevilo">2622</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'T'</span>}, <span class="stevilo">6682</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'D', 'M'</span>}, <span class="stevilo">7495</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Z', 'S'</span>}, <span class="stevilo">8724</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'E', 'U'</span>}, <span class="stevilo">7473</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'Y', 'V'</span>}, <span class="stevilo">5137</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'K', 'T'</span>}, <span class="stevilo">8724</span>, true);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t1: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica t2: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t1.hashCode() == t2.hashCode() ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            ++-----+--+----------+--+-------------------------<br/>++-----+--+----------+--+-------------------------<br/>--++--+---------+-+----------------------------+--<br/>--++--+---------+-+----------------------------+--<br/>----+---+----+------------------------+-----------<br/>-----+--------------------------------------------<br/>--++--+---------+-+----------------------------+--<br/>++-----+--+----------+--+-------------------------<br/>----+---+----+------------------------+-----------<br/>---------+----------------------------------------<br/>++-----+--+----------+--+-------------------------<br/>-----------+--------------------------------------<br/>------------+---------++----+---------------------<br/>----+---+----+------------------------+-----------<br/>--------------+-----------------------------------<br/>---------------+----------------------------------<br/>--++--+---------+-+----------------------------+--<br/>-----------------+---------------------+----------<br/>--++--+---------+-+----------------------------+--<br/>-------------------+------------------------------<br/>--------------------+-----------------------------<br/>++-----+--+----------+--+-------------------------<br/>------------+---------++----+---------------------<br/>------------+---------++----+---------------------<br/>++-----+--+----------+--+-------------------------<br/>-------------------------+------------------------<br/>--------------------------+-----------------------<br/>---------------------------+---------------+------<br/>------------+---------++----+---------------------<br/>-----------------------------+---+----------------<br/>------------------------------+-------------------<br/>-------------------------------+------------------<br/>--------------------------------+-----------+-----<br/>-----------------------------+---+----------------<br/>----------------------------------+---------------<br/>-----------------------------------+--------------<br/>------------------------------------+-------------<br/>-------------------------------------+------------<br/>----+---+----+------------------------+-----------<br/>-----------------+---------------------+----------<br/>----------------------------------------+---------<br/>-----------------------------------------+--------<br/>------------------------------------------+-------<br/>---------------------------+---------------+------<br/>--------------------------------+-----------+-----<br/>---------------------------------------------+----<br/>----------------------------------------------+---<br/>--++--+---------+-+----------------------------+--<br/>------------------------------------------------+-<br/>-------------------------------------------------+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase10"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 10</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test10 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Tablica[] tablice = <span class="rwordb">new</span> Tretja.Tablica[<span class="stevilo">50</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9444</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'N'</span>}, <span class="stevilo">7131</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">2</span>] = tablice[<span class="stevilo">1</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'N'</span>}, <span class="stevilo">5576</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">4</span>] = tablice[<span class="stevilo">3</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9444</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9444</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">11</span>] = tablice[<span class="stevilo">5</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'N'</span>}, <span class="stevilo">5576</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">14</span>] = tablice[<span class="stevilo">8</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9444</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'B'</span>}, <span class="stevilo">6268</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9444</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">1252</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9444</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'P', 'K'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'N'</span>}, <span class="stevilo">5576</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'D'</span>}, <span class="stevilo">5576</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'B'</span>}, <span class="stevilo">6268</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">25</span>] = tablice[<span class="stevilo">3</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">26</span>] = tablice[<span class="stevilo">10</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'H'</span>}, <span class="stevilo">9373</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'A', 'L'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'N'</span>}, <span class="stevilo">7131</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">31</span>] = tablice[<span class="stevilo">15</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'H'</span>}, <span class="stevilo">9373</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'L', 'L'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">34</span>] = tablice[<span class="stevilo">30</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'P', 'L'</span>}, <span class="stevilo">1135</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">37</span>] = tablice[<span class="stevilo">30</span>];<br/>
+<tab><tab>tablice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'W', 'N'</span>}, <span class="stevilo">5713</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'P', 'L'</span>}, <span class="stevilo">3848</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'O', 'C'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">1252</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'V', 'X'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9826</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'C', 'O'</span>}, <span class="stevilo">6958</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'I', 'O'</span>}, <span class="stevilo">9444</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'S', 'S'</span>}, <span class="stevilo">9939</span>, false);<br/>
+<tab><tab>tablice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'K', 'T'</span>}, <span class="stevilo">9939</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'O', 'C'</span>}, <span class="stevilo">8948</span>, true);<br/>
+<tab><tab>tablice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Tablica(<span class="rwordb">new</span> <span class="rwordv">char</span>[]{<span class="niz">'R', 'H'</span>}, <span class="stevilo">1184</span>, false);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Tablica t1: tablice) {<br/>
+<tab><tab><tab><span class="rwordb">for</span> (Tretja.Tablica t2: tablice) {<br/>
+<tab><tab><tab><tab>System.out.pr<span class="rwordv">int</span>(t1.hashCode() == t2.hashCode() ? <span class="niz">'+' : '-'</span>);<br/>
+<tab><tab><tab>}<br/>
+<tab><tab><tab>System.out.println();<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +------+---------+-+-------------------------+----<br/>-++---------------------------+---+--+------------<br/>-++---------------------------+---+--+------------<br/>---++--------+-------+---+------------------------<br/>---++--------+-------+---+------------------------<br/>-----+-----+--------------------------------------<br/>------+-+---+-+---------+-------------------------<br/>+------+---------+-+-------------------------+----<br/>------+-+---+-+---------+-------------------------<br/>---------++---------------+-+-------+---------+---<br/>---------++---------------+-+-------+---------+---<br/>-----+-----+--------------------------------------<br/>------+-+---+-+---------+-------------------------<br/>---++--------+-------+---+------------------------<br/>------+-+---+-+---------+-------------------------<br/>---------------+---------------+------------------<br/>----------------+------+--------------------------<br/>+------+---------+-+-------------------------+----<br/>------------------+----------------------+--------<br/>+------+---------+-+-------------------------+----<br/>--------------------+-----------------------------<br/>---++--------+-------+---+------------------------<br/>----------------------+---------------------------<br/>----------------+------+--------------------------<br/>------+-+---+-+---------+-------------------------<br/>---++--------+-------+---+------------------------<br/>---------++---------------+-+-------+---------+---<br/>---------------------------+----------------------<br/>---------++---------------+-+-------+---------+---<br/>-----------------------------+--------------------<br/>-++---------------------------+---+--+------------<br/>---------------+---------------+------------------<br/>--------------------------------+-----------------<br/>---------------------------------+----------------<br/>-++---------------------------+---+--+------------<br/>-----------------------------------+--------------<br/>---------++---------------+-+-------+---------+---<br/>-++---------------------------+---+--+------------<br/>--------------------------------------+-----------<br/>---------------------------------------+----------<br/>----------------------------------------+---------<br/>------------------+----------------------+--------<br/>------------------------------------------+-------<br/>-------------------------------------------+------<br/>--------------------------------------------+-----<br/>+------+---------+-+-------------------------+----<br/>---------++---------------+-+-------+---------+---<br/>-----------------------------------------------+--<br/>------------------------------------------------+-<br/>-------------------------------------------------+<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.12" -->
+    <!-- 30.1.2024 17:59.26 -->
+    <!-- ASUS_E2, fe80::394f:811b:9a75:b34e%8 -->
+</html>

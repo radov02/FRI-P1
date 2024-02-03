@@ -1,22 +1,25 @@
 
 import java.util.*;
 
-//
-// Primer stroja za igro Wordle. Stroj vzdržuje množico slovarskih besed, ki
-// so združljive z vsemi dosedanjimi omejitvami, in vsakokrat izbere ``prvo''
-// besedo iz množice (tj. tisto, ki jo vrne iterator ob prvem klicu metode
-// next).
-//
-
 public class Tekm_63230273 implements Stroj {
 
-    private Set<String> izhodiscneBesede;   // izhodiščna množica besed (nastavi se ob inicializaciji, potem pa se ne spreminja)
+    private HashMap<Character, Object> drevo = new HashMap<>();
+    private Set<String> izhodiscneBesede;
     private Set<String> besede; // množica besed, ki še ustreza omejitvam
     private String zadnjaIzbira; // nazadnje izbrana beseda 
 
     @Override
-    public void inicializiraj(Set<String> besede) { // Nastavi izhodiščno množico besed.
-        this.izhodiscneBesede = new TreeSet<>(besede);
+    public void inicializiraj(Set<String> besede) { 
+        izhodiscneBesede = new TreeSet<>(besede);   // Nastavi izhodiščno množico besed.
+        //System.out.println(izhodiscneBesede.size());
+        // ustvarjanje podatkovne strukture, ki jo lahko med igro uporabimo za natančnejše iskanje
+
+        //System.out.println("Zacetek");int i = 0;
+        for(String beseda : izhodiscneBesede){
+            //System.out.println(i++);
+            drevo.put(beseda.charAt(0), new HashMap<>().put(beseda.charAt(1), new HashMap<>().put(beseda.charAt(2), new HashMap<>().put(beseda.charAt(3), new HashMap<>().put(beseda.charAt(4), new HashMap<>().put(beseda.charAt(5), beseda.charAt(5)))))));
+        }
+        //System.out.println("Konec");
     }
 
     @Override   // Na podlagi podanega odziva na prejšnjo izbiro vrne naslednjo izbiro.
@@ -48,6 +51,7 @@ public class Tekm_63230273 implements Stroj {
         if(odziv == null){   // Vsota: 69470 Povpre?je: 4,3517
             return this.zadnjaIzbira = "seoina";
         }
+
         return this.zadnjaIzbira = this.besede.iterator().next();   // vrne neko besedo iz mnozice se ustreznih besed (prvo, ki jo vrne iterator)
         // Vsota: 80856 Povpre?je: 5,0649
     }
@@ -59,7 +63,11 @@ public class Tekm_63230273 implements Stroj {
     private static boolean jeZdruzljiva(String beseda, String izbira, List<Character> odziv) {
         int n = odziv.size();
 
-        List<Character> crkeBesede = new ArrayList<>(); // sezname lahko spreminjamo za razliko od Stringov
+        // ce je + odstranimo vse veje drevesa ki nimajo te crke na tem mestu
+        // ce je o odstranimo vse veje ki imajo crko na tdisem mestu
+        // ce je - odstranimo vse veje ki imajo to crko
+
+        List<Character> crkeBesede = new ArrayList<>();
         List<Character> crkeIzbire = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             crkeBesede.add(beseda.charAt(i));
@@ -170,6 +178,6 @@ class Node<T> {
     }
 
     public void odstraniStarsa(){
-        this.stars == null;
+        this.stars = null;
     }
 }
