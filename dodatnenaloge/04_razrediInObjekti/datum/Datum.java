@@ -10,6 +10,8 @@ public class Datum {
     }
 
     public static Datum ustvari(int dan, int mesec, int leto){
+        if(leto > 2999 || leto < 1583) return null;
+
         boolean prestopno = false;
         if(leto >= 1583 && leto < 3000 && prestopno(leto)){
             prestopno = true;
@@ -42,6 +44,7 @@ public class Datum {
     }
 
     public String toString(){
+        if(this == null) return "";
         return ((this.dan < 10 ? "0"+this.dan : this.dan) + "." + (this.mesec < 10 ? "0"+this.mesec : this.mesec) + "." + this.leto);
     }
 
@@ -86,6 +89,15 @@ public class Datum {
                 mesec = 12;
                 dan = 31;
             }
+            else if(this.mesec == 3){
+                mesec--;
+                if(prestopno(this.leto)){
+                    dan = 29;
+                }
+                else{
+                    dan = 28;
+                }
+            }
             else{
                 mesec--;
                 dan = 31;
@@ -96,12 +108,13 @@ public class Datum {
     }
 
     public Datum cez(int stDni){
+        // potrebno je pretvoriti v dneve in potem odstevati leta (upostevajoc prestopna), mesece in dni
         int dniVMesecu = dniVMesecu(this.mesec, this.leto);
-        
+        return null;
     }
 
     public int razlika(Datum datum){
-
+        return -1;
     }
 
     public static int dniVMesecu(int mesec, int leto){

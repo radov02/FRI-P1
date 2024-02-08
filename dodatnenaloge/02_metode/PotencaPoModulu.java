@@ -10,16 +10,19 @@ public class PotencaPoModulu {
         int a = sc.nextInt();
         int b = sc.nextInt();
         int m = sc.nextInt();
-        
-
-
         sc.close();
-    }
 
-    public static int mod(int a, int b){
+        int potenca = 1, bNovi = b;
+        while(b / 2 >= 2){
+            bNovi = bNovi / 2;
+            potenca += 2;
+        }
 
-        if()
+        int osnovniMod = a % m;
+        System.out.println(osnovniMod);
 
-        return a % b;
+        int rezultat = (int)Math.pow((b / potenca) * osnovniMod, potenca) % m;
+
+        System.out.println(rezultat);
     }
 }

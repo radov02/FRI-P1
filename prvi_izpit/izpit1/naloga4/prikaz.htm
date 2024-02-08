@@ -1,0 +1,722 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #FFBF00 , white);
+                background: -o-linear-gradient(right, #FFBF00, white);
+                background: -moz-linear-gradient(right, #FFBF00, white);
+                background: linear-gradient(to right, #FFBF00 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (0/11)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverTimeout"><a href="#testcase1">1</a></td>
+                <td class="hoverTimeout"><a href="#testcase2">2</a></td>
+                <td class="hoverTimeout"><a href="#testcase3">3</a></td>
+                <td class="hoverTimeout"><a href="#testcase4">4</a></td>
+                <td class="hoverTimeout"><a href="#testcase5">5</a></td>
+                <td class="hoverTimeout"><a href="#testcase6">6</a></td>
+                <td class="hoverTimeout"><a href="#testcase7">7</a></td>
+                <td class="hoverTimeout"><a href="#testcase8">8</a></td>
+                <td class="hoverTimeout"><a href="#testcase9">9</a></td>
+                <td class="hoverTimeout"><a href="#testcase10">10</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverTimeout"><a href="#testcase11">11</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test01 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<String> la = List.of(<span class="niz">"Ana"</span>, <span class="niz">"Cvetka"</span>, <span class="niz">"Franci"</span>);<br/>
+<tab><tab>List<String> lb = List.of(<span class="niz">"Bojan"</span>, <span class="niz">"Denis"</span>, <span class="niz">"Eva"</span>);<br/>
+<tab><tab>List<String> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test02 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<Integer> la = List.of(<span class="stevilo">258</span>);<br/>
+<tab><tab>List<Integer> lb = List.of(<span class="stevilo">876</span>);<br/>
+<tab><tab>List<Integer> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase3"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 3</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test03 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<String> la = List.of(<span class="niz">"cua"</span>);<br/>
+<tab><tab>List<String> lb = List.of(<span class="niz">"gyl"</span>);<br/>
+<tab><tab>List<String> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase4"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 4</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test04 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<Integer> la = List.of(<span class="stevilo">0</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>, <span class="stevilo">4</span>, <span class="stevilo">6</span>, <span class="stevilo">7</span>, <span class="stevilo">8</span>, <span class="stevilo">9</span>, <span class="stevilo">10</span>, <span class="stevilo">11</span>, <span class="stevilo">12</span>, <span class="stevilo">13</span>, <span class="stevilo">14</span>, <span class="stevilo">20</span>, <span class="stevilo">22</span>, <span class="stevilo">23</span>, <span class="stevilo">24</span>, <span class="stevilo">25</span>, <span class="stevilo">26</span>, <span class="stevilo">28</span>, <span class="stevilo">32</span>, <span class="stevilo">33</span>, <span class="stevilo">36</span>, <span class="stevilo">38</span>, <span class="stevilo">39</span>, <span class="stevilo">40</span>, <span class="stevilo">41</span>, <span class="stevilo">42</span>, <span class="stevilo">43</span>, <span class="stevilo">44</span>, <span class="stevilo">45</span>, <span class="stevilo">46</span>, <span class="stevilo">47</span>, <span class="stevilo">48</span>, <span class="stevilo">49</span>, <span class="stevilo">50</span>, <span class="stevilo">51</span>, <span class="stevilo">53</span>, <span class="stevilo">55</span>, <span class="stevilo">56</span>, <span class="stevilo">57</span>, <span class="stevilo">58</span>, <span class="stevilo">59</span>, <span class="stevilo">60</span>, <span class="stevilo">62</span>, <span class="stevilo">63</span>, <span class="stevilo">64</span>, <span class="stevilo">65</span>, <span class="stevilo">66</span>, <span class="stevilo">67</span>, <span class="stevilo">68</span>, <span class="stevilo">69</span>, <span class="stevilo">71</span>, <span class="stevilo">72</span>, <span class="stevilo">73</span>, <span class="stevilo">74</span>, <span class="stevilo">75</span>, <span class="stevilo">76</span>, <span class="stevilo">78</span>, <span class="stevilo">79</span>, <span class="stevilo">80</span>, <span class="stevilo">82</span>, <span class="stevilo">83</span>, <span class="stevilo">88</span>, <span class="stevilo">89</span>, <span class="stevilo">90</span>, <span class="stevilo">91</span>, <span class="stevilo">92</span>, <span class="stevilo">93</span>, <span class="stevilo">94</span>, <span class="stevilo">95</span>, <span class="stevilo">96</span>, <span class="stevilo">97</span>, <span class="stevilo">98</span>, <span class="stevilo">99</span>, <span class="stevilo">100</span>, <span class="stevilo">101</span>, <span class="stevilo">104</span>, <span class="stevilo">105</span>, <span class="stevilo">106</span>, <span class="stevilo">107</span>, <span class="stevilo">109</span>, <span class="stevilo">111</span>, <span class="stevilo">112</span>, <span class="stevilo">114</span>, <span class="stevilo">115</span>, <span class="stevilo">116</span>, <span class="stevilo">117</span>, <span class="stevilo">122</span>, <span class="stevilo">123</span>, <span class="stevilo">126</span>, <span class="stevilo">127</span>, <span class="stevilo">129</span>, <span class="stevilo">132</span>, <span class="stevilo">133</span>, <span class="stevilo">134</span>, <span class="stevilo">135</span>, <span class="stevilo">137</span>, <span class="stevilo">138</span>, <span class="stevilo">139</span>, <span class="stevilo">140</span>, <span class="stevilo">142</span>, <span class="stevilo">145</span>, <span class="stevilo">146</span>, <span class="stevilo">149</span>, <span class="stevilo">150</span>, <span class="stevilo">151</span>, <span class="stevilo">152</span>, <span class="stevilo">153</span>, <span class="stevilo">154</span>, <span class="stevilo">155</span>, <span class="stevilo">156</span>, <span class="stevilo">157</span>, <span class="stevilo">158</span>, <span class="stevilo">159</span>, <span class="stevilo">161</span>, <span class="stevilo">162</span>, <span class="stevilo">163</span>, <span class="stevilo">164</span>, <span class="stevilo">165</span>, <span class="stevilo">166</span>, <span class="stevilo">167</span>, <span class="stevilo">169</span>, <span class="stevilo">170</span>, <span class="stevilo">171</span>, <span class="stevilo">173</span>, <span class="stevilo">174</span>, <span class="stevilo">175</span>, <span class="stevilo">176</span>, <span class="stevilo">177</span>, <span class="stevilo">178</span>, <span class="stevilo">179</span>, <span class="stevilo">180</span>, <span class="stevilo">181</span>, <span class="stevilo">182</span>, <span class="stevilo">186</span>, <span class="stevilo">187</span>, <span class="stevilo">188</span>, <span class="stevilo">190</span>, <span class="stevilo">191</span>, <span class="stevilo">192</span>, <span class="stevilo">193</span>, <span class="stevilo">194</span>, <span class="stevilo">195</span>, <span class="stevilo">196</span>, <span class="stevilo">197</span>, <span class="stevilo">198</span>, <span class="stevilo">199</span>, <span class="stevilo">200</span>, <span class="stevilo">201</span>, <span class="stevilo">202</span>, <span class="stevilo">203</span>, <span class="stevilo">204</span>, <span class="stevilo">205</span>, <span class="stevilo">206</span>, <span class="stevilo">207</span>, <span class="stevilo">208</span>, <span class="stevilo">209</span>, <span class="stevilo">210</span>, <span class="stevilo">211</span>, <span class="stevilo">214</span>, <span class="stevilo">216</span>, <span class="stevilo">217</span>, <span class="stevilo">218</span>, <span class="stevilo">220</span>, <span class="stevilo">222</span>, <span class="stevilo">223</span>, <span class="stevilo">224</span>, <span class="stevilo">229</span>, <span class="stevilo">230</span>, <span class="stevilo">231</span>, <span class="stevilo">235</span>, <span class="stevilo">237</span>, <span class="stevilo">238</span>, <span class="stevilo">239</span>, <span class="stevilo">240</span>, <span class="stevilo">241</span>, <span class="stevilo">243</span>, <span class="stevilo">245</span>, <span class="stevilo">246</span>, <span class="stevilo">247</span>, <span class="stevilo">248</span>, <span class="stevilo">249</span>, <span class="stevilo">250</span>, <span class="stevilo">254</span>, <span class="stevilo">256</span>, <span class="stevilo">257</span>, <span class="stevilo">258</span>, <span class="stevilo">260</span>, <span class="stevilo">261</span>, <span class="stevilo">263</span>, <span class="stevilo">264</span>, <span class="stevilo">266</span>, <span class="stevilo">269</span>, <span class="stevilo">271</span>, <span class="stevilo">272</span>, <span class="stevilo">275</span>, <span class="stevilo">276</span>, <span class="stevilo">278</span>, <span class="stevilo">279</span>, <span class="stevilo">280</span>, <span class="stevilo">282</span>, <span class="stevilo">283</span>, <span class="stevilo">284</span>, <span class="stevilo">285</span>, <span class="stevilo">286</span>, <span class="stevilo">288</span>, <span class="stevilo">292</span>, <span class="stevilo">294</span>, <span class="stevilo">295</span>, <span class="stevilo">298</span>, <span class="stevilo">299</span>, <span class="stevilo">300</span>, <span class="stevilo">303</span>, <span class="stevilo">304</span>, <span class="stevilo">305</span>, <span class="stevilo">309</span>, <span class="stevilo">310</span>, <span class="stevilo">311</span>, <span class="stevilo">313</span>, <span class="stevilo">315</span>, <span class="stevilo">316</span>, <span class="stevilo">317</span>, <span class="stevilo">318</span>, <span class="stevilo">319</span>, <span class="stevilo">320</span>, <span class="stevilo">321</span>, <span class="stevilo">324</span>, <span class="stevilo">325</span>, <span class="stevilo">326</span>, <span class="stevilo">328</span>, <span class="stevilo">329</span>, <span class="stevilo">330</span>, <span class="stevilo">331</span>, <span class="stevilo">332</span>, <span class="stevilo">333</span>, <span class="stevilo">334</span>, <span class="stevilo">335</span>, <span class="stevilo">338</span>, <span class="stevilo">339</span>, <span class="stevilo">340</span>, <span class="stevilo">342</span>, <span class="stevilo">344</span>, <span class="stevilo">345</span>, <span class="stevilo">346</span>, <span class="stevilo">349</span>, <span class="stevilo">350</span>, <span class="stevilo">351</span>, <span class="stevilo">353</span>, <span class="stevilo">354</span>, <span class="stevilo">355</span>, <span class="stevilo">357</span>, <span class="stevilo">359</span>, <span class="stevilo">360</span>, <span class="stevilo">361</span>, <span class="stevilo">363</span>, <span class="stevilo">364</span>, <span class="stevilo">365</span>, <span class="stevilo">366</span>, <span class="stevilo">367</span>, <span class="stevilo">368</span>, <span class="stevilo">369</span>, <span class="stevilo">371</span>, <span class="stevilo">372</span>, <span class="stevilo">373</span>, <span class="stevilo">374</span>, <span class="stevilo">376</span>, <span class="stevilo">377</span>, <span class="stevilo">378</span>, <span class="stevilo">379</span>, <span class="stevilo">380</span>, <span class="stevilo">382</span>, <span class="stevilo">383</span>, <span class="stevilo">385</span>, <span class="stevilo">386</span>, <span class="stevilo">388</span>, <span class="stevilo">389</span>, <span class="stevilo">390</span>, <span class="stevilo">391</span>, <span class="stevilo">392</span>, <span class="stevilo">394</span>, <span class="stevilo">395</span>, <span class="stevilo">396</span>, <span class="stevilo">397</span>, <span class="stevilo">398</span>, <span class="stevilo">399</span>, <span class="stevilo">400</span>, <span class="stevilo">401</span>, <span class="stevilo">404</span>, <span class="stevilo">406</span>, <span class="stevilo">407</span>, <span class="stevilo">408</span>, <span class="stevilo">409</span>, <span class="stevilo">412</span>, <span class="stevilo">413</span>, <span class="stevilo">414</span>, <span class="stevilo">415</span>, <span class="stevilo">416</span>, <span class="stevilo">417</span>, <span class="stevilo">418</span>, <span class="stevilo">421</span>, <span class="stevilo">422</span>, <span class="stevilo">423</span>, <span class="stevilo">424</span>, <span class="stevilo">425</span>, <span class="stevilo">426</span>, <span class="stevilo">427</span>, <span class="stevilo">428</span>, <span class="stevilo">429</span>, <span class="stevilo">430</span>, <span class="stevilo">431</span>, <span class="stevilo">432</span>, <span class="stevilo">433</span>, <span class="stevilo">434</span>, <span class="stevilo">435</span>, <span class="stevilo">437</span>, <span class="stevilo">438</span>, <span class="stevilo">439</span>, <span class="stevilo">440</span>, <span class="stevilo">441</span>, <span class="stevilo">442</span>, <span class="stevilo">443</span>, <span class="stevilo">444</span>, <span class="stevilo">445</span>, <span class="stevilo">446</span>, <span class="stevilo">447</span>, <span class="stevilo">449</span>, <span class="stevilo">451</span>, <span class="stevilo">452</span>, <span class="stevilo">453</span>, <span class="stevilo">455</span>, <span class="stevilo">456</span>, <span class="stevilo">461</span>, <span class="stevilo">462</span>, <span class="stevilo">463</span>, <span class="stevilo">464</span>, <span class="stevilo">465</span>, <span class="stevilo">467</span>, <span class="stevilo">468</span>, <span class="stevilo">469</span>, <span class="stevilo">470</span>, <span class="stevilo">471</span>, <span class="stevilo">472</span>, <span class="stevilo">473</span>, <span class="stevilo">474</span>, <span class="stevilo">475</span>, <span class="stevilo">476</span>, <span class="stevilo">477</span>, <span class="stevilo">478</span>, <span class="stevilo">479</span>, <span class="stevilo">481</span>, <span class="stevilo">482</span>, <span class="stevilo">483</span>, <span class="stevilo">484</span>, <span class="stevilo">485</span>, <span class="stevilo">486</span>, <span class="stevilo">488</span>, <span class="stevilo">489</span>);<br/>
+<tab><tab>List<Integer> lb = List.of(<span class="stevilo">491</span>, <span class="stevilo">493</span>, <span class="stevilo">494</span>, <span class="stevilo">495</span>, <span class="stevilo">497</span>, <span class="stevilo">499</span>, <span class="stevilo">500</span>, <span class="stevilo">501</span>, <span class="stevilo">502</span>, <span class="stevilo">503</span>, <span class="stevilo">504</span>, <span class="stevilo">505</span>, <span class="stevilo">506</span>, <span class="stevilo">507</span>, <span class="stevilo">508</span>, <span class="stevilo">509</span>, <span class="stevilo">510</span>, <span class="stevilo">511</span>, <span class="stevilo">513</span>, <span class="stevilo">514</span>, <span class="stevilo">515</span>, <span class="stevilo">516</span>, <span class="stevilo">518</span>, <span class="stevilo">519</span>, <span class="stevilo">521</span>, <span class="stevilo">522</span>, <span class="stevilo">523</span>, <span class="stevilo">524</span>, <span class="stevilo">525</span>, <span class="stevilo">526</span>, <span class="stevilo">527</span>, <span class="stevilo">528</span>, <span class="stevilo">529</span>, <span class="stevilo">530</span>, <span class="stevilo">532</span>, <span class="stevilo">533</span>, <span class="stevilo">534</span>, <span class="stevilo">535</span>, <span class="stevilo">536</span>, <span class="stevilo">537</span>, <span class="stevilo">538</span>, <span class="stevilo">539</span>, <span class="stevilo">540</span>, <span class="stevilo">542</span>, <span class="stevilo">543</span>, <span class="stevilo">544</span>, <span class="stevilo">545</span>, <span class="stevilo">547</span>, <span class="stevilo">548</span>, <span class="stevilo">550</span>, <span class="stevilo">551</span>, <span class="stevilo">552</span>, <span class="stevilo">553</span>, <span class="stevilo">554</span>, <span class="stevilo">555</span>, <span class="stevilo">556</span>, <span class="stevilo">559</span>, <span class="stevilo">560</span>, <span class="stevilo">561</span>, <span class="stevilo">566</span>, <span class="stevilo">569</span>, <span class="stevilo">570</span>, <span class="stevilo">572</span>, <span class="stevilo">573</span>, <span class="stevilo">575</span>, <span class="stevilo">576</span>, <span class="stevilo">577</span>, <span class="stevilo">579</span>, <span class="stevilo">580</span>, <span class="stevilo">581</span>, <span class="stevilo">582</span>, <span class="stevilo">585</span>, <span class="stevilo">587</span>, <span class="stevilo">589</span>, <span class="stevilo">590</span>, <span class="stevilo">591</span>, <span class="stevilo">592</span>, <span class="stevilo">593</span>, <span class="stevilo">594</span>, <span class="stevilo">595</span>, <span class="stevilo">596</span>, <span class="stevilo">598</span>, <span class="stevilo">599</span>, <span class="stevilo">600</span>, <span class="stevilo">604</span>, <span class="stevilo">606</span>, <span class="stevilo">607</span>, <span class="stevilo">608</span>, <span class="stevilo">609</span>, <span class="stevilo">610</span>, <span class="stevilo">613</span>, <span class="stevilo">614</span>, <span class="stevilo">615</span>, <span class="stevilo">618</span>, <span class="stevilo">619</span>, <span class="stevilo">620</span>, <span class="stevilo">625</span>, <span class="stevilo">626</span>, <span class="stevilo">628</span>, <span class="stevilo">629</span>, <span class="stevilo">630</span>, <span class="stevilo">631</span>, <span class="stevilo">632</span>, <span class="stevilo">633</span>, <span class="stevilo">634</span>, <span class="stevilo">635</span>, <span class="stevilo">636</span>, <span class="stevilo">637</span>, <span class="stevilo">639</span>, <span class="stevilo">642</span>, <span class="stevilo">643</span>, <span class="stevilo">644</span>, <span class="stevilo">645</span>, <span class="stevilo">647</span>, <span class="stevilo">648</span>, <span class="stevilo">649</span>, <span class="stevilo">650</span>, <span class="stevilo">651</span>, <span class="stevilo">652</span>, <span class="stevilo">654</span>, <span class="stevilo">655</span>, <span class="stevilo">656</span>, <span class="stevilo">658</span>, <span class="stevilo">660</span>, <span class="stevilo">661</span>, <span class="stevilo">662</span>, <span class="stevilo">665</span>, <span class="stevilo">666</span>, <span class="stevilo">667</span>, <span class="stevilo">669</span>, <span class="stevilo">670</span>, <span class="stevilo">671</span>, <span class="stevilo">672</span>, <span class="stevilo">673</span>, <span class="stevilo">674</span>, <span class="stevilo">675</span>, <span class="stevilo">676</span>, <span class="stevilo">677</span>, <span class="stevilo">678</span>, <span class="stevilo">679</span>, <span class="stevilo">681</span>, <span class="stevilo">682</span>, <span class="stevilo">683</span>, <span class="stevilo">684</span>, <span class="stevilo">685</span>, <span class="stevilo">686</span>, <span class="stevilo">687</span>, <span class="stevilo">688</span>, <span class="stevilo">690</span>, <span class="stevilo">691</span>, <span class="stevilo">692</span>, <span class="stevilo">695</span>, <span class="stevilo">696</span>, <span class="stevilo">697</span>, <span class="stevilo">702</span>, <span class="stevilo">704</span>, <span class="stevilo">705</span>, <span class="stevilo">706</span>, <span class="stevilo">707</span>, <span class="stevilo">708</span>, <span class="stevilo">709</span>, <span class="stevilo">712</span>, <span class="stevilo">716</span>, <span class="stevilo">718</span>, <span class="stevilo">719</span>, <span class="stevilo">720</span>, <span class="stevilo">721</span>, <span class="stevilo">725</span>, <span class="stevilo">727</span>, <span class="stevilo">728</span>, <span class="stevilo">730</span>, <span class="stevilo">731</span>, <span class="stevilo">732</span>, <span class="stevilo">733</span>, <span class="stevilo">734</span>, <span class="stevilo">735</span>, <span class="stevilo">736</span>, <span class="stevilo">737</span>, <span class="stevilo">738</span>, <span class="stevilo">739</span>, <span class="stevilo">742</span>, <span class="stevilo">743</span>, <span class="stevilo">744</span>, <span class="stevilo">745</span>, <span class="stevilo">746</span>, <span class="stevilo">747</span>, <span class="stevilo">749</span>, <span class="stevilo">750</span>, <span class="stevilo">751</span>, <span class="stevilo">753</span>, <span class="stevilo">754</span>, <span class="stevilo">755</span>, <span class="stevilo">756</span>, <span class="stevilo">760</span>, <span class="stevilo">761</span>, <span class="stevilo">762</span>, <span class="stevilo">763</span>, <span class="stevilo">765</span>, <span class="stevilo">766</span>, <span class="stevilo">767</span>, <span class="stevilo">769</span>, <span class="stevilo">770</span>, <span class="stevilo">771</span>, <span class="stevilo">773</span>, <span class="stevilo">776</span>, <span class="stevilo">777</span>, <span class="stevilo">778</span>, <span class="stevilo">779</span>, <span class="stevilo">780</span>, <span class="stevilo">781</span>, <span class="stevilo">782</span>, <span class="stevilo">786</span>, <span class="stevilo">788</span>, <span class="stevilo">790</span>, <span class="stevilo">791</span>, <span class="stevilo">793</span>, <span class="stevilo">794</span>, <span class="stevilo">795</span>, <span class="stevilo">796</span>, <span class="stevilo">797</span>, <span class="stevilo">798</span>, <span class="stevilo">799</span>, <span class="stevilo">801</span>, <span class="stevilo">802</span>, <span class="stevilo">803</span>, <span class="stevilo">804</span>, <span class="stevilo">806</span>, <span class="stevilo">807</span>, <span class="stevilo">808</span>, <span class="stevilo">810</span>, <span class="stevilo">812</span>, <span class="stevilo">813</span>, <span class="stevilo">814</span>, <span class="stevilo">816</span>, <span class="stevilo">817</span>, <span class="stevilo">818</span>, <span class="stevilo">820</span>, <span class="stevilo">821</span>, <span class="stevilo">823</span>, <span class="stevilo">824</span>, <span class="stevilo">826</span>, <span class="stevilo">827</span>, <span class="stevilo">828</span>, <span class="stevilo">830</span>, <span class="stevilo">831</span>, <span class="stevilo">832</span>, <span class="stevilo">833</span>, <span class="stevilo">834</span>, <span class="stevilo">835</span>, <span class="stevilo">836</span>, <span class="stevilo">837</span>, <span class="stevilo">841</span>, <span class="stevilo">842</span>, <span class="stevilo">843</span>, <span class="stevilo">844</span>, <span class="stevilo">847</span>, <span class="stevilo">849</span>, <span class="stevilo">850</span>, <span class="stevilo">851</span>, <span class="stevilo">854</span>, <span class="stevilo">855</span>, <span class="stevilo">856</span>, <span class="stevilo">857</span>, <span class="stevilo">860</span>, <span class="stevilo">861</span>, <span class="stevilo">863</span>, <span class="stevilo">864</span>, <span class="stevilo">865</span>, <span class="stevilo">866</span>, <span class="stevilo">868</span>, <span class="stevilo">869</span>, <span class="stevilo">870</span>, <span class="stevilo">871</span>, <span class="stevilo">872</span>, <span class="stevilo">873</span>, <span class="stevilo">874</span>, <span class="stevilo">875</span>, <span class="stevilo">876</span>, <span class="stevilo">878</span>, <span class="stevilo">879</span>, <span class="stevilo">880</span>, <span class="stevilo">881</span>, <span class="stevilo">882</span>, <span class="stevilo">883</span>, <span class="stevilo">885</span>, <span class="stevilo">886</span>, <span class="stevilo">890</span>, <span class="stevilo">891</span>, <span class="stevilo">892</span>, <span class="stevilo">894</span>, <span class="stevilo">895</span>, <span class="stevilo">896</span>, <span class="stevilo">897</span>, <span class="stevilo">898</span>, <span class="stevilo">899</span>, <span class="stevilo">900</span>, <span class="stevilo">901</span>, <span class="stevilo">902</span>, <span class="stevilo">904</span>, <span class="stevilo">905</span>, <span class="stevilo">906</span>, <span class="stevilo">907</span>, <span class="stevilo">908</span>, <span class="stevilo">910</span>, <span class="stevilo">912</span>, <span class="stevilo">915</span>, <span class="stevilo">916</span>, <span class="stevilo">919</span>, <span class="stevilo">920</span>, <span class="stevilo">921</span>, <span class="stevilo">923</span>, <span class="stevilo">924</span>, <span class="stevilo">925</span>, <span class="stevilo">926</span>, <span class="stevilo">927</span>, <span class="stevilo">930</span>, <span class="stevilo">931</span>, <span class="stevilo">932</span>, <span class="stevilo">933</span>, <span class="stevilo">934</span>, <span class="stevilo">935</span>, <span class="stevilo">936</span>, <span class="stevilo">938</span>, <span class="stevilo">939</span>, <span class="stevilo">941</span>, <span class="stevilo">942</span>, <span class="stevilo">943</span>, <span class="stevilo">945</span>, <span class="stevilo">946</span>, <span class="stevilo">947</span>, <span class="stevilo">948</span>, <span class="stevilo">951</span>, <span class="stevilo">953</span>, <span class="stevilo">954</span>, <span class="stevilo">955</span>, <span class="stevilo">957</span>, <span class="stevilo">959</span>, <span class="stevilo">960</span>, <span class="stevilo">963</span>, <span class="stevilo">964</span>, <span class="stevilo">966</span>, <span class="stevilo">967</span>, <span class="stevilo">968</span>, <span class="stevilo">970</span>, <span class="stevilo">971</span>, <span class="stevilo">973</span>, <span class="stevilo">974</span>, <span class="stevilo">975</span>, <span class="stevilo">976</span>, <span class="stevilo">977</span>, <span class="stevilo">979</span>, <span class="stevilo">980</span>, <span class="stevilo">983</span>, <span class="stevilo">984</span>, <span class="stevilo">987</span>, <span class="stevilo">993</span>, <span class="stevilo">995</span>, <span class="stevilo">997</span>, <span class="stevilo">999</span>);<br/>
+<tab><tab>List<Integer> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase5"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 5</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test05 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<String> la = List.of(<span class="niz">"abb"</span>, <span class="niz">"agk"</span>, <span class="niz">"amr"</span>, <span class="niz">"aus"</span>, <span class="niz">"bdd"</span>, <span class="niz">"bur"</span>, <span class="niz">"byg"</span>, <span class="niz">"clh"</span>, <span class="niz">"cni"</span>, <span class="niz">"cou"</span>, <span class="niz">"cqa"</span>, <span class="niz">"csr"</span>, <span class="niz">"dbc"</span>, <span class="niz">"dbz"</span>, <span class="niz">"djy"</span>, <span class="niz">"elg"</span>, <span class="niz">"eob"</span>, <span class="niz">"eop"</span>, <span class="niz">"eue"</span>, <span class="niz">"evu"</span>, <span class="niz">"ewz"</span>, <span class="niz">"exh"</span>, <span class="niz">"ezj"</span>, <span class="niz">"fan"</span>, <span class="niz">"fhp"</span>, <span class="niz">"fll"</span>, <span class="niz">"fop"</span>, <span class="niz">"fwo"</span>, <span class="niz">"gdx"</span>, <span class="niz">"git"</span>, <span class="niz">"gko"</span>, <span class="niz">"gqf"</span>, <span class="niz">"guo"</span>, <span class="niz">"hbo"</span>, <span class="niz">"hcf"</span>, <span class="niz">"huz"</span>, <span class="niz">"igj"</span>, <span class="niz">"iit"</span>, <span class="niz">"ilw"</span>, <span class="niz">"ilz"</span>, <span class="niz">"ipq"</span>, <span class="niz">"ipx"</span>, <span class="niz">"isr"</span>, <span class="niz">"jbi"</span>, <span class="niz">"jho"</span>, <span class="niz">"jkt"</span>, <span class="niz">"kmb"</span>, <span class="niz">"kmh"</span>, <span class="niz">"ktz"</span>, <span class="niz">"kuc"</span>, <span class="niz">"kvb"</span>, <span class="niz">"laq"</span>, <span class="niz">"lbk"</span>, <span class="niz">"liw"</span>, <span class="niz">"lko"</span>, <span class="niz">"lmk"</span>, <span class="niz">"lpw"</span>, <span class="niz">"lux"</span>, <span class="niz">"mfu"</span>, <span class="niz">"mih"</span>, <span class="niz">"mkp"</span>, <span class="niz">"mtg"</span>, <span class="niz">"mzx"</span>, <span class="niz">"nco"</span>, <span class="niz">"nnu"</span>, <span class="niz">"ocd"</span>, <span class="niz">"okq"</span>, <span class="niz">"omf"</span>, <span class="niz">"omi"</span>, <span class="niz">"ooy"</span>, <span class="niz">"orf"</span>, <span class="niz">"ovs"</span>, <span class="niz">"par"</span>);<br/>
+<tab><tab>List<String> lb = List.of(<span class="niz">"pbh"</span>, <span class="niz">"pdn"</span>, <span class="niz">"pdv"</span>, <span class="niz">"php"</span>, <span class="niz">"pjo"</span>, <span class="niz">"pmj"</span>, <span class="niz">"pmp"</span>, <span class="niz">"pvc"</span>, <span class="niz">"qap"</span>, <span class="niz">"qex"</span>, <span class="niz">"qim"</span>, <span class="niz">"qiu"</span>, <span class="niz">"qkc"</span>, <span class="niz">"qli"</span>, <span class="niz">"qqw"</span>, <span class="niz">"qtg"</span>, <span class="niz">"qtv"</span>, <span class="niz">"qvc"</span>, <span class="niz">"qvd"</span>, <span class="niz">"rcz"</span>, <span class="niz">"rjm"</span>, <span class="niz">"rpo"</span>, <span class="niz">"rtx"</span>, <span class="niz">"sbr"</span>, <span class="niz">"sbs"</span>, <span class="niz">"spp"</span>, <span class="niz">"sss"</span>, <span class="niz">"stk"</span>, <span class="niz">"stn"</span>, <span class="niz">"tfz"</span>, <span class="niz">"tmn"</span>, <span class="niz">"tqp"</span>, <span class="niz">"tyh"</span>, <span class="niz">"ucb"</span>, <span class="niz">"ufs"</span>, <span class="niz">"ugl"</span>, <span class="niz">"uhr"</span>, <span class="niz">"uia"</span>, <span class="niz">"ukc"</span>, <span class="niz">"ulz"</span>, <span class="niz">"unb"</span>, <span class="niz">"uqt"</span>, <span class="niz">"uug"</span>, <span class="niz">"uyq"</span>, <span class="niz">"vas"</span>, <span class="niz">"vbx"</span>, <span class="niz">"viz"</span>, <span class="niz">"vqn"</span>, <span class="niz">"wdv"</span>, <span class="niz">"weh"</span>, <span class="niz">"wmh"</span>, <span class="niz">"woa"</span>, <span class="niz">"wun"</span>, <span class="niz">"wzn"</span>, <span class="niz">"xax"</span>, <span class="niz">"xcw"</span>, <span class="niz">"xdx"</span>, <span class="niz">"xeo"</span>, <span class="niz">"xjg"</span>, <span class="niz">"xsj"</span>, <span class="niz">"xvh"</span>, <span class="niz">"xwh"</span>, <span class="niz">"ybl"</span>, <span class="niz">"ybz"</span>, <span class="niz">"yeo"</span>, <span class="niz">"ylt"</span>, <span class="niz">"yto"</span>, <span class="niz">"zbc"</span>, <span class="niz">"zno"</span>, <span class="niz">"zpw"</span>, <span class="niz">"zrb"</span>, <span class="niz">"ztw"</span>, <span class="niz">"zxv"</span>);<br/>
+<tab><tab>List<String> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase6"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 6</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test06 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<Integer> la = List.of(<span class="stevilo">39</span>, <span class="stevilo">116</span>, <span class="stevilo">211</span>, <span class="stevilo">240</span>, <span class="stevilo">408</span>, <span class="stevilo">466</span>, <span class="stevilo">595</span>, <span class="stevilo">623</span>, <span class="stevilo">691</span>, <span class="stevilo">783</span>, <span class="stevilo">901</span>);<br/>
+<tab><tab>List<Integer> lb = List.of(<span class="stevilo">91</span>, <span class="stevilo">128</span>, <span class="stevilo">228</span>, <span class="stevilo">352</span>, <span class="stevilo">417</span>, <span class="stevilo">522</span>, <span class="stevilo">600</span>, <span class="stevilo">638</span>, <span class="stevilo">747</span>, <span class="stevilo">801</span>, <span class="stevilo">979</span>);<br/>
+<tab><tab>List<Integer> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase7"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 7</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test07 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<String> la = List.of(<span class="niz">"aaf"</span>, <span class="niz">"aav"</span>, <span class="niz">"adp"</span>, <span class="niz">"ake"</span>, <span class="niz">"ano"</span>, <span class="niz">"apg"</span>, <span class="niz">"avd"</span>, <span class="niz">"awn"</span>, <span class="niz">"ayt"</span>, <span class="niz">"bbw"</span>, <span class="niz">"beb"</span>, <span class="niz">"bsv"</span>, <span class="niz">"bxn"</span>, <span class="niz">"cml"</span>, <span class="niz">"cun"</span>, <span class="niz">"cwd"</span>, <span class="niz">"czb"</span>, <span class="niz">"dci"</span>, <span class="niz">"deg"</span>, <span class="niz">"dgu"</span>, <span class="niz">"dld"</span>, <span class="niz">"dmg"</span>, <span class="niz">"dse"</span>, <span class="niz">"dvc"</span>, <span class="niz">"dwz"</span>, <span class="niz">"dzu"</span>, <span class="niz">"ecr"</span>, <span class="niz">"eif"</span>, <span class="niz">"eqv"</span>, <span class="niz">"euk"</span>, <span class="niz">"fal"</span>, <span class="niz">"fff"</span>, <span class="niz">"fgz"</span>, <span class="niz">"fkh"</span>, <span class="niz">"fnq"</span>, <span class="niz">"fpy"</span>, <span class="niz">"fvq"</span>, <span class="niz">"gbz"</span>, <span class="niz">"gel"</span>, <span class="niz">"gmi"</span>, <span class="niz">"grm"</span>, <span class="niz">"gww"</span>, <span class="niz">"haw"</span>, <span class="niz">"hcb"</span>, <span class="niz">"hen"</span>, <span class="niz">"hft"</span>, <span class="niz">"hki"</span>, <span class="niz">"hnd"</span>, <span class="niz">"hsy"</span>, <span class="niz">"hvv"</span>, <span class="niz">"hyi"</span>, <span class="niz">"ifn"</span>, <span class="niz">"iij"</span>, <span class="niz">"iky"</span>, <span class="niz">"ilo"</span>, <span class="niz">"inq"</span>, <span class="niz">"ivf"</span>, <span class="niz">"jfg"</span>, <span class="niz">"jkb"</span>, <span class="niz">"jpv"</span>, <span class="niz">"kbh"</span>, <span class="niz">"kdy"</span>, <span class="niz">"kjv"</span>, <span class="niz">"kly"</span>, <span class="niz">"kus"</span>, <span class="niz">"kvm"</span>, <span class="niz">"kzd"</span>, <span class="niz">"lgu"</span>, <span class="niz">"llp"</span>, <span class="niz">"log"</span>, <span class="niz">"lyf"</span>, <span class="niz">"mdb"</span>, <span class="niz">"mft"</span>, <span class="niz">"mnb"</span>, <span class="niz">"moz"</span>, <span class="niz">"mus"</span>, <span class="niz">"myi"</span>, <span class="niz">"ncg"</span>, <span class="niz">"nhn"</span>, <span class="niz">"nqn"</span>, <span class="niz">"nxo"</span>, <span class="niz">"nyy"</span>, <span class="niz">"ocz"</span>, <span class="niz">"olf"</span>, <span class="niz">"oxd"</span>, <span class="niz">"pfc"</span>, <span class="niz">"phi"</span>, <span class="niz">"pma"</span>, <span class="niz">"pnw"</span>, <span class="niz">"pra"</span>, <span class="niz">"ptc"</span>, <span class="niz">"pxq"</span>, <span class="niz">"qba"</span>, <span class="niz">"qcq"</span>, <span class="niz">"qkb"</span>, <span class="niz">"qkj"</span>, <span class="niz">"qoq"</span>, <span class="niz">"qpp"</span>, <span class="niz">"qut"</span>, <span class="niz">"rcw"</span>, <span class="niz">"rde"</span>, <span class="niz">"rft"</span>, <span class="niz">"roz"</span>, <span class="niz">"rpj"</span>, <span class="niz">"rta"</span>, <span class="niz">"rvp"</span>, <span class="niz">"rwz"</span>, <span class="niz">"sdt"</span>, <span class="niz">"skq"</span>, <span class="niz">"suw"</span>, <span class="niz">"syv"</span>, <span class="niz">"tcp"</span>, <span class="niz">"tek"</span>, <span class="niz">"ths"</span>, <span class="niz">"tmi"</span>, <span class="niz">"tnl"</span>, <span class="niz">"tqh"</span>, <span class="niz">"tvd"</span>, <span class="niz">"uat"</span>, <span class="niz">"udj"</span>, <span class="niz">"ufl"</span>, <span class="niz">"ujg"</span>, <span class="niz">"umc"</span>, <span class="niz">"uob"</span>, <span class="niz">"uwm"</span>, <span class="niz">"uxg"</span>, <span class="niz">"uza"</span>, <span class="niz">"vez"</span>, <span class="niz">"viw"</span>, <span class="niz">"vmi"</span>, <span class="niz">"vpl"</span>, <span class="niz">"vtg"</span>, <span class="niz">"vuj"</span>, <span class="niz">"vyp"</span>, <span class="niz">"vzs"</span>, <span class="niz">"wjc"</span>, <span class="niz">"wmm"</span>, <span class="niz">"wog"</span>, <span class="niz">"wtp"</span>, <span class="niz">"wvk"</span>, <span class="niz">"wzp"</span>, <span class="niz">"xfq"</span>, <span class="niz">"xjd"</span>, <span class="niz">"xmc"</span>, <span class="niz">"xrj"</span>, <span class="niz">"xvh"</span>, <span class="niz">"ycc"</span>, <span class="niz">"yfo"</span>, <span class="niz">"yhb"</span>, <span class="niz">"yoa"</span>, <span class="niz">"ysx"</span>, <span class="niz">"yxj"</span>, <span class="niz">"yzs"</span>, <span class="niz">"zkn"</span>, <span class="niz">"zle"</span>, <span class="niz">"ztn"</span>);<br/>
+<tab><tab>List<String> lb = List.of(<span class="niz">"aaj"</span>, <span class="niz">"ace"</span>, <span class="niz">"aje"</span>, <span class="niz">"amc"</span>, <span class="niz">"apd"</span>, <span class="niz">"arv"</span>, <span class="niz">"avs"</span>, <span class="niz">"axi"</span>, <span class="niz">"bav"</span>, <span class="niz">"bcn"</span>, <span class="niz">"bon"</span>, <span class="niz">"bvm"</span>, <span class="niz">"cfr"</span>, <span class="niz">"csm"</span>, <span class="niz">"cvd"</span>, <span class="niz">"cxa"</span>, <span class="niz">"dcc"</span>, <span class="niz">"dcy"</span>, <span class="niz">"dfw"</span>, <span class="niz">"dhl"</span>, <span class="niz">"dll"</span>, <span class="niz">"dnf"</span>, <span class="niz">"dtv"</span>, <span class="niz">"dwn"</span>, <span class="niz">"dyi"</span>, <span class="niz">"eay"</span>, <span class="niz">"ehy"</span>, <span class="niz">"enb"</span>, <span class="niz">"erm"</span>, <span class="niz">"fag"</span>, <span class="niz">"fby"</span>, <span class="niz">"ffz"</span>, <span class="niz">"fhn"</span>, <span class="niz">"fkp"</span>, <span class="niz">"fpd"</span>, <span class="niz">"frh"</span>, <span class="niz">"gab"</span>, <span class="niz">"gdd"</span>, <span class="niz">"gep"</span>, <span class="niz">"gpb"</span>, <span class="niz">"guu"</span>, <span class="niz">"ham"</span>, <span class="niz">"hbr"</span>, <span class="niz">"hed"</span>, <span class="niz">"hfj"</span>, <span class="niz">"hhu"</span>, <span class="niz">"hko"</span>, <span class="niz">"hqq"</span>, <span class="niz">"hth"</span>, <span class="niz">"hxh"</span>, <span class="niz">"icy"</span>, <span class="niz">"ihf"</span>, <span class="niz">"ijs"</span>, <span class="niz">"ilh"</span>, <span class="niz">"imc"</span>, <span class="niz">"irk"</span>, <span class="niz">"jfa"</span>, <span class="niz">"jhe"</span>, <span class="niz">"jms"</span>, <span class="niz">"jxk"</span>, <span class="niz">"kbz"</span>, <span class="niz">"kga"</span>, <span class="niz">"kjz"</span>, <span class="niz">"kmq"</span>, <span class="niz">"kvk"</span>, <span class="niz">"kxu"</span>, <span class="niz">"lbh"</span>, <span class="niz">"ljo"</span>, <span class="niz">"llt"</span>, <span class="niz">"los"</span>, <span class="niz">"mad"</span>, <span class="niz">"meo"</span>, <span class="niz">"mmz"</span>, <span class="niz">"mnc"</span>, <span class="niz">"mpe"</span>, <span class="niz">"myb"</span>, <span class="niz">"nab"</span>, <span class="niz">"ndc"</span>, <span class="niz">"nly"</span>, <span class="niz">"nts"</span>, <span class="niz">"nxq"</span>, <span class="niz">"ocy"</span>, <span class="niz">"oek"</span>, <span class="niz">"ooj"</span>, <span class="niz">"pbf"</span>, <span class="niz">"pgt"</span>, <span class="niz">"plb"</span>, <span class="niz">"pmk"</span>, <span class="niz">"pqv"</span>, <span class="niz">"psu"</span>, <span class="niz">"pwa"</span>, <span class="niz">"pxy"</span>, <span class="niz">"qcd"</span>, <span class="niz">"qhz"</span>, <span class="niz">"qkd"</span>, <span class="niz">"qkp"</span>, <span class="niz">"qoz"</span>, <span class="niz">"quc"</span>, <span class="niz">"qwh"</span>, <span class="niz">"rcx"</span>, <span class="niz">"rfl"</span>, <span class="niz">"rjx"</span>, <span class="niz">"rpa"</span>, <span class="niz">"rqp"</span>, <span class="niz">"rtb"</span>, <span class="niz">"rvz"</span>, <span class="niz">"sba"</span>, <span class="niz">"sft"</span>, <span class="niz">"sny"</span>, <span class="niz">"sxv"</span>, <span class="niz">"szp"</span>, <span class="niz">"tdc"</span>, <span class="niz">"tgv"</span>, <span class="niz">"tmd"</span>, <span class="niz">"tmo"</span>, <span class="niz">"top"</span>, <span class="niz">"tuf"</span>, <span class="niz">"uan"</span>, <span class="niz">"ubc"</span>, <span class="niz">"uei"</span>, <span class="niz">"ufu"</span>, <span class="niz">"ukv"</span>, <span class="niz">"ume"</span>, <span class="niz">"urw"</span>, <span class="niz">"uwq"</span>, <span class="niz">"uxq"</span>, <span class="niz">"uzv"</span>, <span class="niz">"vhz"</span>, <span class="niz">"vkj"</span>, <span class="niz">"vos"</span>, <span class="niz">"vsk"</span>, <span class="niz">"vtr"</span>, <span class="niz">"vwu"</span>, <span class="niz">"vzj"</span>, <span class="niz">"wdt"</span>, <span class="niz">"wjg"</span>, <span class="niz">"wnr"</span>, <span class="niz">"wpw"</span>, <span class="niz">"wtr"</span>, <span class="niz">"wvw"</span>, <span class="niz">"xaa"</span>, <span class="niz">"xgh"</span>, <span class="niz">"xjh"</span>, <span class="niz">"xnd"</span>, <span class="niz">"xtn"</span>, <span class="niz">"xxa"</span>, <span class="niz">"yci"</span>, <span class="niz">"ygd"</span>, <span class="niz">"yiq"</span>, <span class="niz">"ypx"</span>, <span class="niz">"yvo"</span>, <span class="niz">"yye"</span>, <span class="niz">"zjq"</span>, <span class="niz">"zkq"</span>, <span class="niz">"zqo"</span>, <span class="niz">"zzy"</span>);<br/>
+<tab><tab>List<String> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase8"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 8</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test08 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<Integer> la = List.of(<span class="stevilo">33</span>, <span class="stevilo">39</span>, <span class="stevilo">53</span>, <span class="stevilo">57</span>, <span class="stevilo">73</span>, <span class="stevilo">85</span>, <span class="stevilo">98</span>, <span class="stevilo">120</span>, <span class="stevilo">121</span>, <span class="stevilo">151</span>, <span class="stevilo">152</span>, <span class="stevilo">157</span>, <span class="stevilo">185</span>, <span class="stevilo">188</span>, <span class="stevilo">189</span>, <span class="stevilo">241</span>, <span class="stevilo">243</span>, <span class="stevilo">300</span>, <span class="stevilo">324</span>, <span class="stevilo">347</span>, <span class="stevilo">381</span>, <span class="stevilo">385</span>, <span class="stevilo">401</span>, <span class="stevilo">415</span>, <span class="stevilo">419</span>, <span class="stevilo">421</span>, <span class="stevilo">434</span>, <span class="stevilo">451</span>, <span class="stevilo">486</span>, <span class="stevilo">502</span>, <span class="stevilo">508</span>, <span class="stevilo">521</span>, <span class="stevilo">525</span>, <span class="stevilo">527</span>, <span class="stevilo">542</span>, <span class="stevilo">554</span>, <span class="stevilo">556</span>, <span class="stevilo">560</span>, <span class="stevilo">567</span>, <span class="stevilo">579</span>, <span class="stevilo">590</span>, <span class="stevilo">609</span>, <span class="stevilo">623</span>, <span class="stevilo">631</span>, <span class="stevilo">633</span>, <span class="stevilo">650</span>, <span class="stevilo">673</span>, <span class="stevilo">755</span>, <span class="stevilo">756</span>, <span class="stevilo">760</span>, <span class="stevilo">781</span>, <span class="stevilo">791</span>, <span class="stevilo">792</span>, <span class="stevilo">799</span>, <span class="stevilo">805</span>, <span class="stevilo">856</span>, <span class="stevilo">874</span>, <span class="stevilo">880</span>, <span class="stevilo">885</span>, <span class="stevilo">897</span>, <span class="stevilo">924</span>, <span class="stevilo">958</span>, <span class="stevilo">962</span>, <span class="stevilo">971</span>, <span class="stevilo">979</span>, <span class="stevilo">980</span>);<br/>
+<tab><tab>List<Integer> lb = List.of(<span class="stevilo">12</span>, <span class="stevilo">13</span>, <span class="stevilo">16</span>, <span class="stevilo">17</span>, <span class="stevilo">18</span>, <span class="stevilo">23</span>, <span class="stevilo">24</span>, <span class="stevilo">25</span>, <span class="stevilo">29</span>, <span class="stevilo">30</span>, <span class="stevilo">35</span>, <span class="stevilo">38</span>, <span class="stevilo">41</span>, <span class="stevilo">46</span>, <span class="stevilo">48</span>, <span class="stevilo">51</span>, <span class="stevilo">53</span>, <span class="stevilo">58</span>, <span class="stevilo">59</span>, <span class="stevilo">62</span>, <span class="stevilo">63</span>, <span class="stevilo">72</span>, <span class="stevilo">73</span>, <span class="stevilo">75</span>, <span class="stevilo">76</span>, <span class="stevilo">77</span>, <span class="stevilo">79</span>, <span class="stevilo">84</span>, <span class="stevilo">87</span>, <span class="stevilo">88</span>, <span class="stevilo">91</span>, <span class="stevilo">93</span>, <span class="stevilo">97</span>, <span class="stevilo">98</span>, <span class="stevilo">99</span>, <span class="stevilo">101</span>, <span class="stevilo">104</span>, <span class="stevilo">105</span>, <span class="stevilo">107</span>, <span class="stevilo">108</span>, <span class="stevilo">111</span>, <span class="stevilo">122</span>, <span class="stevilo">123</span>, <span class="stevilo">133</span>, <span class="stevilo">139</span>, <span class="stevilo">140</span>, <span class="stevilo">144</span>, <span class="stevilo">145</span>, <span class="stevilo">154</span>, <span class="stevilo">156</span>, <span class="stevilo">160</span>, <span class="stevilo">161</span>, <span class="stevilo">166</span>, <span class="stevilo">169</span>, <span class="stevilo">172</span>, <span class="stevilo">174</span>, <span class="stevilo">183</span>, <span class="stevilo">185</span>, <span class="stevilo">186</span>, <span class="stevilo">188</span>, <span class="stevilo">191</span>, <span class="stevilo">195</span>, <span class="stevilo">199</span>, <span class="stevilo">202</span>, <span class="stevilo">203</span>, <span class="stevilo">211</span>, <span class="stevilo">212</span>, <span class="stevilo">213</span>, <span class="stevilo">223</span>, <span class="stevilo">224</span>, <span class="stevilo">236</span>, <span class="stevilo">239</span>, <span class="stevilo">241</span>, <span class="stevilo">242</span>, <span class="stevilo">243</span>, <span class="stevilo">247</span>, <span class="stevilo">250</span>, <span class="stevilo">253</span>, <span class="stevilo">255</span>, <span class="stevilo">257</span>, <span class="stevilo">258</span>, <span class="stevilo">259</span>, <span class="stevilo">268</span>, <span class="stevilo">277</span>, <span class="stevilo">279</span>, <span class="stevilo">285</span>, <span class="stevilo">287</span>, <span class="stevilo">288</span>, <span class="stevilo">291</span>, <span class="stevilo">292</span>, <span class="stevilo">295</span>, <span class="stevilo">296</span>, <span class="stevilo">304</span>, <span class="stevilo">305</span>, <span class="stevilo">314</span>, <span class="stevilo">318</span>, <span class="stevilo">320</span>, <span class="stevilo">322</span>, <span class="stevilo">325</span>, <span class="stevilo">329</span>, <span class="stevilo">331</span>, <span class="stevilo">332</span>, <span class="stevilo">336</span>, <span class="stevilo">338</span>, <span class="stevilo">341</span>, <span class="stevilo">349</span>, <span class="stevilo">352</span>, <span class="stevilo">354</span>, <span class="stevilo">362</span>, <span class="stevilo">365</span>, <span class="stevilo">372</span>, <span class="stevilo">373</span>, <span class="stevilo">376</span>, <span class="stevilo">377</span>, <span class="stevilo">381</span>, <span class="stevilo">385</span>, <span class="stevilo">386</span>, <span class="stevilo">387</span>, <span class="stevilo">392</span>, <span class="stevilo">393</span>, <span class="stevilo">398</span>, <span class="stevilo">402</span>, <span class="stevilo">409</span>, <span class="stevilo">410</span>, <span class="stevilo">412</span>, <span class="stevilo">413</span>, <span class="stevilo">417</span>, <span class="stevilo">433</span>, <span class="stevilo">437</span>, <span class="stevilo">446</span>, <span class="stevilo">448</span>, <span class="stevilo">451</span>, <span class="stevilo">452</span>, <span class="stevilo">455</span>, <span class="stevilo">457</span>, <span class="stevilo">463</span>, <span class="stevilo">465</span>, <span class="stevilo">469</span>, <span class="stevilo">470</span>, <span class="stevilo">475</span>, <span class="stevilo">476</span>, <span class="stevilo">488</span>, <span class="stevilo">493</span>, <span class="stevilo">494</span>, <span class="stevilo">503</span>, <span class="stevilo">505</span>, <span class="stevilo">510</span>, <span class="stevilo">512</span>, <span class="stevilo">516</span>, <span class="stevilo">517</span>, <span class="stevilo">524</span>, <span class="stevilo">531</span>, <span class="stevilo">533</span>, <span class="stevilo">537</span>, <span class="stevilo">541</span>, <span class="stevilo">543</span>, <span class="stevilo">544</span>, <span class="stevilo">545</span>, <span class="stevilo">547</span>, <span class="stevilo">549</span>, <span class="stevilo">551</span>, <span class="stevilo">552</span>, <span class="stevilo">553</span>, <span class="stevilo">561</span>, <span class="stevilo">564</span>, <span class="stevilo">571</span>, <span class="stevilo">572</span>, <span class="stevilo">576</span>, <span class="stevilo">577</span>, <span class="stevilo">579</span>, <span class="stevilo">584</span>, <span class="stevilo">585</span>, <span class="stevilo">587</span>, <span class="stevilo">593</span>, <span class="stevilo">597</span>, <span class="stevilo">599</span>, <span class="stevilo">600</span>, <span class="stevilo">602</span>, <span class="stevilo">604</span>, <span class="stevilo">608</span>, <span class="stevilo">610</span>, <span class="stevilo">611</span>, <span class="stevilo">612</span>, <span class="stevilo">624</span>, <span class="stevilo">626</span>, <span class="stevilo">627</span>, <span class="stevilo">631</span>, <span class="stevilo">636</span>, <span class="stevilo">646</span>, <span class="stevilo">647</span>, <span class="stevilo">654</span>, <span class="stevilo">657</span>, <span class="stevilo">658</span>, <span class="stevilo">659</span>, <span class="stevilo">662</span>, <span class="stevilo">675</span>, <span class="stevilo">677</span>, <span class="stevilo">678</span>, <span class="stevilo">686</span>, <span class="stevilo">687</span>, <span class="stevilo">688</span>, <span class="stevilo">693</span>, <span class="stevilo">698</span>, <span class="stevilo">703</span>, <span class="stevilo">708</span>, <span class="stevilo">709</span>, <span class="stevilo">710</span>, <span class="stevilo">712</span>, <span class="stevilo">717</span>, <span class="stevilo">718</span>, <span class="stevilo">726</span>, <span class="stevilo">730</span>, <span class="stevilo">735</span>, <span class="stevilo">740</span>, <span class="stevilo">748</span>, <span class="stevilo">755</span>, <span class="stevilo">759</span>, <span class="stevilo">762</span>, <span class="stevilo">768</span>, <span class="stevilo">769</span>, <span class="stevilo">770</span>, <span class="stevilo">772</span>, <span class="stevilo">781</span>, <span class="stevilo">786</span>, <span class="stevilo">795</span>, <span class="stevilo">799</span>, <span class="stevilo">800</span>, <span class="stevilo">804</span>, <span class="stevilo">808</span>, <span class="stevilo">817</span>, <span class="stevilo">819</span>, <span class="stevilo">822</span>, <span class="stevilo">826</span>, <span class="stevilo">838</span>, <span class="stevilo">840</span>, <span class="stevilo">842</span>, <span class="stevilo">850</span>, <span class="stevilo">851</span>, <span class="stevilo">852</span>, <span class="stevilo">859</span>, <span class="stevilo">862</span>, <span class="stevilo">865</span>, <span class="stevilo">866</span>, <span class="stevilo">872</span>, <span class="stevilo">877</span>, <span class="stevilo">881</span>, <span class="stevilo">882</span>, <span class="stevilo">884</span>, <span class="stevilo">889</span>, <span class="stevilo">891</span>, <span class="stevilo">895</span>, <span class="stevilo">897</span>, <span class="stevilo">898</span>, <span class="stevilo">900</span>, <span class="stevilo">903</span>, <span class="stevilo">908</span>, <span class="stevilo">919</span>, <span class="stevilo">920</span>, <span class="stevilo">924</span>, <span class="stevilo">925</span>, <span class="stevilo">933</span>, <span class="stevilo">935</span>, <span class="stevilo">944</span>, <span class="stevilo">947</span>, <span class="stevilo">952</span>, <span class="stevilo">958</span>, <span class="stevilo">968</span>, <span class="stevilo">974</span>, <span class="stevilo">980</span>, <span class="stevilo">983</span>, <span class="stevilo">988</span>, <span class="stevilo">990</span>, <span class="stevilo">992</span>, <span class="stevilo">993</span>);<br/>
+<tab><tab>List<Integer> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase9"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 9</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test09 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<String> la = List.of(<span class="niz">"auu"</span>, <span class="niz">"ciu"</span>, <span class="niz">"cxn"</span>, <span class="niz">"dlx"</span>, <span class="niz">"dux"</span>, <span class="niz">"eey"</span>, <span class="niz">"esa"</span>, <span class="niz">"ezu"</span>, <span class="niz">"fgn"</span>, <span class="niz">"gld"</span>, <span class="niz">"hcv"</span>, <span class="niz">"hol"</span>, <span class="niz">"kmg"</span>, <span class="niz">"mmx"</span>, <span class="niz">"niv"</span>, <span class="niz">"nwh"</span>, <span class="niz">"qpv"</span>, <span class="niz">"rha"</span>, <span class="niz">"sfu"</span>, <span class="niz">"slj"</span>, <span class="niz">"uqt"</span>, <span class="niz">"uqy"</span>, <span class="niz">"vkz"</span>, <span class="niz">"wzc"</span>, <span class="niz">"xcp"</span>, <span class="niz">"yhj"</span>, <span class="niz">"yri"</span>);<br/>
+<tab><tab>List<String> lb = List.of(<span class="niz">"aah"</span>, <span class="niz">"abj"</span>, <span class="niz">"acd"</span>, <span class="niz">"aeo"</span>, <span class="niz">"afq"</span>, <span class="niz">"alg"</span>, <span class="niz">"bam"</span>, <span class="niz">"bct"</span>, <span class="niz">"bei"</span>, <span class="niz">"bgm"</span>, <span class="niz">"bhu"</span>, <span class="niz">"bic"</span>, <span class="niz">"bid"</span>, <span class="niz">"big"</span>, <span class="niz">"bpl"</span>, <span class="niz">"bqy"</span>, <span class="niz">"brc"</span>, <span class="niz">"bwp"</span>, <span class="niz">"cat"</span>, <span class="niz">"cdi"</span>, <span class="niz">"chn"</span>, <span class="niz">"cjl"</span>, <span class="niz">"cjm"</span>, <span class="niz">"cnb"</span>, <span class="niz">"con"</span>, <span class="niz">"cqq"</span>, <span class="niz">"cre"</span>, <span class="niz">"crn"</span>, <span class="niz">"crr"</span>, <span class="niz">"cte"</span>, <span class="niz">"cuz"</span>, <span class="niz">"cvc"</span>, <span class="niz">"cvl"</span>, <span class="niz">"cvz"</span>, <span class="niz">"cwd"</span>, <span class="niz">"cxl"</span>, <span class="niz">"cyi"</span>, <span class="niz">"czq"</span>, <span class="niz">"czv"</span>, <span class="niz">"dce"</span>, <span class="niz">"dei"</span>, <span class="niz">"dep"</span>, <span class="niz">"dev"</span>, <span class="niz">"dnf"</span>, <span class="niz">"dos"</span>, <span class="niz">"dpw"</span>, <span class="niz">"dqw"</span>, <span class="niz">"dsp"</span>, <span class="niz">"dtr"</span>, <span class="niz">"duw"</span>, <span class="niz">"dvq"</span>, <span class="niz">"dxb"</span>, <span class="niz">"dxw"</span>, <span class="niz">"eao"</span>, <span class="niz">"edb"</span>, <span class="niz">"eea"</span>, <span class="niz">"efx"</span>, <span class="niz">"ehq"</span>, <span class="niz">"ehy"</span>, <span class="niz">"elc"</span>, <span class="niz">"enq"</span>, <span class="niz">"eoz"</span>, <span class="niz">"epp"</span>, <span class="niz">"euc"</span>, <span class="niz">"exk"</span>, <span class="niz">"fci"</span>, <span class="niz">"fdr"</span>, <span class="niz">"fjq"</span>, <span class="niz">"fmw"</span>, <span class="niz">"fol"</span>, <span class="niz">"fph"</span>, <span class="niz">"fpk"</span>, <span class="niz">"fud"</span>, <span class="niz">"fur"</span>, <span class="niz">"fxj"</span>, <span class="niz">"gfl"</span>, <span class="niz">"ggm"</span>, <span class="niz">"ggu"</span>, <span class="niz">"gls"</span>, <span class="niz">"gmp"</span>, <span class="niz">"goy"</span>, <span class="niz">"gts"</span>, <span class="niz">"gzx"</span>, <span class="niz">"hat"</span>, <span class="niz">"hef"</span>, <span class="niz">"hgw"</span>, <span class="niz">"hpc"</span>, <span class="niz">"hsw"</span>, <span class="niz">"hzn"</span>, <span class="niz">"ibi"</span>, <span class="niz">"icr"</span>, <span class="niz">"ieg"</span>, <span class="niz">"ifh"</span>, <span class="niz">"iie"</span>, <span class="niz">"ilm"</span>, <span class="niz">"inh"</span>, <span class="niz">"irj"</span>, <span class="niz">"itd"</span>, <span class="niz">"iyp"</span>, <span class="niz">"iza"</span>, <span class="niz">"izn"</span>, <span class="niz">"izv"</span>, <span class="niz">"jbl"</span>, <span class="niz">"jcc"</span>, <span class="niz">"jep"</span>, <span class="niz">"jir"</span>, <span class="niz">"jjb"</span>, <span class="niz">"jkk"</span>, <span class="niz">"jkt"</span>, <span class="niz">"jlf"</span>, <span class="niz">"jon"</span>, <span class="niz">"joo"</span>, <span class="niz">"jpy"</span>, <span class="niz">"jqp"</span>, <span class="niz">"jrg"</span>, <span class="niz">"jrk"</span>, <span class="niz">"jve"</span>, <span class="niz">"kbf"</span>, <span class="niz">"kbh"</span>, <span class="niz">"kdc"</span>, <span class="niz">"kfh"</span>, <span class="niz">"kma"</span>, <span class="niz">"kmm"</span>, <span class="niz">"leu"</span>, <span class="niz">"lfe"</span>, <span class="niz">"lfz"</span>, <span class="niz">"lgv"</span>, <span class="niz">"lko"</span>, <span class="niz">"llo"</span>, <span class="niz">"lnm"</span>, <span class="niz">"lte"</span>, <span class="niz">"lys"</span>, <span class="niz">"mds"</span>, <span class="niz">"mee"</span>, <span class="niz">"mhm"</span>, <span class="niz">"mhz"</span>, <span class="niz">"mil"</span>, <span class="niz">"mjz"</span>, <span class="niz">"mlb"</span>, <span class="niz">"mnr"</span>, <span class="niz">"mvx"</span>, <span class="niz">"mzi"</span>, <span class="niz">"nbx"</span>, <span class="niz">"nej"</span>, <span class="niz">"nfw"</span>, <span class="niz">"nhg"</span>, <span class="niz">"nkp"</span>, <span class="niz">"nmd"</span>, <span class="niz">"nor"</span>, <span class="niz">"nrk"</span>, <span class="niz">"nrs"</span>, <span class="niz">"nsb"</span>, <span class="niz">"nxp"</span>, <span class="niz">"nyc"</span>, <span class="niz">"nzv"</span>, <span class="niz">"nzy"</span>, <span class="niz">"oeg"</span>, <span class="niz">"oez"</span>, <span class="niz">"ogh"</span>, <span class="niz">"ogm"</span>, <span class="niz">"ogt"</span>, <span class="niz">"oht"</span>, <span class="niz">"ohz"</span>, <span class="niz">"oif"</span>, <span class="niz">"oil"</span>, <span class="niz">"oip"</span>, <span class="niz">"ojj"</span>, <span class="niz">"okf"</span>, <span class="niz">"oou"</span>, <span class="niz">"oxr"</span>, <span class="niz">"ozu"</span>, <span class="niz">"pbf"</span>, <span class="niz">"pdg"</span>, <span class="niz">"pfd"</span>, <span class="niz">"piy"</span>, <span class="niz">"ppr"</span>, <span class="niz">"ppv"</span>, <span class="niz">"pwf"</span>, <span class="niz">"pxh"</span>, <span class="niz">"pxt"</span>, <span class="niz">"pyr"</span>, <span class="niz">"pzl"</span>, <span class="niz">"qbb"</span>, <span class="niz">"qgv"</span>, <span class="niz">"qhs"</span>, <span class="niz">"qiv"</span>, <span class="niz">"qlt"</span>, <span class="niz">"qma"</span>, <span class="niz">"qpk"</span>, <span class="niz">"qzi"</span>, <span class="niz">"rbh"</span>, <span class="niz">"rfa"</span>, <span class="niz">"rkt"</span>, <span class="niz">"rna"</span>, <span class="niz">"rpl"</span>, <span class="niz">"rpq"</span>, <span class="niz">"rrm"</span>, <span class="niz">"rvi"</span>, <span class="niz">"rvl"</span>, <span class="niz">"saq"</span>, <span class="niz">"seo"</span>, <span class="niz">"sfd"</span>, <span class="niz">"skj"</span>, <span class="niz">"skr"</span>, <span class="niz">"sse"</span>, <span class="niz">"ssx"</span>, <span class="niz">"sxj"</span>, <span class="niz">"sxr"</span>, <span class="niz">"syz"</span>, <span class="niz">"tat"</span>, <span class="niz">"tic"</span>, <span class="niz">"tpc"</span>, <span class="niz">"tpl"</span>, <span class="niz">"tvu"</span>, <span class="niz">"txd"</span>, <span class="niz">"txv"</span>, <span class="niz">"tzz"</span>, <span class="niz">"uar"</span>, <span class="niz">"ubf"</span>, <span class="niz">"udc"</span>, <span class="niz">"uef"</span>, <span class="niz">"uei"</span>, <span class="niz">"uen"</span>, <span class="niz">"ufi"</span>, <span class="niz">"ujd"</span>, <span class="niz">"uoj"</span>, <span class="niz">"uqm"</span>, <span class="niz">"uqy"</span>, <span class="niz">"utd"</span>, <span class="niz">"uwe"</span>, <span class="niz">"vbx"</span>, <span class="niz">"vci"</span>, <span class="niz">"vct"</span>, <span class="niz">"vek"</span>, <span class="niz">"vel"</span>, <span class="niz">"viz"</span>, <span class="niz">"vje"</span>, <span class="niz">"vnt"</span>, <span class="niz">"vow"</span>, <span class="niz">"vpm"</span>, <span class="niz">"vuv"</span>, <span class="niz">"vvi"</span>, <span class="niz">"vvz"</span>, <span class="niz">"vxg"</span>, <span class="niz">"vxk"</span>, <span class="niz">"vyi"</span>, <span class="niz">"wco"</span>, <span class="niz">"weu"</span>, <span class="niz">"whk"</span>, <span class="niz">"why"</span>, <span class="niz">"wnx"</span>, <span class="niz">"wqy"</span>, <span class="niz">"wsf"</span>, <span class="niz">"wvb"</span>, <span class="niz">"wxc"</span>, <span class="niz">"wyw"</span>, <span class="niz">"wzm"</span>, <span class="niz">"xak"</span>, <span class="niz">"xba"</span>, <span class="niz">"xbl"</span>, <span class="niz">"xfa"</span>, <span class="niz">"xki"</span>, <span class="niz">"xlu"</span>, <span class="niz">"xmz"</span>, <span class="niz">"xnj"</span>, <span class="niz">"xok"</span>, <span class="niz">"xpp"</span>, <span class="niz">"xrp"</span>, <span class="niz">"xsj"</span>, <span class="niz">"xur"</span>, <span class="niz">"xus"</span>, <span class="niz">"xwc"</span>, <span class="niz">"xwj"</span>, <span class="niz">"xyo"</span>, <span class="niz">"yaa"</span>, <span class="niz">"yar"</span>, <span class="niz">"yhf"</span>, <span class="niz">"ypb"</span>, <span class="niz">"yqn"</span>, <span class="niz">"yth"</span>, <span class="niz">"yve"</span>, <span class="niz">"ywb"</span>, <span class="niz">"zcd"</span>, <span class="niz">"zfp"</span>, <span class="niz">"zgt"</span>, <span class="niz">"zhs"</span>, <span class="niz">"zlo"</span>, <span class="niz">"zpb"</span>, <span class="niz">"zpy"</span>, <span class="niz">"zxs"</span>);<br/>
+<tab><tab>List<String> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase10"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 10</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test10 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<Integer> la = List.of(<span class="stevilo">7</span>, <span class="stevilo">14</span>, <span class="stevilo">16</span>, <span class="stevilo">18</span>, <span class="stevilo">21</span>, <span class="stevilo">22</span>, <span class="stevilo">24</span>, <span class="stevilo">32</span>, <span class="stevilo">34</span>, <span class="stevilo">35</span>, <span class="stevilo">36</span>, <span class="stevilo">48</span>, <span class="stevilo">51</span>, <span class="stevilo">52</span>, <span class="stevilo">55</span>, <span class="stevilo">63</span>, <span class="stevilo">69</span>, <span class="stevilo">73</span>, <span class="stevilo">76</span>, <span class="stevilo">77</span>, <span class="stevilo">81</span>, <span class="stevilo">83</span>, <span class="stevilo">85</span>, <span class="stevilo">88</span>, <span class="stevilo">90</span>, <span class="stevilo">94</span>, <span class="stevilo">95</span>, <span class="stevilo">101</span>, <span class="stevilo">111</span>, <span class="stevilo">114</span>, <span class="stevilo">116</span>, <span class="stevilo">118</span>, <span class="stevilo">125</span>, <span class="stevilo">127</span>, <span class="stevilo">128</span>, <span class="stevilo">132</span>, <span class="stevilo">147</span>, <span class="stevilo">152</span>, <span class="stevilo">154</span>, <span class="stevilo">156</span>, <span class="stevilo">162</span>, <span class="stevilo">171</span>, <span class="stevilo">174</span>, <span class="stevilo">176</span>, <span class="stevilo">182</span>, <span class="stevilo">191</span>, <span class="stevilo">204</span>, <span class="stevilo">205</span>, <span class="stevilo">206</span>, <span class="stevilo">207</span>, <span class="stevilo">211</span>, <span class="stevilo">214</span>, <span class="stevilo">218</span>, <span class="stevilo">221</span>, <span class="stevilo">237</span>, <span class="stevilo">241</span>, <span class="stevilo">242</span>, <span class="stevilo">248</span>, <span class="stevilo">249</span>, <span class="stevilo">261</span>, <span class="stevilo">267</span>, <span class="stevilo">268</span>, <span class="stevilo">285</span>, <span class="stevilo">288</span>, <span class="stevilo">291</span>, <span class="stevilo">292</span>, <span class="stevilo">301</span>, <span class="stevilo">313</span>, <span class="stevilo">315</span>, <span class="stevilo">317</span>, <span class="stevilo">319</span>, <span class="stevilo">321</span>, <span class="stevilo">323</span>, <span class="stevilo">327</span>, <span class="stevilo">328</span>, <span class="stevilo">337</span>, <span class="stevilo">349</span>, <span class="stevilo">353</span>, <span class="stevilo">354</span>, <span class="stevilo">355</span>, <span class="stevilo">357</span>, <span class="stevilo">361</span>, <span class="stevilo">362</span>, <span class="stevilo">363</span>, <span class="stevilo">371</span>, <span class="stevilo">374</span>, <span class="stevilo">379</span>, <span class="stevilo">382</span>, <span class="stevilo">386</span>, <span class="stevilo">387</span>, <span class="stevilo">389</span>, <span class="stevilo">390</span>, <span class="stevilo">397</span>, <span class="stevilo">403</span>, <span class="stevilo">413</span>, <span class="stevilo">418</span>, <span class="stevilo">420</span>, <span class="stevilo">423</span>, <span class="stevilo">431</span>, <span class="stevilo">438</span>, <span class="stevilo">444</span>, <span class="stevilo">453</span>, <span class="stevilo">455</span>, <span class="stevilo">463</span>, <span class="stevilo">464</span>, <span class="stevilo">471</span>, <span class="stevilo">475</span>, <span class="stevilo">483</span>, <span class="stevilo">489</span>, <span class="stevilo">507</span>, <span class="stevilo">513</span>, <span class="stevilo">524</span>, <span class="stevilo">526</span>, <span class="stevilo">527</span>, <span class="stevilo">528</span>, <span class="stevilo">531</span>, <span class="stevilo">537</span>, <span class="stevilo">544</span>, <span class="stevilo">546</span>, <span class="stevilo">552</span>, <span class="stevilo">558</span>, <span class="stevilo">570</span>, <span class="stevilo">578</span>, <span class="stevilo">579</span>, <span class="stevilo">591</span>, <span class="stevilo">594</span>, <span class="stevilo">595</span>, <span class="stevilo">600</span>, <span class="stevilo">602</span>, <span class="stevilo">605</span>, <span class="stevilo">617</span>, <span class="stevilo">623</span>, <span class="stevilo">624</span>, <span class="stevilo">626</span>, <span class="stevilo">632</span>, <span class="stevilo">641</span>, <span class="stevilo">645</span>, <span class="stevilo">647</span>, <span class="stevilo">655</span>, <span class="stevilo">700</span>, <span class="stevilo">709</span>, <span class="stevilo">724</span>, <span class="stevilo">727</span>, <span class="stevilo">730</span>, <span class="stevilo">755</span>, <span class="stevilo">782</span>, <span class="stevilo">783</span>, <span class="stevilo">793</span>, <span class="stevilo">794</span>, <span class="stevilo">797</span>, <span class="stevilo">800</span>, <span class="stevilo">812</span>, <span class="stevilo">816</span>, <span class="stevilo">833</span>, <span class="stevilo">846</span>, <span class="stevilo">847</span>, <span class="stevilo">855</span>, <span class="stevilo">861</span>, <span class="stevilo">872</span>, <span class="stevilo">876</span>, <span class="stevilo">880</span>, <span class="stevilo">883</span>, <span class="stevilo">884</span>, <span class="stevilo">892</span>, <span class="stevilo">898</span>, <span class="stevilo">908</span>, <span class="stevilo">919</span>, <span class="stevilo">921</span>, <span class="stevilo">924</span>, <span class="stevilo">942</span>, <span class="stevilo">944</span>, <span class="stevilo">946</span>, <span class="stevilo">957</span>, <span class="stevilo">958</span>, <span class="stevilo">961</span>, <span class="stevilo">962</span>, <span class="stevilo">964</span>, <span class="stevilo">991</span>, <span class="stevilo">994</span>, <span class="stevilo">995</span>, <span class="stevilo">996</span>);<br/>
+<tab><tab>List<Integer> lb = List.of(<span class="stevilo">55</span>, <span class="stevilo">66</span>, <span class="stevilo">209</span>, <span class="stevilo">294</span>, <span class="stevilo">517</span>, <span class="stevilo">554</span>, <span class="stevilo">590</span>, <span class="stevilo">616</span>, <span class="stevilo">631</span>, <span class="stevilo">671</span>, <span class="stevilo">717</span>, <span class="stevilo">769</span>);<br/>
+<tab><tab>List<Integer> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase11"></a>
+        <div style="border: 1px solid #9070CE">
+            <table class="tableTimeout tableCommon" style="width: 100%; border: 3px solid #B9F;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #B9F; color: black;">Testni primer 11</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test11 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>List<String> la = List.of(<span class="niz">"aaj"</span>, <span class="niz">"aav"</span>, <span class="niz">"abh"</span>, <span class="niz">"acb"</span>, <span class="niz">"acc"</span>, <span class="niz">"acd"</span>, <span class="niz">"acm"</span>, <span class="niz">"afn"</span>, <span class="niz">"agi"</span>, <span class="niz">"ajq"</span>, <span class="niz">"amt"</span>, <span class="niz">"ana"</span>, <span class="niz">"and"</span>, <span class="niz">"anx"</span>, <span class="niz">"aob"</span>, <span class="niz">"aoe"</span>, <span class="niz">"aqp"</span>, <span class="niz">"aro"</span>, <span class="niz">"asz"</span>, <span class="niz">"atp"</span>, <span class="niz">"aut"</span>, <span class="niz">"avk"</span>, <span class="niz">"aya"</span>, <span class="niz">"bac"</span>, <span class="niz">"bad"</span>, <span class="niz">"bba"</span>, <span class="niz">"bfb"</span>, <span class="niz">"bfq"</span>, <span class="niz">"bgv"</span>, <span class="niz">"bka"</span>, <span class="niz">"blm"</span>, <span class="niz">"blo"</span>, <span class="niz">"bng"</span>, <span class="niz">"boa"</span>, <span class="niz">"bol"</span>, <span class="niz">"bpl"</span>, <span class="niz">"bsb"</span>, <span class="niz">"bul"</span>, <span class="niz">"bxh"</span>, <span class="niz">"byd"</span>, <span class="niz">"cav"</span>, <span class="niz">"cbx"</span>, <span class="niz">"ccn"</span>, <span class="niz">"ccq"</span>, <span class="niz">"chv"</span>, <span class="niz">"cmy"</span>, <span class="niz">"cpm"</span>, <span class="niz">"crt"</span>, <span class="niz">"csr"</span>, <span class="niz">"ctk"</span>, <span class="niz">"cve"</span>, <span class="niz">"cvj"</span>, <span class="niz">"czn"</span>, <span class="niz">"czr"</span>, <span class="niz">"dao"</span>, <span class="niz">"dcq"</span>, <span class="niz">"dlg"</span>, <span class="niz">"dot"</span>, <span class="niz">"dpe"</span>, <span class="niz">"drr"</span>, <span class="niz">"dth"</span>, <span class="niz">"dts"</span>, <span class="niz">"dvm"</span>, <span class="niz">"dvs"</span>, <span class="niz">"dws"</span>, <span class="niz">"dyd"</span>, <span class="niz">"eak"</span>, <span class="niz">"ebh"</span>, <span class="niz">"ech"</span>, <span class="niz">"ecs"</span>, <span class="niz">"eeb"</span>, <span class="niz">"efl"</span>, <span class="niz">"ejy"</span>, <span class="niz">"ekw"</span>, <span class="niz">"eng"</span>, <span class="niz">"enl"</span>, <span class="niz">"epu"</span>, <span class="niz">"esy"</span>, <span class="niz">"evo"</span>, <span class="niz">"ewl"</span>, <span class="niz">"exx"</span>, <span class="niz">"eyw"</span>, <span class="niz">"ezp"</span>, <span class="niz">"fbr"</span>, <span class="niz">"fgt"</span>, <span class="niz">"fkn"</span>, <span class="niz">"fkr"</span>, <span class="niz">"flw"</span>, <span class="niz">"fpg"</span>, <span class="niz">"fph"</span>, <span class="niz">"fqb"</span>, <span class="niz">"fqe"</span>, <span class="niz">"fse"</span>, <span class="niz">"fta"</span>, <span class="niz">"ftg"</span>, <span class="niz">"ftz"</span>, <span class="niz">"fvr"</span>, <span class="niz">"fwu"</span>, <span class="niz">"fxt"</span>, <span class="niz">"fyf"</span>, <span class="niz">"fzs"</span>, <span class="niz">"fzu"</span>, <span class="niz">"gcd"</span>, <span class="niz">"gdf"</span>, <span class="niz">"geq"</span>, <span class="niz">"gfj"</span>, <span class="niz">"ggv"</span>, <span class="niz">"gjl"</span>, <span class="niz">"glk"</span>, <span class="niz">"gln"</span>, <span class="niz">"gnx"</span>, <span class="niz">"gsb"</span>, <span class="niz">"guq"</span>, <span class="niz">"gvb"</span>, <span class="niz">"gwk"</span>, <span class="niz">"gxh"</span>, <span class="niz">"gzt"</span>, <span class="niz">"hca"</span>, <span class="niz">"hck"</span>, <span class="niz">"hey"</span>, <span class="niz">"his"</span>, <span class="niz">"hiu"</span>, <span class="niz">"hiv"</span>, <span class="niz">"hjf"</span>, <span class="niz">"hjr"</span>, <span class="niz">"hka"</span>, <span class="niz">"hkz"</span>, <span class="niz">"hoh"</span>, <span class="niz">"hpz"</span>, <span class="niz">"htk"</span>, <span class="niz">"hxg"</span>, <span class="niz">"ifw"</span>, <span class="niz">"igc"</span>, <span class="niz">"ihw"</span>, <span class="niz">"iiv"</span>, <span class="niz">"ijc"</span>, <span class="niz">"ijo"</span>, <span class="niz">"ilu"</span>, <span class="niz">"inx"</span>, <span class="niz">"iqd"</span>, <span class="niz">"irx"</span>, <span class="niz">"ivo"</span>, <span class="niz">"iwa"</span>, <span class="niz">"ixq"</span>, <span class="niz">"iyt"</span>, <span class="niz">"iyx"</span>, <span class="niz">"jcr"</span>, <span class="niz">"jdc"</span>, <span class="niz">"jds"</span>, <span class="niz">"jdx"</span>, <span class="niz">"jew"</span>, <span class="niz">"jhn"</span>, <span class="niz">"jhw"</span>, <span class="niz">"jjf"</span>, <span class="niz">"jki"</span>, <span class="niz">"jky"</span>, <span class="niz">"jly"</span>, <span class="niz">"jmi"</span>, <span class="niz">"joj"</span>, <span class="niz">"jpj"</span>, <span class="niz">"jrg"</span>, <span class="niz">"jsg"</span>, <span class="niz">"jtn"</span>, <span class="niz">"jvp"</span>, <span class="niz">"jzf"</span>, <span class="niz">"kag"</span>, <span class="niz">"kal"</span>, <span class="niz">"kan"</span>, <span class="niz">"kax"</span>, <span class="niz">"kbq"</span>, <span class="niz">"kbu"</span>, <span class="niz">"kcl"</span>, <span class="niz">"kdu"</span>, <span class="niz">"kdz"</span>, <span class="niz">"khd"</span>, <span class="niz">"khi"</span>, <span class="niz">"kiu"</span>, <span class="niz">"kjg"</span>, <span class="niz">"kjq"</span>, <span class="niz">"klq"</span>, <span class="niz">"kme"</span>, <span class="niz">"kmq"</span>, <span class="niz">"kow"</span>, <span class="niz">"kqh"</span>, <span class="niz">"kqx"</span>, <span class="niz">"krg"</span>, <span class="niz">"krs"</span>, <span class="niz">"ktj"</span>, <span class="niz">"kwb"</span>, <span class="niz">"kwu"</span>, <span class="niz">"kyg"</span>, <span class="niz">"kzm"</span>, <span class="niz">"lbe"</span>, <span class="niz">"lbp"</span>, <span class="niz">"lcr"</span>, <span class="niz">"ldl"</span>, <span class="niz">"lfo"</span>, <span class="niz">"lfz"</span>, <span class="niz">"lhf"</span>, <span class="niz">"lhp"</span>, <span class="niz">"ljx"</span>, <span class="niz">"lru"</span>, <span class="niz">"ltd"</span>, <span class="niz">"ltt"</span>, <span class="niz">"luv"</span>, <span class="niz">"lwn"</span>, <span class="niz">"lzk"</span>, <span class="niz">"lzs"</span>, <span class="niz">"lzx"</span>, <span class="niz">"mas"</span>, <span class="niz">"mev"</span>, <span class="niz">"mfx"</span>, <span class="niz">"mgb"</span>, <span class="niz">"mik"</span>, <span class="niz">"mkl"</span>, <span class="niz">"mkm"</span>, <span class="niz">"mmm"</span>, <span class="niz">"mnl"</span>, <span class="niz">"moe"</span>, <span class="niz">"mqu"</span>, <span class="niz">"mrm"</span>, <span class="niz">"msm"</span>, <span class="niz">"muq"</span>, <span class="niz">"mzc"</span>, <span class="niz">"mzg"</span>, <span class="niz">"naf"</span>, <span class="niz">"nak"</span>, <span class="niz">"naw"</span>, <span class="niz">"nco"</span>, <span class="niz">"ndm"</span>, <span class="niz">"ned"</span>, <span class="niz">"nex"</span>, <span class="niz">"nhx"</span>, <span class="niz">"njf"</span>, <span class="niz">"nmp"</span>, <span class="niz">"nnw"</span>, <span class="niz">"nos"</span>, <span class="niz">"nsw"</span>, <span class="niz">"nta"</span>, <span class="niz">"nyg"</span>, <span class="niz">"ocp"</span>, <span class="niz">"ogv"</span>, <span class="niz">"ogz"</span>, <span class="niz">"ojr"</span>, <span class="niz">"okj"</span>, <span class="niz">"olk"</span>, <span class="niz">"opz"</span>, <span class="niz">"oqy"</span>, <span class="niz">"oto"</span>, <span class="niz">"otz"</span>, <span class="niz">"ovn"</span>, <span class="niz">"oyk"</span>, <span class="niz">"oyt"</span>, <span class="niz">"pan"</span>, <span class="niz">"pap"</span>, <span class="niz">"pbq"</span>, <span class="niz">"pgf"</span>, <span class="niz">"pji"</span>, <span class="niz">"pkt"</span>, <span class="niz">"pmq"</span>, <span class="niz">"pni"</span>, <span class="niz">"poy"</span>, <span class="niz">"prk"</span>, <span class="niz">"pss"</span>, <span class="niz">"ptw"</span>, <span class="niz">"pvo"</span>, <span class="niz">"pym"</span>, <span class="niz">"pze"</span>, <span class="niz">"pzm"</span>, <span class="niz">"pzq"</span>, <span class="niz">"qbt"</span>, <span class="niz">"qcg"</span>, <span class="niz">"qdj"</span>, <span class="niz">"qef"</span>, <span class="niz">"qei"</span>, <span class="niz">"qel"</span>, <span class="niz">"qer"</span>, <span class="niz">"qhn"</span>, <span class="niz">"qhz"</span>, <span class="niz">"qir"</span>, <span class="niz">"qkb"</span>, <span class="niz">"qmk"</span>, <span class="niz">"qpu"</span>, <span class="niz">"qrf"</span>, <span class="niz">"qsx"</span>, <span class="niz">"qth"</span>, <span class="niz">"qvf"</span>, <span class="niz">"qxi"</span>, <span class="niz">"qyo"</span>, <span class="niz">"qyt"</span>, <span class="niz">"reb"</span>, <span class="niz">"rez"</span>, <span class="niz">"rgw"</span>, <span class="niz">"rhq"</span>, <span class="niz">"rkl"</span>, <span class="niz">"rkn"</span>, <span class="niz">"rkz"</span>, <span class="niz">"rrr"</span>, <span class="niz">"rrv"</span>, <span class="niz">"rve"</span>, <span class="niz">"rvm"</span>, <span class="niz">"rvp"</span>, <span class="niz">"rzk"</span>, <span class="niz">"rzn"</span>, <span class="niz">"saj"</span>, <span class="niz">"scf"</span>, <span class="niz">"sgc"</span>, <span class="niz">"sid"</span>, <span class="niz">"sjv"</span>, <span class="niz">"smb"</span>, <span class="niz">"sog"</span>, <span class="niz">"sps"</span>, <span class="niz">"spv"</span>, <span class="niz">"ssm"</span>, <span class="niz">"ssz"</span>, <span class="niz">"stl"</span>, <span class="niz">"suc"</span>, <span class="niz">"suh"</span>, <span class="niz">"suo"</span>, <span class="niz">"svb"</span>, <span class="niz">"sxn"</span>, <span class="niz">"syd"</span>, <span class="niz">"syu"</span>, <span class="niz">"tas"</span>, <span class="niz">"tbd"</span>, <span class="niz">"tca"</span>, <span class="niz">"tdc"</span>, <span class="niz">"tex"</span>, <span class="niz">"tig"</span>, <span class="niz">"tii"</span>, <span class="niz">"tkw"</span>, <span class="niz">"tlu"</span>, <span class="niz">"tlx"</span>, <span class="niz">"tny"</span>, <span class="niz">"tpc"</span>, <span class="niz">"tpm"</span>, <span class="niz">"trf"</span>, <span class="niz">"tsx"</span>, <span class="niz">"ttm"</span>, <span class="niz">"ttr"</span>, <span class="niz">"tuz"</span>, <span class="niz">"tvn"</span>, <span class="niz">"tyl"</span>, <span class="niz">"tzz"</span>, <span class="niz">"uah"</span>, <span class="niz">"ucw"</span>, <span class="niz">"ufe"</span>, <span class="niz">"ugz"</span>, <span class="niz">"uhq"</span>, <span class="niz">"ujb"</span>, <span class="niz">"uli"</span>, <span class="niz">"unl"</span>, <span class="niz">"upn"</span>, <span class="niz">"upu"</span>, <span class="niz">"urq"</span>, <span class="niz">"utd"</span>, <span class="niz">"utm"</span>, <span class="niz">"uuv"</span>, <span class="niz">"uzj"</span>, <span class="niz">"vae"</span>, <span class="niz">"val"</span>, <span class="niz">"vbv"</span>, <span class="niz">"vcs"</span>, <span class="niz">"vfj"</span>, <span class="niz">"vfs"</span>, <span class="niz">"vfw"</span>, <span class="niz">"vgo"</span>, <span class="niz">"vir"</span>, <span class="niz">"vjx"</span>, <span class="niz">"vlh"</span>, <span class="niz">"vlu"</span>, <span class="niz">"vqa"</span>, <span class="niz">"vrx"</span>, <span class="niz">"vtf"</span>, <span class="niz">"vuu"</span>, <span class="niz">"vwo"</span>, <span class="niz">"wab"</span>, <span class="niz">"wbw"</span>, <span class="niz">"wcw"</span>, <span class="niz">"wdn"</span>, <span class="niz">"web"</span>, <span class="niz">"wfi"</span>, <span class="niz">"wfw"</span>, <span class="niz">"wjd"</span>, <span class="niz">"wjs"</span>, <span class="niz">"wnh"</span>, <span class="niz">"wob"</span>, <span class="niz">"wpp"</span>, <span class="niz">"wqc"</span>, <span class="niz">"wqq"</span>, <span class="niz">"wra"</span>, <span class="niz">"wrd"</span>, <span class="niz">"wrw"</span>, <span class="niz">"wsz"</span>, <span class="niz">"wte"</span>, <span class="niz">"wtn"</span>, <span class="niz">"wuh"</span>, <span class="niz">"wui"</span>, <span class="niz">"wxm"</span>, <span class="niz">"wzs"</span>, <span class="niz">"xcl"</span>, <span class="niz">"xdc"</span>, <span class="niz">"xeh"</span>, <span class="niz">"xhc"</span>, <span class="niz">"xhj"</span>, <span class="niz">"xiq"</span>, <span class="niz">"xjc"</span>, <span class="niz">"xnu"</span>, <span class="niz">"xny"</span>, <span class="niz">"xqg"</span>, <span class="niz">"xta"</span>, <span class="niz">"xxi"</span>, <span class="niz">"yav"</span>, <span class="niz">"yge"</span>, <span class="niz">"ygh"</span>, <span class="niz">"yjk"</span>, <span class="niz">"ylk"</span>, <span class="niz">"ylo"</span>, <span class="niz">"ymc"</span>, <span class="niz">"ync"</span>, <span class="niz">"yon"</span>, <span class="niz">"yql"</span>, <span class="niz">"yth"</span>, <span class="niz">"yvb"</span>, <span class="niz">"zea"</span>, <span class="niz">"zfc"</span>, <span class="niz">"zis"</span>, <span class="niz">"zkg"</span>, <span class="niz">"zlr"</span>, <span class="niz">"zni"</span>, <span class="niz">"zsv"</span>, <span class="niz">"zvk"</span>, <span class="niz">"zvp"</span>, <span class="niz">"zwt"</span>, <span class="niz">"zyn"</span>);<br/>
+<tab><tab>List<String> lb = List.of(<span class="niz">"abp"</span>, <span class="niz">"aek"</span>, <span class="niz">"agh"</span>, <span class="niz">"aia"</span>, <span class="niz">"ajc"</span>, <span class="niz">"ajy"</span>, <span class="niz">"arh"</span>, <span class="niz">"ata"</span>, <span class="niz">"auw"</span>, <span class="niz">"bzc"</span>, <span class="niz">"cal"</span>, <span class="niz">"cby"</span>, <span class="niz">"cdv"</span>, <span class="niz">"cff"</span>, <span class="niz">"che"</span>, <span class="niz">"ckr"</span>, <span class="niz">"cqm"</span>, <span class="niz">"cto"</span>, <span class="niz">"cvy"</span>, <span class="niz">"cxj"</span>, <span class="niz">"dfb"</span>, <span class="niz">"dis"</span>, <span class="niz">"dnh"</span>, <span class="niz">"dor"</span>, <span class="niz">"dsm"</span>, <span class="niz">"duq"</span>, <span class="niz">"ehk"</span>, <span class="niz">"epi"</span>, <span class="niz">"fac"</span>, <span class="niz">"fin"</span>, <span class="niz">"fjy"</span>, <span class="niz">"flj"</span>, <span class="niz">"frp"</span>, <span class="niz">"fyu"</span>, <span class="niz">"gbh"</span>, <span class="niz">"gkh"</span>, <span class="niz">"gkz"</span>, <span class="niz">"glm"</span>, <span class="niz">"gmi"</span>, <span class="niz">"hae"</span>, <span class="niz">"hdn"</span>, <span class="niz">"hfa"</span>, <span class="niz">"hfs"</span>, <span class="niz">"hfw"</span>, <span class="niz">"hlg"</span>, <span class="niz">"hlv"</span>, <span class="niz">"hvg"</span>, <span class="niz">"hvr"</span>, <span class="niz">"hwy"</span>, <span class="niz">"ice"</span>, <span class="niz">"jbm"</span>, <span class="niz">"jfg"</span>, <span class="niz">"jis"</span>, <span class="niz">"jlp"</span>, <span class="niz">"jqd"</span>, <span class="niz">"jzv"</span>, <span class="niz">"kha"</span>, <span class="niz">"ktv"</span>, <span class="niz">"kwp"</span>, <span class="niz">"ljz"</span>, <span class="niz">"lso"</span>, <span class="niz">"mdr"</span>, <span class="niz">"mjn"</span>, <span class="niz">"mqq"</span>, <span class="niz">"nfw"</span>, <span class="niz">"nuo"</span>, <span class="niz">"ocd"</span>, <span class="niz">"ogt"</span>, <span class="niz">"onb"</span>, <span class="niz">"oom"</span>, <span class="niz">"pah"</span>, <span class="niz">"paq"</span>, <span class="niz">"pcz"</span>, <span class="niz">"qcx"</span>, <span class="niz">"qsb"</span>, <span class="niz">"qwn"</span>, <span class="niz">"qxq"</span>, <span class="niz">"qzj"</span>, <span class="niz">"rao"</span>, <span class="niz">"rcu"</span>, <span class="niz">"rjd"</span>, <span class="niz">"rpx"</span>, <span class="niz">"rsu"</span>, <span class="niz">"sge"</span>, <span class="niz">"sjw"</span>, <span class="niz">"sol"</span>, <span class="niz">"sot"</span>, <span class="niz">"sqn"</span>, <span class="niz">"sxf"</span>, <span class="niz">"tko"</span>, <span class="niz">"tvs"</span>, <span class="niz">"twd"</span>, <span class="niz">"ugb"</span>, <span class="niz">"uhl"</span>, <span class="niz">"uki"</span>, <span class="niz">"vfn"</span>, <span class="niz">"vgo"</span>, <span class="niz">"vnr"</span>, <span class="niz">"vxk"</span>, <span class="niz">"wmv"</span>, <span class="niz">"wrg"</span>, <span class="niz">"wxh"</span>, <span class="niz">"xff"</span>, <span class="niz">"xvi"</span>, <span class="niz">"xwi"</span>, <span class="niz">"xxn"</span>, <span class="niz">"ybu"</span>, <span class="niz">"yzu"</span>, <span class="niz">"zcc"</span>, <span class="niz">"zja"</span>, <span class="niz">"zlc"</span>);<br/>
+<tab><tab>List<String> lc = it2list(Cetrta.zlitje(la.iterator(), lb.iterator()));<br/>
+<tab><tab>System.out.println(lc);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <T> List<T> it2list(Iterator<T> it) {<br/>
+<tab><tab>List<T> seznam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab><span class="rwordb">while</span> (it.hasNext()) {<br/>
+<tab><tab><tab>T element = it.next();<br/>
+<tab><tab><tab>seznam.add(element);<br/>
+<tab><tab>}<br/>
+<tab><tab><span class="rwordb">return</span> seznam;<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Časovna&nbsp;prekoračitev!<br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.12" -->
+    <!-- 3.2.2024 15:42.33 -->
+    <!-- ASUS_E2, fe80::ccc:fed8:240:ed43%8 -->
+</html>

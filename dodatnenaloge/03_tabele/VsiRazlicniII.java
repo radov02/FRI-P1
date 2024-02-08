@@ -17,7 +17,7 @@ public class VsiRazlicniII {
 
         for(int i = 0; i < n; i++){
             int clen = random.nextInt(2 * MAKS_STEVILO + 1) - MAKS_STEVILO;
-            pojavitve[clen + (int)(Math.pow(10, 4))]++;
+            pojavitve[clen + MAKS_STEVILO]++;
         }
 
         boolean razlicni = true;

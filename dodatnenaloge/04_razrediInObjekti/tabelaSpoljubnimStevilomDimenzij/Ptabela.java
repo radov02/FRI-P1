@@ -6,7 +6,7 @@ public class Ptabela {
     }
 
     public void nastavi()(int[] indeksi, int vrednost){
-
+        
     }
 
     public int vrni(int[] indeksi){
